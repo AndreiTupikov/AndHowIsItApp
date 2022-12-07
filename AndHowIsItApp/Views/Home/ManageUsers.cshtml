@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "ManageUsers";
+}
+
+
+<table class="table table-bordered">
+    <tr>
+        <td>Id</td>
+        <td>User Name</td>
+        <td>Email</td>
+        <td>Personal Page</td>
+        <td>Manage</td>
+    </tr>
+    @foreach (var u in ViewBag.Users)
+    {
+        <tr>
+            <td>@u.Id</td>
+            <td>@u.UserName</td>
+            <td>@u.Email</td>
+            <td>@Html.ActionLink("Персональная страница", "PersonalPage", new { userId = u.Id }, null )</td>
+            <td></td>
+        </tr>
+    }
+</table>

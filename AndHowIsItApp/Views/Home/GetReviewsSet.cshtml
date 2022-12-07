@@ -1,0 +1,29 @@
+﻿@model IEnumerable<AndHowIsItApp.Models.Review>
+@{ 
+    Layout = null;
+}
+<h3>@ViewBag.ParagraphName</h3>
+<table class="table table-bordered">
+    <tr>
+        <td>Id</td>
+        <td>Subject</td>
+        <td>ReviewName</td>
+        <td>Rating</td>
+        <td>User</td>
+        <td>LastChange</td>
+    </tr>
+    @{
+        int i = 1;
+        foreach (var r in Model)
+        {
+            <tr>
+                <td>@(i++)</td>
+                <td>@r.Subject.Name</td>
+                <td>@r.Name</td>
+                <td>@r.ReviewerRating</td>
+                <td>@r.ApplicationUser.UserName</td>
+                <td>@r.LastChangeDate</td>
+            </tr>
+        }
+    }
+</table>

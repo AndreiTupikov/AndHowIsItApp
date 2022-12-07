@@ -1,0 +1,69 @@
+﻿@model AndHowIsItApp.Models.ReviewCreateViewModel
+@{
+    ViewBag.Title = "CreateReview";
+}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+@using (Html.BeginForm("CreateReview", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <h4>Создание нового обзора.</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    @Html.HiddenFor(m => m.UserId);
+    <div class="form-group">
+        @Html.LabelFor(m => m.SubjectGroup, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.SubjectGroup, Model.AllSubjectGroups as SelectList, "", new { @class = "form-control", id = "subjectGroup", onchange = "changeGroup()" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Subject, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Subject, new { @class = "form-control", id = "subjectName" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Text, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(m => m.Text, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ReviewerRating, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.ReviewerRating, new { @class = "form-control" })
+        </div>
+    </div>
+    <!--<div class="form-group">
+        @Html.LabelFor(m => m.Tags, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Tags, new { @class = "form-control", id = "subjectName" })-->
+            @*@Html.DropDownList("Id", Model.AllTags, new { @class = "form-control" })*@
+        <!--</div>
+    </div>-->
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="text" id="input-tag" onfocus="autoCompleteTags()">
+            <button type="button" class="btn btn-secondary" onclick="addTag()">Добавить</button>
+            @Html.HiddenFor(m => m.Tags, new { @class = "form-control", id = "model-tags" })
+        </div>
+        <div class="col-md-offset-2 col-md-10" id="selected-tags">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" onclick="addAllTags()" class="btn btn-default" value="Создать" />
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
