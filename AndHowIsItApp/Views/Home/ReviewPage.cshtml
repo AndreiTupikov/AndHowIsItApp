@@ -4,7 +4,21 @@
     ViewBag.Title = "ReviewPage";
 }
 
+<div hidden id="subject-id">@Model.Subject.Id</div>
 <h1>@Model.Subject.Name</h1>
+<div id="usersRating">@ViewBag.SubjectRating</div>
+
+@if (Request.IsAuthenticated)
+{
+    <div>Ваша оценка</div>
+    <input type="radio" name="subjectRating" id="subjectRating-1" onchange="rateSubject(1)" />
+    <input type="radio" name="subjectRating" id="subjectRating-2" onchange="rateSubject(2)" />
+    <input type="radio" name="subjectRating" id="subjectRating-3" onchange="rateSubject(3)" />
+    <input type="radio" name="subjectRating" id="subjectRating-4" onchange="rateSubject(4)" />
+    <input type="radio" name="subjectRating" id="subjectRating-5" onchange="rateSubject(5)" />
+}
+<br />
+
 <h2>@Model.Name</h2>
 <h2>Автор @Model.ApplicationUser.UserName</h2>
 

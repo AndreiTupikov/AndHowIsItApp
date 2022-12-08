@@ -13,7 +13,7 @@ function autoCompleteSubjects(group) {
                 type: "POST",
                 dataType: "json",
                 data: { Prefix: request.term },
-                success: function (data) {
+                success: function (data, textstatus) {
                     response($.map(data, function (item) {
                         return { label: item.Name, value: item.Name };
                     }))
@@ -34,7 +34,7 @@ function autoCompleteTags() {
                 type: "POST",
                 dataType: "json",
                 data: { Prefix: request.term },
-                success: function (data) {
+                success: function (data, textstatus) {
                     response($.map(data, function (item) {
                         return { label: item.Name, value: item.Name };
                     }))
@@ -73,3 +73,28 @@ function addAllTags() {
     }
     document.getElementById('model-tags').value = result;
 }
+
+function rateSubject(rating) {
+    let subject = document.getElementById('subject-id').innerHTML;
+    $.ajax({
+        type: 'GET',
+        url: '/Home/RateSubject?subjectId=' + subject + '&rating=' + rating,
+        success: function (data, textstatus) {
+            $("#usersRating").html(data);
+        }
+    });
+}
+
+$(document).ready(function () {
+    let subject = document.getElementById('subject-id').innerHTML;
+    console.log(subject)
+    $.ajax({
+        type: 'GET',
+        url: '/Home/GetUserRating?subjectId=' + subject,
+        success: function (data, textstatus) {
+            console.log(data)
+            $("#subjectRating-" + data).attr("checked", "checked");
+        }
+    });
+});
+

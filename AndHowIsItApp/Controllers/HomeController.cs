@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -38,6 +39,8 @@ namespace AndHowIsItApp.Controllers
             var review = db.Reviews.Where(r => r.Id == reviewId).Include("ApplicationUser").Include("Subject").FirstOrDefault();
             if (review == null) return RedirectToAction("Index");
             var tags = db.Tags.Where(t => t.Reviews.Any(r => r.Id == review.Id));
+            var rating = GetSubjectRating(review.Subject.Id);
+            ViewBag.SubjectRating = rating == 0 ? "Оценок нет" : rating.ToString();
             ViewBag.Tags = tags;
             return View(review);
         }
@@ -121,6 +124,41 @@ namespace AndHowIsItApp.Controllers
                 db.SaveChanges();
             }
             return RedirectToAction("PersonalPage", "Home", new { userId } );
+        }
+
+        [Authorize]
+        public double RateSubject(int subjectId, int rating)
+        {
+            var userId = User.Identity.GetUserId();
+            var subjectRating = db.UserRatings.Where(u => u.ApplicationUser.Id == userId).FirstOrDefault(s => s.Subject.Id == subjectId);
+            if (subjectRating != null) subjectRating.Rating = rating;
+            else
+            {
+                var user = db.Users.Single(u => u.Id == userId);
+                var subject = db.Subjects.Single(s => s.Id == subjectId);
+                db.UserRatings.Add(new UserRating { ApplicationUser = user, Subject = subject, Rating = rating });
+            }
+            db.SaveChanges();
+            return GetSubjectRating(subjectId);
+        }
+
+        public double GetSubjectRating(int subjectId)
+        {
+            var ratings = db.UserRatings.Where(r => r.Subject.Id == subjectId);
+            if (ratings.Count() < 1) return 0;
+            double allRatings = 0.0;
+            foreach (var rating in ratings) allRatings += rating.Rating;
+            double result = (double)(allRatings / ratings.Count()) * 10;
+            return Math.Round(result) / 10;
+        }
+
+        [Authorize]
+        public int GetUserRating(int subjectId)
+        {
+            var userId = User.Identity.GetUserId();
+            var rating = db.UserRatings.Where(r => r.Subject.Id == subjectId).FirstOrDefault(r => r.ApplicationUser.Id == userId);
+            if (rating == null) return 0;
+            return rating.Rating;
         }
 
         [HttpPost]
