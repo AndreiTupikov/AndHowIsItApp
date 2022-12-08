@@ -10,7 +10,7 @@
         <td>ReviewName</td>
         <td>Rating</td>
         <td>User</td>
-        <td>LastChange</td>
+        <td>Page</td>
     </tr>
     @{
         int i = 1;
@@ -22,7 +22,7 @@
                 <td>@r.Name</td>
                 <td>@r.ReviewerRating</td>
                 <td>@r.ApplicationUser.UserName</td>
-                <td>@r.LastChangeDate</td>
+                <td>@Html.ActionLink("Просмотр", "ReviewPage", new { reviewId = r.Id }, null)</td>
             </tr>
         }
     }

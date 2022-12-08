@@ -1,0 +1,23 @@
+﻿@model AndHowIsItApp.Models.Review
+
+@{
+    ViewBag.Title = "ReviewPage";
+}
+
+<h1>@Model.Subject.Name</h1>
+<h2>@Model.Name</h2>
+<h2>Автор @Model.ApplicationUser.UserName</h2>
+
+<div>Создано @Model.CreateDate</div>
+
+
+<div>@Model.Text</div>
+
+<h2>@Model.ReviewerRating/10</h2>
+
+@foreach (var t in ViewBag.Tags)
+{
+    <span>@t.Name</span>
+}
+
+<div>Изменено @Model.LastChangeDate</div>

@@ -33,6 +33,15 @@ namespace AndHowIsItApp.Controllers
             return View("GetReviewsSet", topReviews);
         }
 
+        public ActionResult ReviewPage(int reviewId)
+        {
+            var review = db.Reviews.Where(r => r.Id == reviewId).Include("ApplicationUser").Include("Subject").FirstOrDefault();
+            if (review == null) return RedirectToAction("Index");
+            var tags = db.Tags.Where(t => t.Reviews.Any(r => r.Id == review.Id));
+            ViewBag.Tags = tags;
+            return View(review);
+        }
+
         [Authorize]
         public ActionResult CreateReview(string userId)
         {
@@ -86,14 +95,6 @@ namespace AndHowIsItApp.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "admin")]
-        public ActionResult ManageUsers()
-        {
-            var users = db.Users;
-            ViewBag.Users = users;
-            return View();
-        }
-
         [Authorize]
         public ActionResult PersonalPage(string userId)
         {
@@ -104,6 +105,22 @@ namespace AndHowIsItApp.Controllers
             var myReviews = db.Reviews.Where(r => r.ApplicationUser.Id == userId).Include("Subject");
             ViewBag.UserId = userId;
             return View(myReviews);
+        }
+
+        [Authorize]
+        public ActionResult DeleteReview(string userId, int reviewId)
+        {
+            if (!User.IsInRole("admin") || userId == null)
+            {
+                userId = User.Identity.GetUserId();
+            }
+            var review = db.Reviews.Where(r => r.Id == reviewId).Include("ApplicationUser").FirstOrDefault();
+            if (review != null && review.ApplicationUser.Id == userId)
+            {
+                db.Reviews.Remove(review);
+                db.SaveChanges();
+            }
+            return RedirectToAction("PersonalPage", "Home", new { userId } );
         }
 
         [HttpPost]
@@ -119,6 +136,14 @@ namespace AndHowIsItApp.Controllers
         {
             var tags = db.Tags.Where(s => s.Name.Contains(Prefix)).Take(5).ToList();
             return Json(tags, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize(Roles = "admin")]
+        public ActionResult ManageUsers()
+        {
+            var users = db.Users;
+            ViewBag.Users = users;
+            return View();
         }
     }
 }
