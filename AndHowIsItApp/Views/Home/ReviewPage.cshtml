@@ -19,7 +19,15 @@
 }
 <br />
 
+<div hidden id="review-id">@Model.Id</div>
 <h2>@Model.Name</h2>
+<div id="allReviewLikes">@ViewBag.ReviewLikes</div>
+
+@if (Request.IsAuthenticated)
+{
+    <input type="checkbox" name="reviewLike" id="reviewLike" onchange="likeReview()" />
+}
+
 <h2>Автор @Model.ApplicationUser.UserName</h2>
 
 <div>Создано @Model.CreateDate</div>

@@ -85,15 +85,37 @@ function rateSubject(rating) {
     });
 }
 
+function likeReview() {
+    let review = document.getElementById('review-id').innerHTML;
+    $.ajax({
+        type: 'GET',
+        url: '/Home/LikeReview?reviewId=' + review,
+        success: function (data, textstatus) {
+            $("#allReviewLikes").html(data);
+        }
+    });
+}
+
+//оценки для произведения и лайки для обзора
 $(document).ready(function () {
     let subject = document.getElementById('subject-id').innerHTML;
-    console.log(subject)
+    let review = document.getElementById('review-id').innerHTML;
     $.ajax({
         type: 'GET',
         url: '/Home/GetUserRating?subjectId=' + subject,
         success: function (data, textstatus) {
-            console.log(data)
             $("#subjectRating-" + data).attr("checked", "checked");
+        }
+    });
+    $.ajax({
+        type: 'GET',
+        url: '/Home/GetUserLike?reviewId=' + review,
+        success: function (data, textstatus) {
+            console.log(data)
+            if (data === 'True') {
+                console.log(1)
+                $("#reviewLike").attr("checked", "checked");
+            }
         }
     });
 });

@@ -41,6 +41,7 @@ namespace AndHowIsItApp.Controllers
             var tags = db.Tags.Where(t => t.Reviews.Any(r => r.Id == review.Id));
             var rating = GetSubjectRating(review.Subject.Id);
             ViewBag.SubjectRating = rating == 0 ? "Оценок нет" : rating.ToString();
+            ViewBag.ReviewLikes = GetReviewLikes(reviewId);
             ViewBag.Tags = tags;
             return View(review);
         }
@@ -159,6 +160,34 @@ namespace AndHowIsItApp.Controllers
             var rating = db.UserRatings.Where(r => r.Subject.Id == subjectId).FirstOrDefault(r => r.ApplicationUser.Id == userId);
             if (rating == null) return 0;
             return rating.Rating;
+        }
+
+        [Authorize]
+        public int LikeReview(int reviewId)
+        {
+            var userId = User.Identity.GetUserId();
+            var like = db.UserLikes.Where(l => l.Review.Id == reviewId).FirstOrDefault(l => l.ApplicationUser.Id == userId);
+            if (like == null)
+            {
+                var user = db.Users.FirstOrDefault(u => u.Id == userId);
+                var review = db.Reviews.FirstOrDefault(r => r.Id == reviewId);
+                db.UserLikes.Add(new UserLike { ApplicationUser = user, Review = review });
+            } else db.UserLikes.Remove(like);
+            db.SaveChanges();
+            return GetReviewLikes(reviewId);
+        }
+
+        public int GetReviewLikes(int reviewId)
+        {
+            var likes = db.UserLikes.Where(l => l.Review.Id == reviewId).Count();
+            return likes;
+        }
+
+        [Authorize]
+        public bool GetUserLike(int reviewId)
+        {
+            var userId = User.Identity.GetUserId();
+            return db.UserLikes.Where(l => l.Review.Id == reviewId).Any(l => l.ApplicationUser.Id == userId);
         }
 
         [HttpPost]
