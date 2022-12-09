@@ -1,20 +1,29 @@
 ﻿using AndHowIsItApp.Models;
+using Dropbox.Api;
+using Dropbox.Api.Files;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using static Dropbox.Api.TeamLog.ClassificationType;
 
 namespace AndHowIsItApp.Controllers
 {
     public class HomeController : Controller
     {
         private ApplicationDbContext db = ApplicationDbContext.Create();
+        private DropboxClient dbx = new DropboxClient("sl.BUrBj0_carv5dnyDlAt_6uxU59z8aUj3C0bEf11DknysNIpbmRJOE5jnvNykHAICj-HJezu38a6Vz0smgLycm-h2pXw6nRLr_5J7dU2mWqgS3pam41HIqvmwjV9WZsseUZElkck");
+        
         public ActionResult Index()
         {
             return View();
@@ -34,7 +43,7 @@ namespace AndHowIsItApp.Controllers
             return View("GetReviewsSet", topReviews);
         }
 
-        public ActionResult ReviewPage(int reviewId)
+        public async Task<ActionResult> ReviewPage(int reviewId)
         {
             var review = db.Reviews.Where(r => r.Id == reviewId).Include("ApplicationUser").Include("Subject").FirstOrDefault();
             if (review == null) return RedirectToAction("Index");
@@ -42,6 +51,7 @@ namespace AndHowIsItApp.Controllers
             var rating = GetSubjectRating(review.Subject.Id);
             ViewBag.SubjectRating = rating == 0 ? "Оценок нет" : rating.ToString();
             ViewBag.ReviewLikes = GetReviewLikes(reviewId);
+            ViewBag.Picture = await DownloadPicture(review.PictureLink);
             ViewBag.Tags = tags;
             return View(review);
         }
@@ -50,7 +60,6 @@ namespace AndHowIsItApp.Controllers
         public ActionResult CreateReview(string userId)
         {
             ReviewCreateViewModel model = new ReviewCreateViewModel();
-            model.AllTags = new SelectList(db.Tags, "Name", "Id");
             model.AllSubjectGroups = new SelectList(db.SubjectGroups, "Id", "Name");
             ViewBag.UserId = userId;
             return View(model);
@@ -58,7 +67,7 @@ namespace AndHowIsItApp.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult CreateReview(ReviewCreateViewModel model)
+        public async Task<ActionResult> CreateReview(ReviewCreateViewModel model, HttpPostedFileBase uploadPicture)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +93,7 @@ namespace AndHowIsItApp.Controllers
                         {
                             var newTag = db.Tags.FirstOrDefault(t => t.Name == tg);
                             if (newTag == null){
-                                newTag = new Tag { Name = tg };
+                                newTag = new AndHowIsItApp.Models.Tag { Name = tg };
                                 db.Tags.Add(newTag);
                             }
                             review.Tags.Add(newTag);
@@ -93,6 +102,12 @@ namespace AndHowIsItApp.Controllers
                 }
                 db.Reviews.Add(review);
                 db.SaveChanges();
+                if (uploadPicture != null)
+                {
+                    await UploadPicture(userId, review.Id, uploadPicture);
+                    review.PictureLink = "/" + userId + "/" + review.Id + ".jpg";
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
             model.AllSubjectGroups = new SelectList(db.SubjectGroups, "Id", "Name");
@@ -211,6 +226,33 @@ namespace AndHowIsItApp.Controllers
             var users = db.Users;
             ViewBag.Users = users;
             return View();
+        }
+
+        //--------------------------------------------
+
+        private async Task UploadPicture(string folder, int file, HttpPostedFileBase picture)
+        {
+            byte[] pictureData = null;
+            using (var binaryReader = new BinaryReader(picture.InputStream))
+            {
+                pictureData = binaryReader.ReadBytes(picture.ContentLength);
+            }
+            using (var mem = new MemoryStream(pictureData))
+            {
+                var updated = await dbx.Files.UploadAsync(
+                    "/ReviewPictures/" + folder + "/" + file + ".jpg",
+                    WriteMode.Overwrite.Instance,
+                    body: mem);
+            }
+        }
+
+        private async Task<byte[]> DownloadPicture(string path)
+        {
+            if (path == null) path = "/pictureFiller.jpg";
+            using (var response = await dbx.Files.DownloadAsync("/ReviewPictures" + path))
+            {
+                return await response.GetContentAsByteArrayAsync();
+            }
         }
     }
 }

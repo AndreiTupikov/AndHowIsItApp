@@ -11,7 +11,7 @@ namespace AndHowIsItApp.Models
         public Subject Subject { get; set; }
         public string Text { get; set; }
         public int ReviewerRating { get; set; }
-        //public string Image { get; set; }
+        public string PictureLink { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime LastChangeDate { get; set; }
         public ICollection<Tag> Tags { get; set; }
