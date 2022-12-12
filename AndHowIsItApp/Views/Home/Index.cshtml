@@ -3,6 +3,18 @@
     ViewBag.Title = "Home Page";
 }
 
+@using (Html.BeginForm("SearchResults", "Home"))
+{
+    foreach (var tag in ViewBag.Tags)
+    {
+        <input type="submit" name="tagName" value="@tag.Name">
+    }
+<div class="col-md-10">
+    @Html.DropDownList("group", ViewBag.SubjectGroups as SelectList, "Все", new { @class = "form-control" })
+    <input type="submit" value="Показать">
+</div>
+}
+
 <div>
     @Html.Action("GetLatestReviews")
 </div>

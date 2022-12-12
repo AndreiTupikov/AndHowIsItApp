@@ -330,6 +330,7 @@
     <Content Include="Views\Home\GetReviewsSet.cshtml" />
     <Content Include="Views\Home\ReviewPage.cshtml" />
     <Content Include="Views\Home\GetComments.cshtml" />
+    <Content Include="Views\Home\SearchResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

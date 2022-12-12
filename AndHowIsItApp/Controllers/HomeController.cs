@@ -22,10 +22,13 @@ namespace AndHowIsItApp.Controllers
     public class HomeController : Controller
     {
         private ApplicationDbContext db = ApplicationDbContext.Create();
-        private DropboxClient dbx = new DropboxClient("sl.BUyX6QEy-N4pn50f3wEoHS9LkDt6zVVG8NJK0bz7bIG3fuXPq_JcMMniaA-uwjw_HEw2q67xtTB3MhnJi09YCb5Q-A-Wp--MvWnnR_yeSbPNOb68hBQhWBU7JqaSs5a_dkhQA1o");
+        private DropboxClient dbx = new DropboxClient("sl.BU0IIuhZfs0-L1GXFT88GQEygc9YrZybzpRXNaJgJCDubDzcwGd-yHdd7L8TT7ii86-snl8pbBOiUtLnDIP2Fz1ID21C1fiKKAJVtPL0Sq0MaddLG-rwDHhFoLHaQ7YP9qHifUI");
         
         public ActionResult Index()
         {
+            var tags = db.Tags.Include("Reviews").Where(t => t.Reviews.Count > 0);
+            ViewBag.Tags = tags.OrderByDescending(t => t.Reviews.Count).Take(10);
+            ViewBag.SubjectGroups = new SelectList(db.SubjectGroups, "Id", "Name");
             return View();
         }
 
@@ -41,6 +44,22 @@ namespace AndHowIsItApp.Controllers
             var topReviews = db.Reviews.OrderByDescending(r => r.ReviewerRating).Take(5).Include("ApplicationUser").Include("Subject");
             ViewBag.ParagraphName = "Лучшие обзоры за все время";
             return View("GetReviewsSet", topReviews);
+        }
+
+        public ActionResult SearchResults(string tagName, int? group)
+        {
+            if (tagName != null)
+            {
+                var tag = db.Tags.First(t => t.Name == tagName);
+                var reviews = db.Reviews.Include("Tags").Where(r => r.Tags.Any(t => t.Name == tagName)).Include("ApplicationUser").Include("Subject");
+                return View(reviews);
+            }
+            else
+            {
+                var subjectGroup = db.SubjectGroups.First(s => s.Id == (int)group);
+                var reviews = db.Reviews.Include("Subject").Where(r => r.Subject.SubjectGroup.Id == subjectGroup.Id).Include("ApplicationUser");
+                return View(reviews);
+            }
         }
 
         public async Task<ActionResult> ReviewPage(int reviewId)
@@ -227,8 +246,6 @@ namespace AndHowIsItApp.Controllers
             ViewBag.Users = users;
             return View();
         }
-
-        //--------------------------------------------
 
         private async Task UploadPicture(string folder, int file, HttpPostedFileBase picture)
         {

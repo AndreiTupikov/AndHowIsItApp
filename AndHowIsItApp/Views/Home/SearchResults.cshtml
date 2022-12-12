@@ -1,0 +1,31 @@
+﻿@model IEnumerable<AndHowIsItApp.Models.Review>
+@{
+    ViewBag.Title = "SearchResults";
+}
+
+<h2>SearchResults</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <td>Id</td>
+        <td>Subject</td>
+        <td>ReviewName</td>
+        <td>Rating</td>
+        <td>User</td>
+        <td>Page</td>
+    </tr>
+    @{
+        int i = 1;
+        foreach (var r in Model)
+        {
+            <tr>
+                <td>@(i++)</td>
+                <td>@r.Subject.Name</td>
+                <td>@r.Name</td>
+                <td>@r.ReviewerRating</td>
+                <td>@r.ApplicationUser.UserName</td>
+                <td>@Html.ActionLink("Просмотр", "ReviewPage", new { reviewId = r.Id }, null)</td>
+            </tr>
+        }
+    }
+</table>
