@@ -52,9 +52,11 @@ function addTag() {
     const newTag = document.getElementById('input-tag').value;
     const contains = selectedTags.some(item => item.innerHTML === newTag)
     if (!contains && newTag.length > 0) {
-        let element = document.createElement('div');
+        let element = document.createElement('input');
+        element.setAttribute('type', 'text');
+        element.setAttribute('name', 'tags');
+        element.setAttribute('value', newTag)
         element.id = 'tag-' + newTag;
-        element.innerHTML = newTag;
         element.setAttribute('onclick', 'removeTag(\''+element.id+'\')')
         document.getElementById('selected-tags').insertAdjacentElement("beforeend", element);
     }
@@ -63,15 +65,6 @@ function addTag() {
 
 function removeTag(id) {
     document.getElementById(id).remove();
-}
-
-function addAllTags() {
-    let result = '';
-    const selectedTags = document.getElementById('selected-tags').children;
-    for (i = 0; i < selectedTags.length; i++) {
-        result += selectedTags[i].innerHTML + '|';
-    }
-    document.getElementById('model-tags').value = result;
 }
 
 function rateSubject(rating) {

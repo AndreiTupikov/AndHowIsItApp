@@ -86,7 +86,7 @@ namespace AndHowIsItApp.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult> CreateReview(ReviewCreateViewModel model, HttpPostedFileBase uploadPicture)
+        public async Task<ActionResult> CreateReview(ReviewCreateViewModel model, string[] tags, HttpPostedFileBase uploadPicture)
         {
             if (ModelState.IsValid)
             {
@@ -102,16 +102,16 @@ namespace AndHowIsItApp.Controllers
                     db.Subjects.Add(subject);
                 }
                 Review review = new Review { ApplicationUser = db.Users.FirstOrDefault(u => u.Id == userId), Name = model.Name, Subject = subject, Text = model.Text, ReviewerRating = model.ReviewerRating };
-                if (model.Tags != null && model.Tags.Length > 0)
+                if (tags != null && tags.Length > 0)
                 {
-                    var tags = model.Tags.Split('|');
-                    foreach ( var tag in tags)
+                    foreach (var tag in tags)
                     {
                         var tg = tag.Trim();
                         if (tg.Length > 0)
                         {
                             var newTag = db.Tags.FirstOrDefault(t => t.Name == tg);
-                            if (newTag == null){
+                            if (newTag == null)
+                            {
                                 newTag = new Models.Tag { Name = tg };
                                 db.Tags.Add(newTag);
                             }

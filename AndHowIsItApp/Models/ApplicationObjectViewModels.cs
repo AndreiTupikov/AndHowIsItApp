@@ -17,9 +17,6 @@ namespace AndHowIsItApp.Models
         public string Text { get; set; }
         [Required]
         public int ReviewerRating { get; set; }
-        public string Image { get; set; }
-        public string Tags { get; set; }
-        public SelectList AllTags { get; set; }
         public SelectList AllSubjectGroups { get; set; }
     }
 }
