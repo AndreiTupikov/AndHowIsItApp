@@ -1,6 +1,7 @@
 ﻿using Dropbox.Api.Files;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace AndHowIsItApp.Models
 {
@@ -52,20 +53,26 @@ namespace AndHowIsItApp.Models
     {
         public int Id { get; set; }
         public int Rating { get; set; }
+        [Required]
         public ApplicationUser ApplicationUser { get; set; }
+        [Required]
         public Subject Subject { get; set;}
     }
     public class UserLike
     {
         public int Id { get; set; }
+        [Required]
         public ApplicationUser ApplicationUser { get; set; }
+        [Required]
         public Review Review { get; set; }
     }
     public class Comment
     {
         public int Id { get; set; }
         public string Text { get; set; }
+        [Required]
         public ApplicationUser ApplicationUser { get; set; }
+        [Required]
         public Review Review { get; set; }
         public DateTime Date { get; set; }
         public Comment()
