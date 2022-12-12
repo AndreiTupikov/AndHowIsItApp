@@ -96,7 +96,8 @@ function likeReview() {
     });
 }
 
-//оценки для произведения и лайки для обзора
+//оценки для произведения и лайки для обзора и комментарии!
+//Необходимо переделать чтобы применять только к некоторым страницам!!!
 $(document).ready(function () {
     let subject = document.getElementById('subject-id').innerHTML;
     let review = document.getElementById('review-id').innerHTML;
@@ -111,11 +112,16 @@ $(document).ready(function () {
         type: 'GET',
         url: '/Home/GetUserLike?reviewId=' + review,
         success: function (data, textstatus) {
-            console.log(data)
             if (data === 'True') {
-                console.log(1)
                 $("#reviewLike").attr("checked", "checked");
             }
+        }
+    });
+    $.ajax({
+        type: 'GET',
+        url: '/Home/GetComments?reviewId=' + review,
+        success: function (data, textstatus) {
+            $("#allComments").html(data);
         }
     });
 });

@@ -31,6 +31,7 @@ namespace AndHowIsItApp.Models
         public DbSet<Tag> Tags { get; set; }
         public DbSet<UserRating> UserRatings { get; set; }
         public DbSet<UserLike> UserLikes { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

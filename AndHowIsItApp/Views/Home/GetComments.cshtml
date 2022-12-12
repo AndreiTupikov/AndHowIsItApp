@@ -1,0 +1,12 @@
+﻿@model IEnumerable<AndHowIsItApp.Models.Comment>
+@{
+    Layout = null;
+}
+
+@foreach (var r in Model)
+{
+    <div>@r.ApplicationUser.UserName</div>
+    <div>@r.Text</div>
+    <div>@r.Date</div>
+    <br />
+}

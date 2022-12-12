@@ -22,7 +22,7 @@ namespace AndHowIsItApp.Controllers
     public class HomeController : Controller
     {
         private ApplicationDbContext db = ApplicationDbContext.Create();
-        private DropboxClient dbx = new DropboxClient("sl.BUrBj0_carv5dnyDlAt_6uxU59z8aUj3C0bEf11DknysNIpbmRJOE5jnvNykHAICj-HJezu38a6Vz0smgLycm-h2pXw6nRLr_5J7dU2mWqgS3pam41HIqvmwjV9WZsseUZElkck");
+        private DropboxClient dbx = new DropboxClient("sl.BUyX6QEy-N4pn50f3wEoHS9LkDt6zVVG8NJK0bz7bIG3fuXPq_JcMMniaA-uwjw_HEw2q67xtTB3MhnJi09YCb5Q-A-Wp--MvWnnR_yeSbPNOb68hBQhWBU7JqaSs5a_dkhQA1o");
         
         public ActionResult Index()
         {
@@ -93,7 +93,7 @@ namespace AndHowIsItApp.Controllers
                         {
                             var newTag = db.Tags.FirstOrDefault(t => t.Name == tg);
                             if (newTag == null){
-                                newTag = new AndHowIsItApp.Models.Tag { Name = tg };
+                                newTag = new Models.Tag { Name = tg };
                                 db.Tags.Add(newTag);
                             }
                             review.Tags.Add(newTag);
@@ -108,7 +108,7 @@ namespace AndHowIsItApp.Controllers
                     review.PictureLink = "/" + userId + "/" + review.Id + ".jpg";
                     db.SaveChanges();
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("PersonalPage", new { userId });
             }
             model.AllSubjectGroups = new SelectList(db.SubjectGroups, "Id", "Name");
             return View(model);
@@ -121,7 +121,7 @@ namespace AndHowIsItApp.Controllers
             {
                 userId = User.Identity.GetUserId();
             }
-            var myReviews = db.Reviews.Where(r => r.ApplicationUser.Id == userId).Include("Subject");
+            var myReviews = db.Reviews.Where(r => r.ApplicationUser.Id == userId).OrderByDescending(r => r.LastChangeDate).Include("Subject");
             ViewBag.UserId = userId;
             return View(myReviews);
         }
@@ -139,7 +139,7 @@ namespace AndHowIsItApp.Controllers
                 db.Reviews.Remove(review);
                 db.SaveChanges();
             }
-            return RedirectToAction("PersonalPage", "Home", new { userId } );
+            return RedirectToAction("PersonalPage", new { userId } );
         }
 
         [Authorize]
@@ -253,6 +253,32 @@ namespace AndHowIsItApp.Controllers
             {
                 return await response.GetContentAsByteArrayAsync();
             }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult AddComment(string commentText, int reviewId = 0)
+        {
+            if (commentText != null && reviewId != 0)
+            {
+                var userId = User.Identity.GetUserId();
+                var user = db.Users.FirstOrDefault(u => u.Id == userId);
+                var review = db.Reviews.FirstOrDefault(r => r.Id == reviewId);
+                Comment comment = new Comment { ApplicationUser = user, Review = review, Text = commentText };
+                db.Comments.Add(comment);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult GetComments(int reviewId = 0)
+        {
+            if (reviewId != 0)
+            {
+                var comments = db.Comments.Where(c => c.Review.Id == reviewId).OrderBy(c => c.Date).Include("ApplicationUser");
+                return View(comments);
+            }
+            return RedirectToAction("Index");
         }
     }
 }
