@@ -22,7 +22,8 @@ namespace AndHowIsItApp.Controllers
     public class HomeController : Controller
     {
         private ApplicationDbContext db = ApplicationDbContext.Create();
-        private DropboxClient dbx = new DropboxClient("sl.BU0IIuhZfs0-L1GXFT88GQEygc9YrZybzpRXNaJgJCDubDzcwGd-yHdd7L8TT7ii86-snl8pbBOiUtLnDIP2Fz1ID21C1fiKKAJVtPL0Sq0MaddLG-rwDHhFoLHaQ7YP9qHifUI");
+        //подкючить токен для сохранения картинок
+        private DropboxClient dbx = new DropboxClient("");
         
         public ActionResult Index()
         {
@@ -265,7 +266,11 @@ namespace AndHowIsItApp.Controllers
 
         private async Task<byte[]> DownloadPicture(string path)
         {
-            if (path == null) path = "/pictureFiller.jpg";
+            if (path == null)
+            {
+                var filler = System.IO.File.ReadAllBytes(Server.MapPath("~/Content/pictureFiller.jpg"));
+                return filler;
+            }
             using (var response = await dbx.Files.DownloadAsync("/ReviewPictures" + path))
             {
                 return await response.GetContentAsByteArrayAsync();
