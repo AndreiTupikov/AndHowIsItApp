@@ -6,6 +6,11 @@ namespace AndHowIsItApp.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
+        [Display(Name = "Имя пользователя")]
+        public string UserName { get; set; }
+
+        [Required]
+        [EmailAddress]
         [Display(Name = "Адрес электронной почты")]
         public string Email { get; set; }
     }
@@ -64,6 +69,10 @@ namespace AndHowIsItApp.Models
 
     public class RegisterViewModel
     {
+        [Required]
+        [Display(Name = "Имя пользователя")]
+        public string UserName { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Адрес электронной почты")]

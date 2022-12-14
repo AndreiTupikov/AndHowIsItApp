@@ -42,9 +42,12 @@
 
 <h2>@Model.ReviewerRating/10</h2>
 
-@foreach (var t in ViewBag.Tags)
+@using (Html.BeginForm("SearchResults", "Home"))
 {
-    <span>@t.Name</span>
+    foreach (var tag in ViewBag.Tags)
+    {
+        <input type="submit" name="tagName" value="@tag.Name">
+    }
 }
 
 <div>Изменено @Model.LastChangeDate</div>

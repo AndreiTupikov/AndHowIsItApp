@@ -15,7 +15,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using static Dropbox.Api.TeamLog.ClassificationType;
 
 namespace AndHowIsItApp.Controllers
 {
