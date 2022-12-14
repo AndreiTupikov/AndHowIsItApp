@@ -54,9 +54,14 @@ namespace AndHowIsItApp
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "547526950284038",
+               appSecret: "432e5d3e674ce33955a5c370c9e8e63f");
+
+            app.UseVkontakteAuthentication(
+                appId: "51503199",
+                appSecret: "5WJrgeNERUS1tVutwIAh",
+                scope: "");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{

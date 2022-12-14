@@ -19,6 +19,7 @@ using static Dropbox.Api.TeamLog.ClassificationType;
 
 namespace AndHowIsItApp.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         private ApplicationDbContext db = ApplicationDbContext.Create();
@@ -57,6 +58,7 @@ namespace AndHowIsItApp.Controllers
             }
             else
             {
+                if (group == null) return RedirectToAction("Index");
                 var subjectGroup = db.SubjectGroups.First(s => s.Id == (int)group);
                 var reviews = db.Reviews.Include("Subject").Where(r => r.Subject.SubjectGroup.Id == subjectGroup.Id).Include("ApplicationUser");
                 return View(reviews);
