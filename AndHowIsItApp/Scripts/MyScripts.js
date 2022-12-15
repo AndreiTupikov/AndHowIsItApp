@@ -110,12 +110,17 @@ $(document).ready(function () {
             }
         }
     });
-    $.ajax({
-        type: 'GET',
-        url: '/Home/GetComments?reviewId=' + review,
-        success: function (data, textstatus) {
-            $("#allComments").html(data);
-        }
-    });
+    getCommentsUpdate = function () {
+        $.ajax({
+            type: 'GET',
+            url: '/Home/GetComments?reviewId=' + review,
+            success: function (data, textstatus) {
+                if (data != '') {
+                    $("#allComments").html(data);
+                }
+            }
+        });
+    }
+    setInterval(getCommentsUpdate, 5000);
 });
 

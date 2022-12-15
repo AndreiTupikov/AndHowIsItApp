@@ -37,14 +37,14 @@ namespace AndHowIsItApp.Controllers
         {
             var latestReviews = db.Reviews.OrderByDescending(r => r.LastChangeDate).Take(5).Include("ApplicationUser").Include("Subject");
             ViewBag.ParagraphName = "Последние обзоры";
-            return View("GetReviewsSet", latestReviews);
+            return PartialView("GetReviewsSet", latestReviews);
         }
 
         public ActionResult GetTopReviews()
         {
             var topReviews = db.Reviews.OrderByDescending(r => r.ReviewerRating).Take(5).Include("ApplicationUser").Include("Subject");
             ViewBag.ParagraphName = "Лучшие обзоры за все время";
-            return View("GetReviewsSet", topReviews);
+            return PartialView("GetReviewsSet", topReviews);
         }
 
         public ActionResult SearchResults(string tagName, int? group)
@@ -289,7 +289,9 @@ namespace AndHowIsItApp.Controllers
                 var review = db.Reviews.FirstOrDefault(r => r.Id == reviewId);
                 Comment comment = new Comment { ApplicationUser = user, Review = review, Text = commentText };
                 db.Comments.Add(comment);
+                review.LastCommentDate = comment.Date;
                 db.SaveChanges();
+                return RedirectToAction("ReviewPage", new { reviewId });
             }
             return RedirectToAction("Index");
         }
@@ -298,8 +300,12 @@ namespace AndHowIsItApp.Controllers
         {
             if (reviewId != 0)
             {
+                if (Request.IsAjaxRequest())
+                {
+                    if (db.Reviews.First(r => r.Id == reviewId).LastCommentDate.AddSeconds(6) < DateTime.Now) return null;
+                }
                 var comments = db.Comments.Where(c => c.Review.Id == reviewId).OrderBy(c => c.Date).Include("ApplicationUser");
-                return View(comments);
+                return PartialView(comments);
             }
             return RedirectToAction("Index");
         }

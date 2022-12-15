@@ -65,4 +65,6 @@
     }
 }
 <h3>Комментарии:</h3>
-<div id="allComments"></div>
+<div id="allComments">
+    @Html.Action("GetComments", new { reviewId = Model.Id })
+</div>

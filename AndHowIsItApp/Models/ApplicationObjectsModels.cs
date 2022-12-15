@@ -16,6 +16,7 @@ namespace AndHowIsItApp.Models
         public string PictureLink { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime LastChangeDate { get; set; }
+        public DateTime LastCommentDate { get; set; }
         public ICollection<Tag> Tags { get; set; }
         public ICollection<UserLike> UserLikes { get; set; }
         public Review()
@@ -23,6 +24,7 @@ namespace AndHowIsItApp.Models
             Tags = new List<Tag>();
             CreateDate = DateTime.Now;
             LastChangeDate = DateTime.Now;
+            LastCommentDate = DateTime.Now;
         }
     }
     public class Subject
