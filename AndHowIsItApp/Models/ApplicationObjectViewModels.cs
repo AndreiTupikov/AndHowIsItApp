@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
 namespace AndHowIsItApp.Models
@@ -18,5 +19,18 @@ namespace AndHowIsItApp.Models
         [Required]
         public int ReviewerRating { get; set; }
         public SelectList AllSubjectGroups { get; set; }
+    }
+    public class PreviewModel
+    {
+        public int ReviewId { get; set; }
+        public string UserId { get; set; }
+        public string OwnerName { get; set; }
+        public int SubjectId { get; set; }
+        public string Subject { get; set; }
+        public string Category { get; set; }
+        public string Title { get; set; }
+        public int Rating { get; set; }
+        public int Likes { get; set; }
+        public DateTime Date { get; set; }
     }
 }

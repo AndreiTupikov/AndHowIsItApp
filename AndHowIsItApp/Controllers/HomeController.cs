@@ -35,16 +35,16 @@ namespace AndHowIsItApp.Controllers
 
         public ActionResult GetLatestReviews()
         {
-            var latestReviews = db.Reviews.OrderByDescending(r => r.LastChangeDate).Take(5).Include("ApplicationUser").Include("Subject");
+            var latestPreviews = GetAllPreviews().OrderByDescending(p => p.Date).Take(5);
             ViewBag.ParagraphName = "Последние обзоры";
-            return PartialView("GetReviewsSet", latestReviews);
+            return PartialView("PreviewSet", latestPreviews);
         }
 
         public ActionResult GetTopReviews()
         {
-            var topReviews = db.Reviews.OrderByDescending(r => r.ReviewerRating).Take(5).Include("ApplicationUser").Include("Subject");
+            var topPreviews = GetAllPreviews().OrderByDescending(p => p.Likes).ThenByDescending(p => p.Date).Take(5);
             ViewBag.ParagraphName = "Лучшие обзоры за все время";
-            return PartialView("GetReviewsSet", topReviews);
+            return PartialView("PreviewSet", topPreviews);
         }
 
         public ActionResult SearchResults(string tagName, int? group)
@@ -62,6 +62,11 @@ namespace AndHowIsItApp.Controllers
                 var reviews = db.Reviews.Include("Subject").Where(r => r.Subject.SubjectGroup.Id == subjectGroup.Id).Include("ApplicationUser");
                 return View(reviews);
             }
+        }
+
+        public IEnumerable<PreviewModel> GetAllPreviews()
+        {
+            return db.Reviews.Select(r => new PreviewModel { ReviewId = r.Id, UserId = r.ApplicationUser.Id, OwnerName = r.ApplicationUser.UserName, SubjectId = r.Subject.Id, Subject = r.Subject.Name, Category = r.Subject.SubjectGroup.Name, Title = r.Name, Rating = r.ReviewerRating, Likes = db.UserLikes.Where(l => l.Review.Id == r.Id).Count(), Date = r.LastChangeDate });
         }
 
         public async Task<ActionResult> ReviewPage(int reviewId)
@@ -138,10 +143,7 @@ namespace AndHowIsItApp.Controllers
         [Authorize]
         public ActionResult PersonalPage(string userId)
         {
-            if (!User.IsInRole("admin") || userId == null )
-            {
-                userId = User.Identity.GetUserId();
-            }
+            if (!User.IsInRole("admin") || userId == null ) userId = User.Identity.GetUserId();
             var myReviews = db.Reviews.Where(r => r.ApplicationUser.Id == userId).OrderByDescending(r => r.LastChangeDate).Include("Subject");
             ViewBag.UserId = userId;
             return View(myReviews);
@@ -150,10 +152,7 @@ namespace AndHowIsItApp.Controllers
         [Authorize]
         public ActionResult DeleteReview(string userId, int reviewId)
         {
-            if (!User.IsInRole("admin") || userId == null)
-            {
-                userId = User.Identity.GetUserId();
-            }
+            if (!User.IsInRole("admin") || userId == null) userId = User.Identity.GetUserId();
             var review = db.Reviews.Where(r => r.Id == reviewId).Include("ApplicationUser").FirstOrDefault();
             if (review != null && review.ApplicationUser.Id == userId)
             {
@@ -217,6 +216,13 @@ namespace AndHowIsItApp.Controllers
         {
             var likes = db.UserLikes.Where(l => l.Review.Id == reviewId).Count();
             return likes;
+        }
+
+        public int GetTotalUserLikes(string userId)
+        {
+            var userReviews = db.Reviews.Where(r => r.ApplicationUser.Id == userId);
+            var userLikes = db.UserLikes.Where(l => userReviews.Any(r => r.Id == l.Review.Id)).Count();
+            return userLikes;
         }
 
         [Authorize]
@@ -300,10 +306,7 @@ namespace AndHowIsItApp.Controllers
         {
             if (reviewId != 0)
             {
-                if (Request.IsAjaxRequest())
-                {
-                    if (db.Reviews.First(r => r.Id == reviewId).LastCommentDate.AddSeconds(6) < DateTime.Now) return null;
-                }
+                if (Request.IsAjaxRequest() && db.Reviews.First(r => r.Id == reviewId).LastCommentDate.AddSeconds(6) < DateTime.Now) return null;
                 var comments = db.Comments.Where(c => c.Review.Id == reviewId).OrderBy(c => c.Date).Include("ApplicationUser");
                 return PartialView(comments);
             }

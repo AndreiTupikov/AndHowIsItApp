@@ -331,7 +331,7 @@
     <Content Include="Views\Home\ManageUsers.cshtml" />
     <Content Include="Views\Home\CreateReview.cshtml" />
     <Content Include="Views\Home\PersonalPage.cshtml" />
-    <Content Include="Views\Home\GetReviewsSet.cshtml" />
+    <Content Include="Views\Home\PreviewSet.cshtml" />
     <Content Include="Views\Home\ReviewPage.cshtml" />
     <Content Include="Views\Home\GetComments.cshtml" />
     <Content Include="Views\Home\SearchResults.cshtml" />

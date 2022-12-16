@@ -1,0 +1,29 @@
+﻿@model IEnumerable<AndHowIsItApp.Models.PreviewModel>
+
+<h3>@ViewBag.ParagraphName</h3>
+<table class="table table-bordered">
+    <tr>
+        <td>Id</td>
+        <td>Owner</td>
+        <td>Subject</td>
+        <td>Title</td>
+        <td>Rating</td>
+        <td>Date</td>
+        <td>Page</td>
+    </tr>
+    @{
+        int i = 1;
+        foreach (var p in Model)
+        {
+        <tr>
+            <td>@(i++)</td>
+            <td>@p.OwnerName | @Html.Action("GetTotalUserLikes", new { userId = p.UserId } )</td>
+            <td>@p.Category | @p.Subject | @Html.Action("GetSubjectRating", new { subjectId = p.SubjectId })</td>
+            <td>@p.Title | @Html.Action("GetReviewLikes", new { reviewId = p.ReviewId })</td>
+            <td>@p.Rating</td>
+            <td>@p.Date</td>
+            <td>@Html.ActionLink("Просмотр", "ReviewPage", new { reviewId = p.ReviewId }, null)</td>
+        </tr>
+        }
+    }
+</table>
