@@ -29,7 +29,7 @@ namespace AndHowIsItApp.Controllers
         {
             var tags = db.Tags.Include("Reviews").Where(t => t.Reviews.Count > 0);
             ViewBag.Tags = tags.OrderByDescending(t => t.Reviews.Count).Take(10);
-            ViewBag.SubjectGroups = new SelectList(db.SubjectGroups, "Id", "Name");
+            ViewBag.SubjectGroups = new SelectList(db.Categories, "Id", "Name");
             return View();
         }
 
@@ -58,15 +58,15 @@ namespace AndHowIsItApp.Controllers
             else
             {
                 if (group == null) return RedirectToAction("Index");
-                var subjectGroup = db.SubjectGroups.First(s => s.Id == (int)group);
-                var reviews = db.Reviews.Include("Subject").Where(r => r.Subject.SubjectGroup.Id == subjectGroup.Id).Include("ApplicationUser");
+                var subjectGroup = db.Categories.First(s => s.Id == (int)group);
+                var reviews = db.Reviews.Include("Subject").Where(r => r.Subject.Category.Id == subjectGroup.Id).Include("ApplicationUser");
                 return View(reviews);
             }
         }
 
         public IEnumerable<PreviewModel> GetAllPreviews()
         {
-            return db.Reviews.Select(r => new PreviewModel { ReviewId = r.Id, UserId = r.ApplicationUser.Id, OwnerName = r.ApplicationUser.UserName, SubjectId = r.Subject.Id, Subject = r.Subject.Name, Category = r.Subject.SubjectGroup.Name, Title = r.Name, Rating = r.ReviewerRating, Likes = db.UserLikes.Where(l => l.Review.Id == r.Id).Count(), Date = r.LastChangeDate });
+            return db.Reviews.Select(r => new PreviewModel { ReviewId = r.Id, UserId = r.ApplicationUser.Id, OwnerName = r.ApplicationUser.UserName, SubjectId = r.Subject.Id, Subject = r.Subject.Name, Category = r.Subject.Category.Name, Title = r.Name, Rating = r.ReviewerRating, Likes = db.UserLikes.Where(l => l.Review.Id == r.Id).Count(), Date = r.LastChangeDate });
         }
 
         public async Task<ActionResult> ReviewPage(int reviewId)
@@ -85,9 +85,11 @@ namespace AndHowIsItApp.Controllers
         [Authorize]
         public ActionResult CreateReview(string userId)
         {
-            ReviewCreateViewModel model = new ReviewCreateViewModel();
-            model.AllSubjectGroups = new SelectList(db.SubjectGroups, "Id", "Name");
-            ViewBag.UserId = userId;
+            ReviewCreateViewModel model = new ReviewCreateViewModel
+            {
+                AllCategories = new SelectList(db.Categories, "Id", "Name"),
+                UserId = userId
+            };
             return View(model);
         }
 
@@ -97,18 +99,17 @@ namespace AndHowIsItApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userId = model.UserId;
-                if (!User.IsInRole("admin") || userId == null)
+                if (model.UserId == null || !User.IsInRole("admin"))
                 {
-                    userId = User.Identity.GetUserId();
+                    model.UserId = User.Identity.GetUserId();
                 }
-                Subject subject = db.Subjects.Where(s => s.SubjectGroup.Id == model.SubjectGroup).FirstOrDefault(s => s.Name == model.Subject);
+                Subject subject = db.Subjects.Where(s => s.Category.Id == model.Category).FirstOrDefault(s => s.Name == model.Subject);
                 if (subject == null)
                 {
-                    subject = new Subject { Name = model.Subject, SubjectGroup = db.SubjectGroups.FirstOrDefault(s => s.Id == model.SubjectGroup) };
+                    subject = new Subject { Name = model.Subject, Category = db.Categories.FirstOrDefault(s => s.Id == model.Category) };
                     db.Subjects.Add(subject);
                 }
-                Review review = new Review { ApplicationUser = db.Users.FirstOrDefault(u => u.Id == userId), Name = model.Name, Subject = subject, Text = model.Text, ReviewerRating = model.ReviewerRating };
+                Review review = new Review { ApplicationUser = db.Users.FirstOrDefault(u => u.Id == model.UserId), Name = model.Title, Subject = subject, Text = model.Text, ReviewerRating = model.ReviewerRating };
                 if (tags != null && tags.Length > 0)
                 {
                     foreach (var tag in tags)
@@ -130,35 +131,39 @@ namespace AndHowIsItApp.Controllers
                 db.SaveChanges();
                 if (uploadPicture != null)
                 {
-                    await UploadPicture(userId, review.Id, uploadPicture);
-                    review.PictureLink = "/" + userId + "/" + review.Id + ".jpg";
+                    await UploadPicture(model.UserId, review.Id, uploadPicture);
+                    review.PictureLink = "/" + model.UserId + "/" + review.Id + ".jpg";
                     db.SaveChanges();
                 }
-                return RedirectToAction("PersonalPage", new { userId });
+                if (!User.IsInRole("admin")) return RedirectToAction("PersonalPage");
+                return RedirectToAction("PersonalPage", new { model.UserId });
             }
-            model.AllSubjectGroups = new SelectList(db.SubjectGroups, "Id", "Name");
+            model.AllCategories = new SelectList(db.Categories, "Id", "Name");
             return View(model);
         }
 
         [Authorize]
         public ActionResult PersonalPage(string userId)
         {
-            if (!User.IsInRole("admin") || userId == null ) userId = User.Identity.GetUserId();
+            if (userId == null || !User.IsInRole("admin")) userId = User.Identity.GetUserId();
             var myReviews = db.Reviews.Where(r => r.ApplicationUser.Id == userId).OrderByDescending(r => r.LastChangeDate).Include("Subject");
-            ViewBag.UserId = userId;
+            if (User.IsInRole("admin")) ViewBag.UserId = userId;
+            ViewBag.UserName = db.Users.Single(u => u.Id == userId).UserName;
+            ViewBag.UserLikes = GetTotalUserLikes(userId);
             return View(myReviews);
         }
 
         [Authorize]
         public ActionResult DeleteReview(string userId, int reviewId)
         {
-            if (!User.IsInRole("admin") || userId == null) userId = User.Identity.GetUserId();
+            if (userId == null || !User.IsInRole("admin")) userId = User.Identity.GetUserId();
             var review = db.Reviews.Where(r => r.Id == reviewId).Include("ApplicationUser").FirstOrDefault();
             if (review != null && review.ApplicationUser.Id == userId)
             {
                 db.Reviews.Remove(review);
                 db.SaveChanges();
             }
+            if (!User.IsInRole("admin")) return RedirectToAction("PersonalPage");
             return RedirectToAction("PersonalPage", new { userId } );
         }
 
@@ -236,7 +241,7 @@ namespace AndHowIsItApp.Controllers
         public JsonResult GetSubjects(string group, string Prefix)
         {
             int groupId = int.Parse(group);
-            var subjects = db.Subjects.Where(s => s.SubjectGroup.Id == groupId).Where(s => s.Name.Contains(Prefix)).Take(5).ToList();
+            var subjects = db.Subjects.Where(s => s.Category.Id == groupId).Where(s => s.Name.Contains(Prefix)).Take(5).ToList();
             return Json(subjects, JsonRequestBehavior.AllowGet);
         }
 

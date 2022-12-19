@@ -27,7 +27,7 @@ namespace AndHowIsItApp.Models
     {
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Subject> Subjects { get; set; }
-        public DbSet<SubjectGroup> SubjectGroups { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<UserRating> UserRatings { get; set; }
         public DbSet<UserLike> UserLikes { get; set; }
@@ -61,9 +61,9 @@ namespace AndHowIsItApp.Models
                 userManager.AddToRole(admin.Id, role1.Name);
                 userManager.AddToRole(admin.Id, role2.Name);
             }
-            context.SubjectGroups.Add(new SubjectGroup { Name = "Книги" });
-            context.SubjectGroups.Add(new SubjectGroup { Name = "Фильмы" });
-            context.SubjectGroups.Add(new SubjectGroup { Name = "Игры" });
+            context.Categories.Add(new Category { Name = "Книги" });
+            context.Categories.Add(new Category { Name = "Фильмы" });
+            context.Categories.Add(new Category { Name = "Игры" });
             base.Seed(context);
         }
     }

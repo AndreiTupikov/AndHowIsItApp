@@ -11,9 +11,9 @@
     @Html.ValidationSummary("", new { @class = "text-danger" })
     @Html.HiddenFor(m => m.UserId);
     <div class="form-group">
-        @Html.LabelFor(m => m.SubjectGroup, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.Category, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.DropDownListFor(m => m.SubjectGroup, Model.AllSubjectGroups as SelectList, "", new { @class = "form-control", id = "subjectGroup", onchange = "changeGroup()" })
+            @Html.DropDownListFor(m => m.Category, Model.AllCategories as SelectList, "", new { @class = "form-control", id = "subjectGroup", onchange = "changeGroup()" })
         </div>
     </div>
     <div class="form-group">
@@ -22,18 +22,16 @@
             @Html.TextBoxFor(m => m.Subject, new { @class = "form-control", id = "subjectName" })
         </div>
     </div>
-
     <div class="form-group">
         <div class="editor-label">Файл изображения</div>
         <div class="editor-field">
             <input type="file" name="uploadPicture" />
         </div>
     </div>
-
     <div class="form-group">
-        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.Title, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">

@@ -4,7 +4,7 @@
     ViewBag.Title = "PersonalPage";
 }
 
-<h2>Персональная страница</h2>
+<h2>Персональная страница @ViewBag.UserName | @ViewBag.UserLikes</h2>
 @Html.ActionLink("Добавить обзор", "CreateReview", new { userId = ViewBag.UserId }, null )
 <h3>Мои обзоры</h3>
 <table class="table table-bordered">

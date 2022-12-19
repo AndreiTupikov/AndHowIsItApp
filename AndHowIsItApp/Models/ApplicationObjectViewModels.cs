@@ -9,16 +9,16 @@ namespace AndHowIsItApp.Models
         public string UserId { get; set; }
         [Required]
         [StringLength(50, ErrorMessage = "Название обзора должно быть в пределах 50 символов")]
-        public string Name { get; set; }
+        public string Title { get; set; }
         [Required]
-        public int SubjectGroup { get; set; }
+        public int Category { get; set; }
         [Required]
         public string Subject { get; set; }
         [Required]
         public string Text { get; set; }
         [Required]
         public int ReviewerRating { get; set; }
-        public SelectList AllSubjectGroups { get; set; }
+        public SelectList AllCategories { get; set; }
     }
     public class PreviewModel
     {

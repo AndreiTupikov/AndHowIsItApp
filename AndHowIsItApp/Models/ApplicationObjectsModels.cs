@@ -31,11 +31,11 @@ namespace AndHowIsItApp.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public SubjectGroup SubjectGroup { get; set; }
+        public Category Category { get; set; }
         public ICollection<Review> Reviews { get; set;}
         public ICollection<UserRating> UserRatings { get; set;}
     }
-    public class SubjectGroup
+    public class Category
     {
         public int Id { get; set; }
         public string Name { get; set; }
