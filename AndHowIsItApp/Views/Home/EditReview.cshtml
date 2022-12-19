@@ -1,0 +1,59 @@
+﻿@model AndHowIsItApp.Models.ReviewEditViewModel
+@{
+    ViewBag.Title = "EditReview";
+}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+@using (Html.BeginForm("EditReview", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Редактирование обзора.</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    @Html.HiddenFor(m => m.UserId);
+    @Html.HiddenFor(m => m.ReviewId);
+    <div class="form-group">
+        <div class="editor-label">Файл изображения</div>
+        <div class="editor-field">
+            <input type="file" name="uploadPicture" />
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Title, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Text, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(m => m.Text, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ReviewerRating, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.ReviewerRating, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="text" id="input-tag" onfocus="autoCompleteTags()">
+            <button type="button" class="btn btn-secondary" onclick="addTag()">Добавить</button>
+        </div>
+        <div class="col-md-offset-2 col-md-10" id="selected-tags">
+            @foreach (var t in ViewBag.Tags)
+            {
+                <input type="text" name="tags" value="@t" id="tag-@t" onclick="removeTag('tag-@t')" />
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Создать" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -47,6 +47,46 @@ namespace AndHowIsItApp.Controllers
             return PartialView("PreviewSet", topPreviews);
         }
 
+        //public IEnumerable<PreviewModel> GetPreviewsByCategory(IEnumerable<PreviewModel> previews, int category = 0)
+        //{
+        //    if (category < 1 || category > 3) return null;
+        //    var group = db.SubjectGroups.Single(g => g.Id == category);
+        //    return previews.Where(p => p.Category == group.Name);
+        //}
+
+        //public IEnumerable<PreviewModel> GetPreviewsByTag(IEnumerable<PreviewModel> previews, string[] tagNames)
+        //{
+        //    var tags = db.Tags.Where(t => tagNames.Any(tn => tn == t.Name));
+        //    if (tags.Count() < 1) return null;
+        //    return previews.Where(p => tags.Any(t => t.Reviews.Any(r => r.Id == p.ReviewId)));
+        //}
+
+        //public IEnumerable<PreviewModel> SortPreviewsBySubjectRating(IEnumerable<PreviewModel> previews, bool desc)
+        //{
+        //    var subjects = db.Subjects.Where(s => previews.Any(p => p.SubjectId == s.Id)).Distinct();
+        //    var previewsWithRating = previews.Select(p => new { Preview = p, Rating = GetSubjectRating(p.SubjectId) });
+        //    if (desc) return previewsWithRating.OrderByDescending(r => r.Rating).Select(p => p.Preview);
+        //    return previewsWithRating.OrderBy(r => r.Rating).Select(p => p.Preview);
+        //}
+
+        //public IEnumerable<PreviewModel> SortPreviewsByLikes(IEnumerable<PreviewModel> previews, bool desc)
+        //{
+        //    var previewsWithLikes = previews.Select(p => new { Preview = p, Likes = GetReviewLikes(p.ReviewId) });
+        //    if (desc) return previewsWithLikes.OrderByDescending(r => r.Likes).Select(p => p.Preview);
+        //    return previewsWithLikes.OrderBy(r => r.Likes).Select(p => p.Preview);
+        //}
+
+        //public ActionResult FilterAndSortResults(string[] tagNames, int? category, bool? likesDesc, bool? ratingDesc)
+        //{
+        //    var previews = GetAllPreviews();
+        //    if (category != null) previews = GetPreviewsByCategory(previews, (int)category);
+        //    if (tagNames != null && previews.Count() > 0) previews = GetPreviewsByTag(previews, tagNames);
+        //    if (likesDesc != null && previews.Count() > 0) previews = SortPreviewsByLikes(previews, (bool)likesDesc);
+        //    if (ratingDesc != null && previews.Count() > 0) previews = SortPreviewsBySubjectRating(previews, (bool)ratingDesc);
+        //    ViewBag.ParagraphName = previews.Count() > 0 ? "Результаты поиска:" : "Нет подходящих результатов, измените параметры поиска";
+        //    return View(previews);
+        //}
+
         public ActionResult SearchResults(string tagName, int? group)
         {
             if (tagName != null)
@@ -99,10 +139,7 @@ namespace AndHowIsItApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (model.UserId == null || !User.IsInRole("admin"))
-                {
-                    model.UserId = User.Identity.GetUserId();
-                }
+                if (model.UserId == null || !User.IsInRole("admin")) model.UserId = User.Identity.GetUserId();
                 Subject subject = db.Subjects.Where(s => s.Category.Id == model.Category).FirstOrDefault(s => s.Name == model.Subject);
                 if (subject == null)
                 {
@@ -139,6 +176,63 @@ namespace AndHowIsItApp.Controllers
                 return RedirectToAction("PersonalPage", new { model.UserId });
             }
             model.AllCategories = new SelectList(db.Categories, "Id", "Name");
+            return View(model);
+        }
+
+        [Authorize]
+        public ActionResult EditReview(string userId, int reviewId)
+        {
+            var review = db.Reviews.Include("ApplicationUser").FirstOrDefault(r => r.Id == reviewId);
+            if (userId == null || !User.IsInRole("admin")) userId = User.Identity.GetUserId();
+            if (review != null && review.ApplicationUser.Id == userId)
+            {
+                var model = new ReviewEditViewModel
+                {
+                    ReviewId = review.Id,
+                    UserId = userId,
+                    Title = review.Name,
+                    Text = review.Text,
+                    ReviewerRating = review.ReviewerRating
+                };
+                ViewBag.Tags = db.Tags.Where(t => t.Reviews.Any(r => r.Id == review.Id)).Select(t => t.Name);
+                return View(model);
+            }
+            return RedirectToAction("Index");
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult EditReview(ReviewEditViewModel model, string[] tags)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.UserId == null || !User.IsInRole("admin")) model.UserId = User.Identity.GetUserId();
+                var review = db.Reviews.Include("ApplicationUser").Include("Tags").FirstOrDefault(r => r.Id == model.ReviewId);
+                if (review == null || review.ApplicationUser.Id != model.UserId) return RedirectToAction("Index");
+                review.Name = model.Title; review.Text = model.Text; review.ReviewerRating = model.ReviewerRating; review.LastChangeDate = DateTime.Now;
+                var oldTags = db.Tags.Where(t => t.Reviews.Any(r => r.Id == review.Id));
+                foreach (var tag in oldTags)
+                {
+                    if (!tags.Any(t => t.Trim() == tag.Name)) review.Tags.Remove(tag);
+                }
+                foreach (var tag in tags)
+                {
+                    var tg = tag.Trim();
+                    if (tg.Length > 0 && !oldTags.Any(o => o.Name == tg))
+                    {
+                        var newTag = db.Tags.FirstOrDefault(t => t.Name == tg);
+                        if (newTag == null)
+                        {
+                            newTag = new Models.Tag { Name = tg };
+                            db.Tags.Add(newTag);
+                        }
+                        review.Tags.Add(newTag);
+                    }
+                }
+                db.SaveChanges();
+                if (!User.IsInRole("admin")) return RedirectToAction("PersonalPage");
+                return RedirectToAction("PersonalPage", new { model.UserId });
+            }
             return View(model);
         }
 

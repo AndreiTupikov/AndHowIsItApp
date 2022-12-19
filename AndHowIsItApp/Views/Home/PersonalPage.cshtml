@@ -15,8 +15,9 @@
         <td>Text</td>
         <td>MyRating</td>
         <td>LastChange</td>
-        <td>Delete</td>
         <td>ReviewPage</td>
+        <td>Edit</td>
+        <td>Delete</td>
     </tr>
     @{
         int i = 1;
@@ -29,8 +30,9 @@
             <td>@r.Text</td>
             <td>@r.ReviewerRating</td>
             <td>@r.LastChangeDate</td>
-            <td>@Html.ActionLink("Удалить", "DeleteReview", new { userId = ViewBag.UserId, reviewId = r.Id }, null)</td>
             <td>@Html.ActionLink("Просмотр", "ReviewPage", new { reviewId = r.Id }, null)</td>
+            <td>@Html.ActionLink("Изменить", "EditReview", new { userId = ViewBag.UserId, reviewId = r.Id }, null)</td>
+            <td>@Html.ActionLink("Удалить", "DeleteReview", new { userId = ViewBag.UserId, reviewId = r.Id }, null)</td>
         </tr>
         }
     }

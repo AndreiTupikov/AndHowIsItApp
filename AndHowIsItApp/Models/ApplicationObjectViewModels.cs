@@ -20,6 +20,18 @@ namespace AndHowIsItApp.Models
         public int ReviewerRating { get; set; }
         public SelectList AllCategories { get; set; }
     }
+    public class ReviewEditViewModel
+    {
+        public int ReviewId { get; set; }
+        public string UserId { get; set; }
+        [Required]
+        [StringLength(50, ErrorMessage = "Название обзора должно быть в пределах 50 символов")]
+        public string Title { get; set; }
+        [Required]
+        public string Text { get; set; }
+        [Required]
+        public int ReviewerRating { get; set; }
+    }
     public class PreviewModel
     {
         public int ReviewId { get; set; }
