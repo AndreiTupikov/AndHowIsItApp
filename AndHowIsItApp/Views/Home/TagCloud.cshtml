@@ -1,0 +1,11 @@
+﻿@using (Html.BeginForm("SearchResults", "Home"))
+{
+    foreach (var t in ViewBag.Tags)
+    {
+        <input type="submit" name="tagName" value="@t.Name">
+    }
+    <div class="col-md-10">
+        @Html.DropDownList("category", ViewBag.Categories as SelectList, "Все", new { @class = "form-control" })
+        <input type="submit" value="Показать">
+    </div>
+}

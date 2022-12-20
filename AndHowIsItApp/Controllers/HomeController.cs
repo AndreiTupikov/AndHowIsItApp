@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.DynamicData;
 using System.Web.Mvc;
 
 namespace AndHowIsItApp.Controllers
@@ -27,9 +28,6 @@ namespace AndHowIsItApp.Controllers
         
         public ActionResult Index()
         {
-            var tags = db.Tags.Include("Reviews").Where(t => t.Reviews.Count > 0);
-            ViewBag.Tags = tags.OrderByDescending(t => t.Reviews.Count).Take(10);
-            ViewBag.SubjectGroups = new SelectList(db.Categories, "Id", "Name");
             return View();
         }
 
@@ -47,66 +45,42 @@ namespace AndHowIsItApp.Controllers
             return PartialView("PreviewSet", topPreviews);
         }
 
-        //public IEnumerable<PreviewModel> GetPreviewsByCategory(IEnumerable<PreviewModel> previews, int category = 0)
-        //{
-        //    if (category < 1 || category > 3) return null;
-        //    var group = db.SubjectGroups.Single(g => g.Id == category);
-        //    return previews.Where(p => p.Category == group.Name);
-        //}
+        public ActionResult TagCloud(int? category, string tag)
+        {
+            var tags = db.Tags.Include("Reviews").Where(t => t.Reviews.Count > 0).Where(t => t.Name != tag);
+            ViewBag.Tags = tags.OrderByDescending(t => t.Reviews.Count).Take(10);
+            ViewBag.Categories = new SelectList(db.Categories, "Id", "Name", selectedValue: category);
+            return PartialView();
+        }
 
-        //public IEnumerable<PreviewModel> GetPreviewsByTag(IEnumerable<PreviewModel> previews, string[] tagNames)
-        //{
-        //    var tags = db.Tags.Where(t => tagNames.Any(tn => tn == t.Name));
-        //    if (tags.Count() < 1) return null;
-        //    return previews.Where(p => tags.Any(t => t.Reviews.Any(r => r.Id == p.ReviewId)));
-        //}
-
-        //public IEnumerable<PreviewModel> SortPreviewsBySubjectRating(IEnumerable<PreviewModel> previews, bool desc)
-        //{
-        //    var subjects = db.Subjects.Where(s => previews.Any(p => p.SubjectId == s.Id)).Distinct();
-        //    var previewsWithRating = previews.Select(p => new { Preview = p, Rating = GetSubjectRating(p.SubjectId) });
-        //    if (desc) return previewsWithRating.OrderByDescending(r => r.Rating).Select(p => p.Preview);
-        //    return previewsWithRating.OrderBy(r => r.Rating).Select(p => p.Preview);
-        //}
-
-        //public IEnumerable<PreviewModel> SortPreviewsByLikes(IEnumerable<PreviewModel> previews, bool desc)
-        //{
-        //    var previewsWithLikes = previews.Select(p => new { Preview = p, Likes = GetReviewLikes(p.ReviewId) });
-        //    if (desc) return previewsWithLikes.OrderByDescending(r => r.Likes).Select(p => p.Preview);
-        //    return previewsWithLikes.OrderBy(r => r.Likes).Select(p => p.Preview);
-        //}
-
-        //public ActionResult FilterAndSortResults(string[] tagNames, int? category, bool? likesDesc, bool? ratingDesc)
-        //{
-        //    var previews = GetAllPreviews();
-        //    if (category != null) previews = GetPreviewsByCategory(previews, (int)category);
-        //    if (tagNames != null && previews.Count() > 0) previews = GetPreviewsByTag(previews, tagNames);
-        //    if (likesDesc != null && previews.Count() > 0) previews = SortPreviewsByLikes(previews, (bool)likesDesc);
-        //    if (ratingDesc != null && previews.Count() > 0) previews = SortPreviewsBySubjectRating(previews, (bool)ratingDesc);
-        //    ViewBag.ParagraphName = previews.Count() > 0 ? "Результаты поиска:" : "Нет подходящих результатов, измените параметры поиска";
-        //    return View(previews);
-        //}
-
-        public ActionResult SearchResults(string tagName, int? group)
+        public ActionResult SearchResults(string tagName, int? category)
         {
             if (tagName != null)
             {
-                var tag = db.Tags.First(t => t.Name == tagName);
-                var reviews = db.Reviews.Include("Tags").Where(r => r.Tags.Any(t => t.Name == tagName)).Include("ApplicationUser").Include("Subject");
-                return View(reviews);
+                var tag = db.Tags.Include("Reviews").First(t => t.Name == tagName);
+                var previews = GetAllPreviews().Where(p => tag.Reviews.Any(r => r.Id == p.ReviewId)).OrderByDescending(p => p.Date);
+                ViewBag.SelectedTag = tagName;
+                ViewBag.ResultsBy = tagName;
+                return View(previews);
             }
             else
             {
-                if (group == null) return RedirectToAction("Index");
-                var subjectGroup = db.Categories.First(s => s.Id == (int)group);
-                var reviews = db.Reviews.Include("Subject").Where(r => r.Subject.Category.Id == subjectGroup.Id).Include("ApplicationUser");
-                return View(reviews);
+                var subjectCategory = db.Categories.FirstOrDefault(s => s.Id == category);
+                var previews = GetAllPreviews().OrderByDescending(p => p.Date);
+                ViewBag.ResultsBy = "Все категории";
+                if (category != null)
+                {
+                    previews = previews.Where(p => p.Category == subjectCategory.Name).OrderByDescending(p => p.Date);
+                    ViewBag.ResultsBy = subjectCategory.Name;
+                }
+                ViewBag.SelectedCategory = category;
+                return View(previews);
             }
         }
 
         public IEnumerable<PreviewModel> GetAllPreviews()
         {
-            return db.Reviews.Select(r => new PreviewModel { ReviewId = r.Id, UserId = r.ApplicationUser.Id, OwnerName = r.ApplicationUser.UserName, SubjectId = r.Subject.Id, Subject = r.Subject.Name, Category = r.Subject.Category.Name, Title = r.Name, Rating = r.ReviewerRating, Likes = db.UserLikes.Where(l => l.Review.Id == r.Id).Count(), Date = r.LastChangeDate });
+            return db.Reviews.Select(r => new PreviewModel { ReviewId = r.Id, UserId = r.ApplicationUser.Id, OwnerName = r.ApplicationUser.UserName, SubjectId = r.Subject.Id, Subject = r.Subject.Name, Category = r.Subject.Category.Name, Title = r.Name, Rating = r.ReviewerRating, Likes = db.UserLikes.Where(l => l.Review.Id == r.Id).Count(), Date = r.CreateDate });
         }
 
         public async Task<ActionResult> ReviewPage(int reviewId)

@@ -1,31 +1,22 @@
-﻿@model IEnumerable<AndHowIsItApp.Models.Review>
-@{
+﻿@{
     ViewBag.Title = "SearchResults";
 }
+<div>
+    @Html.Action("TagCloud", new { category = ViewBag.SelectedCategory, tag = ViewBag.SelectedTag })
+</div>
 
-<h2>SearchResults</h2>
-
-<table class="table table-bordered">
-    <tr>
-        <td>Id</td>
-        <td>ReviewName</td>
-        <td>Subject</td>
-        <td>Rating</td>
-        <td>User</td>
-        <td>Page</td>
-    </tr>
-    @{
-        int i = 1;
-        foreach (var r in Model)
-        {
-        <tr>
-            <td>@(i++)</td>
-            <td>@r.Name</td>
-            <td>@r.Subject.Name</td>
-            <td>@r.ReviewerRating</td>
-            <td>@r.ApplicationUser.UserName</td>
-            <td>@Html.ActionLink("Просмотр", "ReviewPage", new { reviewId = r.Id }, null)</td>
-        </tr>
-        }
-    }
-</table>
+<h2>Результаты по запросу @ViewBag.ResultsBy:</h2>
+<div>Сортировать по:</div>
+<select name="sort" id="sortSelector" onchange="sortResults()">
+    <option value="date-desc" selected>По дате добавления, поздние вперед</option>
+    <option value="date-asc">По дате добавления, ранние вперед</option>
+    <option value="likes-desc">По лайкам, больше вперед</option>
+    <option value="likes-asc">По лайкам, меньше вперед</option>
+    <option value="subjectRating-desc">По рейтингу произведения, больше вперед</option>
+    <option value="subjectRating-asc">По рейтингу произведения, меньше вперед</option>
+    <option value="reviewerRating-desc">По оценке создателя, больше вперед</option>
+    <option value="reviewerRating-asc">По оценке создателя, меньше вперед</option>
+</select>
+<div>
+    @Html.Partial("PreviewSet")
+</div>

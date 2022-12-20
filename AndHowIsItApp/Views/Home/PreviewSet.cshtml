@@ -1,12 +1,16 @@
 ﻿@model IEnumerable<AndHowIsItApp.Models.PreviewModel>
 
 <h3>@ViewBag.ParagraphName</h3>
-<table class="table table-bordered">
+<table id="resultTable" class="table table-bordered">
     <tr>
         <td>Id</td>
         <td>Owner</td>
+        <td>OR</td>
+        <td>Category</td>
         <td>Subject</td>
+        <td>SR</td>
         <td>Title</td>
+        <td>L</td>
         <td>Rating</td>
         <td>Date</td>
         <td>Page</td>
@@ -15,13 +19,17 @@
         int i = 1;
         foreach (var p in Model)
         {
-        <tr>
+        <tr name="previewSet">
             <td>@(i++)</td>
-            <td>@p.OwnerName | @Html.Action("GetTotalUserLikes", new { userId = p.UserId } )</td>
-            <td>@p.Category | @p.Subject | @Html.Action("GetSubjectRating", new { subjectId = p.SubjectId })</td>
-            <td>@p.Title | @Html.Action("GetReviewLikes", new { reviewId = p.ReviewId })</td>
-            <td>@p.Rating</td>
-            <td>@p.Date</td>
+            <td>@p.OwnerName</td>
+            <td>@Html.Action("GetTotalUserLikes", new { userId = p.UserId })</td>
+            <td>@p.Category</td>
+            <td>@p.Subject</td>
+            <td id="subjectRating">@Html.Action("GetSubjectRating", new { subjectId = p.SubjectId })</td>
+            <td>@p.Title</td>
+            <td id="likes">@Html.Action("GetReviewLikes", new { reviewId = p.ReviewId })</td>
+            <td id="reviewerRating">@p.Rating</td>
+            <td id="date">@p.Date</td>
             <td>@Html.ActionLink("Просмотр", "ReviewPage", new { reviewId = p.ReviewId }, null)</td>
         </tr>
         }

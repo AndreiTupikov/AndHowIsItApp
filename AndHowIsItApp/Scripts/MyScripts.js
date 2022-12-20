@@ -124,3 +124,22 @@ $(document).ready(function () {
     setInterval(getCommentsUpdate, 5000);
 });
 
+function sortResults() {
+    let sortParam = document.getElementById('sortSelector').value.split('-');
+    var previewSet = document.getElementsByName('previewSet');
+    var previewArray = [].slice.call(previewSet).sort(function (a, b) {
+        if (sortParam[0] === 'date') return dateFormatter(b.querySelector('#' + sortParam[0]).innerHTML) - dateFormatter(a.querySelector('#' + sortParam[0]).innerHTML);
+        return b.querySelector('#' + sortParam[0]).innerHTML - a.querySelector('#' + sortParam[0]).innerHTML;
+    });
+    if (sortParam[1] === 'asc') previewArray.reverse();
+    var results = document.getElementById('resultTable');
+    previewArray.forEach(function (p) {
+        results.appendChild(p);
+    });
+}
+
+function dateFormatter(date) {
+    var dateAndTime = date.split(' ');
+    var date = dateAndTime[0].split('.');
+    return new Date(date[2] + '-' + date[1] + '-' + date[0] + 'T' + dateAndTime[1]);
+}
