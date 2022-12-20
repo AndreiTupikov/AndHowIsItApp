@@ -1,41 +1,15 @@
-﻿@model IEnumerable<AndHowIsItApp.Models.Review>
-
-@{
+﻿@{
     ViewBag.Title = "PersonalPage";
 }
 
 <h2>Персональная страница @ViewBag.UserName | @ViewBag.UserLikes</h2>
 @Html.ActionLink("Добавить обзор", "CreateReview", new { userId = ViewBag.UserId }, null )
 <h3>Мои обзоры</h3>
-<table class="table table-bordered">
-    <tr>
-        <td>Id</td>
-        <td>Subject</td>
-        <td>ReviewName</td>
-        <td>Text</td>
-        <td>MyRating</td>
-        <td>LastChange</td>
-        <td>ReviewPage</td>
-        <td>Edit</td>
-        <td>Delete</td>
-    </tr>
-    @{
-        int i = 1;
-        foreach (var r in Model)
-        {
-        <tr>
-            <td>@(i++)</td>
-            <td>@r.Subject.Name</td>
-            <td>@r.Name</td>
-            <td>@r.Text</td>
-            <td>@r.ReviewerRating</td>
-            <td>@r.LastChangeDate</td>
-            <td>@Html.ActionLink("Просмотр", "ReviewPage", new { reviewId = r.Id }, null)</td>
-            <td>@Html.ActionLink("Изменить", "EditReview", new { userId = ViewBag.UserId, reviewId = r.Id }, null)</td>
-            <td>@Html.ActionLink("Удалить", "DeleteReview", new { userId = ViewBag.UserId, reviewId = r.Id }, null)</td>
-        </tr>
-        }
-    }
-</table>
 
+<div>
+    @Html.Partial("PreviewSortBar")
+</div>
 
+<div>
+    @Html.Partial("PreviewSet")
+</div>

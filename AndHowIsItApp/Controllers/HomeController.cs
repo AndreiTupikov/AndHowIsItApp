@@ -1,20 +1,14 @@
 ﻿using AndHowIsItApp.Models;
 using Dropbox.Api;
 using Dropbox.Api.Files;
-using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.DynamicData;
 using System.Web.Mvc;
 
 namespace AndHowIsItApp.Controllers
@@ -80,7 +74,17 @@ namespace AndHowIsItApp.Controllers
 
         public IEnumerable<PreviewModel> GetAllPreviews()
         {
-            return db.Reviews.Select(r => new PreviewModel { ReviewId = r.Id, UserId = r.ApplicationUser.Id, OwnerName = r.ApplicationUser.UserName, SubjectId = r.Subject.Id, Subject = r.Subject.Name, Category = r.Subject.Category.Name, Title = r.Name, Rating = r.ReviewerRating, Likes = db.UserLikes.Where(l => l.Review.Id == r.Id).Count(), Date = r.CreateDate });
+            return db.Reviews.Select(r => new PreviewModel {
+                ReviewId = r.Id,
+                UserId = r.ApplicationUser.Id,
+                OwnerName = r.ApplicationUser.UserName,
+                SubjectId = r.Subject.Id,
+                Subject = r.Subject.Name,
+                Category = r.Subject.Category.Name,
+                Title = r.Name, Rating = r.ReviewerRating,
+                Likes = db.UserLikes.Where(l => l.Review.Id == r.Id).Count(),
+                Date = r.CreateDate
+            });
         }
 
         public async Task<ActionResult> ReviewPage(int reviewId)
@@ -214,11 +218,12 @@ namespace AndHowIsItApp.Controllers
         public ActionResult PersonalPage(string userId)
         {
             if (userId == null || !User.IsInRole("admin")) userId = User.Identity.GetUserId();
-            var myReviews = db.Reviews.Where(r => r.ApplicationUser.Id == userId).OrderByDescending(r => r.LastChangeDate).Include("Subject");
+            var userName = db.Users.FirstOrDefault(u => u.Id == userId).UserName;
+            var previews = GetAllPreviews().Where(p => p.OwnerName == userName).OrderByDescending(p => p.Date);
             if (User.IsInRole("admin")) ViewBag.UserId = userId;
             ViewBag.UserName = db.Users.Single(u => u.Id == userId).UserName;
             ViewBag.UserLikes = GetTotalUserLikes(userId);
-            return View(myReviews);
+            return View(previews);
         }
 
         [Authorize]
@@ -306,17 +311,17 @@ namespace AndHowIsItApp.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetSubjects(string group, string Prefix)
+        public JsonResult GetSubjects(string group, string prefix)
         {
             int groupId = int.Parse(group);
-            var subjects = db.Subjects.Where(s => s.Category.Id == groupId).Where(s => s.Name.Contains(Prefix)).Take(5).ToList();
+            var subjects = db.Subjects.Where(s => s.Category.Id == groupId).Where(s => s.Name.Contains(prefix)).Take(5).ToList();
             return Json(subjects, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public JsonResult GetTags(string Prefix)
+        public JsonResult GetTags(string prefix)
         {
-            var tags = db.Tags.Where(s => s.Name.Contains(Prefix)).Take(5).ToList();
+            var tags = db.Tags.Where(s => s.Name.Contains(prefix)).Take(5).ToList();
             return Json(tags, JsonRequestBehavior.AllowGet);
         }
 

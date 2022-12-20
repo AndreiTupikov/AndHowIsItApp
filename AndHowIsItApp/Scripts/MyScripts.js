@@ -1,15 +1,15 @@
-﻿function changeGroup() {
+﻿function changeCategory() {
     document.getElementById('subjectName').value = '';
-    var group = document.getElementById('subjectGroup').value;
-    if (group === '1' | group === '2' | group === '3') autoCompleteSubjects(group);
+    var category = document.getElementById('category').value;
+    if (category === '1' | category === '2' | category === '3') autoCompleteSubjects(category);
     else autoCompleteSubjects(0);
 }
 
-function autoCompleteSubjects(group) {
+function autoCompleteSubjects(category) {
     $("#subjectName").autocomplete({
         source: function (request, response) {
             $.ajax({
-                url: "/Home/GetSubjects?group=" + group,
+                url: "/Home/GetSubjects?group=" + category,
                 type: "POST",
                 dataType: "json",
                 data: { Prefix: request.term },
@@ -50,7 +50,7 @@ function autoCompleteTags() {
 function addTag() {
     const selectedTags = Array.prototype.slice.call(document.getElementById('selected-tags').children);
     const newTag = document.getElementById('input-tag').value;
-    const contains = selectedTags.some(item => item.innerHTML === newTag)
+    const contains = selectedTags.some(item => item.value === newTag)
     if (!contains && newTag.length > 0) {
         let element = document.createElement('input');
         element.setAttribute('type', 'text');
@@ -138,6 +138,7 @@ function sortResults() {
     });
 }
 
+//переделать форматирование даты при переключении локализации
 function dateFormatter(date) {
     var dateAndTime = date.split(' ');
     var date = dateAndTime[0].split('.');

@@ -13,7 +13,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Category, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.DropDownListFor(m => m.Category, Model.AllCategories as SelectList, "", new { @class = "form-control", id = "subjectGroup", onchange = "changeGroup()" })
+            @Html.DropDownListFor(m => m.Category, Model.AllCategories as SelectList, "", new { @class = "form-control", id = "category", onchange = "changeCategory()" })
         </div>
     </div>
     <div class="form-group">

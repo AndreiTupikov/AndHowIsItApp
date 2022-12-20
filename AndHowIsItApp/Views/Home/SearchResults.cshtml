@@ -7,16 +7,9 @@
 
 <h2>Результаты по запросу @ViewBag.ResultsBy:</h2>
 <div>Сортировать по:</div>
-<select name="sort" id="sortSelector" onchange="sortResults()">
-    <option value="date-desc" selected>По дате добавления, поздние вперед</option>
-    <option value="date-asc">По дате добавления, ранние вперед</option>
-    <option value="likes-desc">По лайкам, больше вперед</option>
-    <option value="likes-asc">По лайкам, меньше вперед</option>
-    <option value="subjectRating-desc">По рейтингу произведения, больше вперед</option>
-    <option value="subjectRating-asc">По рейтингу произведения, меньше вперед</option>
-    <option value="reviewerRating-desc">По оценке создателя, больше вперед</option>
-    <option value="reviewerRating-asc">По оценке создателя, меньше вперед</option>
-</select>
+<div>
+    @Html.Partial("PreviewSortBar")
+</div>
 <div>
     @Html.Partial("PreviewSet")
 </div>
