@@ -1,0 +1,50 @@
+﻿@model IEnumerable<AndHowIsItApp.Models.UserAdministrationModel>
+@{
+    ViewBag.Title = "ManageUsers";
+}
+
+
+<table class="table table-bordered">
+    <tr>
+        <td>User Name</td>
+        <td>Email</td>
+        <td>Personal Page</td>
+        <td>Block/Unblock</td>
+        <td>Delete</td>
+        @if (User.IsInRole("adminMaster"))
+        {
+            <td>Admin Roots</td>
+        }
+    </tr>
+    @foreach (var user in Model)
+    {
+        <tr>
+            @using (Html.BeginForm("ManageUsers", "Admin", user, FormMethod.Post))
+            {
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>@Html.ActionLink("Персональная страница", "PersonalPage", "Home", new { userId = user.Id }, null)</td>
+                if (user.IsBlocked)
+                {
+                    <td><button name="option" value="block">Разблокировать</button></td>
+                }
+                else
+                {
+                    <td><button name="option" value="block">Заблокировать</button></td>
+                }
+                <td><button name="option" value="delete">Удалить</button></td>
+                if (User.IsInRole("adminMaster"))
+                {
+                    if (user.IsAdmin)
+                    {
+                        <td><button name="option" value="toadmin">Отнять права</button></td>
+                    }
+                    else
+                    {
+                        <td><button name="option" value="toadmin">Дать права</button></td>
+                    }
+                }
+            }
+        </tr>
+    }
+</table>

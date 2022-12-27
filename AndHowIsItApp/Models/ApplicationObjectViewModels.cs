@@ -45,4 +45,12 @@ namespace AndHowIsItApp.Models
         public int Likes { get; set; }
         public DateTime Date { get; set; }
     }
+    public class UserAdministrationModel
+    {
+        public string Id { get; set; }
+        public string UserName { get; set; }
+        public string Email { get; set; }
+        public bool IsBlocked { get; set; }
+        public bool IsAdmin { get; set; }
+    }
 }

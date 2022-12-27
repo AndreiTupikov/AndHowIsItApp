@@ -11,7 +11,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using WebGrease.Css.Ast;
 
 namespace AndHowIsItApp.Controllers
 {
@@ -51,7 +50,7 @@ namespace AndHowIsItApp.Controllers
 
         public ActionResult SearchResults(string searchString, string tagName, int? category)
         {
-            if (!string.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrWhiteSpace(searchString))
             {
                 var reviewIds = FullTextSearch(searchString);
                 var previews = GetAllPreviews().Where(p => reviewIds.Any(id => id == p.ReviewId)).OrderByDescending(p => p.Date);
@@ -355,13 +354,13 @@ namespace AndHowIsItApp.Controllers
             return Json(tags, JsonRequestBehavior.AllowGet);
         }
 
-        [Authorize(Roles = "admin")]
-        public ActionResult ManageUsers()
-        {
-            var users = db.Users;
-            ViewBag.Users = users;
-            return View();
-        }
+        //[Authorize(Roles = "admin")]
+        //public ActionResult ManageUsers()
+        //{
+        //    var users = db.Users;
+        //    ViewBag.Users = users;
+        //    return View();
+        //}
 
         private async Task UploadPicture(string folder, int file, HttpPostedFileBase picture)
         {

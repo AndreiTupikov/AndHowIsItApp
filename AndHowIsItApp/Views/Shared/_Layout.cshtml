@@ -32,7 +32,10 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Главная страница", "Index", "Home")</li>
                     <li>@Html.ActionLink("Моя страница", "PersonalPage", "Home")</li>
-                    <li>@Html.ActionLink("Для одмена", "ManageUsers", "Home")</li>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <li>@Html.ActionLink("Список пользователей", "ManageUsers", "Admin")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
