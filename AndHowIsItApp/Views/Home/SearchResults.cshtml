@@ -5,7 +5,7 @@
     @Html.Action("TagCloud", new { category = ViewBag.SelectedCategory, tag = ViewBag.SelectedTag })
 </div>
 
-<h2>Результаты по запросу @ViewBag.ResultsBy:</h2>
+<h2>Результаты по запросу '@ViewBag.ResultsBy':</h2>
 <div>Сортировать по:</div>
 <div>
     @Html.Partial("PreviewSortBar")

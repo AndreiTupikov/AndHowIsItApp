@@ -5,11 +5,13 @@ using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using WebGrease.Css.Ast;
 
 namespace AndHowIsItApp.Controllers
 {
@@ -25,14 +27,14 @@ namespace AndHowIsItApp.Controllers
             return View();
         }
 
-        public ActionResult GetLatestReviews()
+        public ActionResult GetLatestPreviews()
         {
             var latestPreviews = GetAllPreviews().OrderByDescending(p => p.Date).Take(5);
             ViewBag.ParagraphName = "Последние обзоры";
             return PartialView("PreviewSet", latestPreviews);
         }
 
-        public ActionResult GetTopReviews()
+        public ActionResult GetTopPreviews()
         {
             var topPreviews = GetAllPreviews().OrderByDescending(p => p.Likes).ThenByDescending(p => p.Date).Take(5);
             ViewBag.ParagraphName = "Лучшие обзоры за все время";
@@ -47,8 +49,15 @@ namespace AndHowIsItApp.Controllers
             return PartialView();
         }
 
-        public ActionResult SearchResults(string tagName, int? category)
+        public ActionResult SearchResults(string searchString, string tagName, int? category)
         {
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var reviewIds = FullTextSearch(searchString);
+                var previews = GetAllPreviews().Where(p => reviewIds.Any(id => id == p.ReviewId)).OrderByDescending(p => p.Date);
+                ViewBag.ResultsBy = searchString;
+                return View(previews);
+            }
             if (tagName != null)
             {
                 var tag = db.Tags.Include("Reviews").First(t => t.Name == tagName);
@@ -72,16 +81,37 @@ namespace AndHowIsItApp.Controllers
             }
         }
 
+        public List<int> FullTextSearch(string searchString)
+        {
+            SqlParameter searchText = new SqlParameter("@text", searchString);
+            SqlParameter searchLang = new SqlParameter("@language", GetSearchLanguage(searchString));
+            var reviewIds = db.Database.SqlQuery<int>("FreeTextSearch @text, @language", searchText, searchLang).ToList();
+            return reviewIds;
+        }
+
+        public string GetSearchLanguage(string text)
+        {
+            int en = 0; int ru = 0;
+            foreach (var t in text.ToLower())
+            {
+                if (t > 1071 && t < 1104) ru++;
+                else if (t > 96 && t < 123) en++;
+            }
+            return ru > en ? "russian" : "english";
+        }
+
         public IEnumerable<PreviewModel> GetAllPreviews()
         {
-            return db.Reviews.Select(r => new PreviewModel {
+            return db.Reviews.Select(r => new PreviewModel
+            {
                 ReviewId = r.Id,
                 UserId = r.ApplicationUser.Id,
-                OwnerName = r.ApplicationUser.UserName,
+                AuthorName = r.ApplicationUser.UserName,
                 SubjectId = r.Subject.Id,
                 Subject = r.Subject.Name,
                 Category = r.Subject.Category.Name,
-                Title = r.Name, Rating = r.ReviewerRating,
+                Title = r.Name,
+                Rating = r.ReviewerRating,
                 Likes = db.UserLikes.Where(l => l.Review.Id == r.Id).Count(),
                 Date = r.CreateDate
             });
@@ -219,7 +249,7 @@ namespace AndHowIsItApp.Controllers
         {
             if (userId == null || !User.IsInRole("admin")) userId = User.Identity.GetUserId();
             var userName = db.Users.FirstOrDefault(u => u.Id == userId).UserName;
-            var previews = GetAllPreviews().Where(p => p.OwnerName == userName).OrderByDescending(p => p.Date);
+            var previews = GetAllPreviews().Where(p => p.AuthorName == userName).OrderByDescending(p => p.Date);
             if (User.IsInRole("admin")) ViewBag.UserId = userId;
             ViewBag.UserName = db.Users.Single(u => u.Id == userId).UserName;
             ViewBag.UserLikes = GetTotalUserLikes(userId);

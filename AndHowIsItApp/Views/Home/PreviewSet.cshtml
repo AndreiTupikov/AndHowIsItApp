@@ -4,8 +4,8 @@
 <table id="resultTable" class="table table-bordered">
     <tr>
         <td>Id</td>
-        <td>Owner</td>
-        <td>OR</td>
+        <td>Author</td>
+        <td>AR</td>
         <td>Category</td>
         <td>Subject</td>
         <td>SR</td>
@@ -21,7 +21,7 @@
         {
         <tr name="previewSet">
             <td>@(i++)</td>
-            <td>@p.OwnerName</td>
+            <td>@p.AuthorName</td>
             <td>@Html.Action("GetTotalUserLikes", new { userId = p.UserId })</td>
             <td>@p.Category</td>
             <td>@p.Subject</td>

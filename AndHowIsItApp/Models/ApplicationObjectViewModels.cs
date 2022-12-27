@@ -36,7 +36,7 @@ namespace AndHowIsItApp.Models
     {
         public int ReviewId { get; set; }
         public string UserId { get; set; }
-        public string OwnerName { get; set; }
+        public string AuthorName { get; set; }
         public int SubjectId { get; set; }
         public string Subject { get; set; }
         public string Category { get; set; }
