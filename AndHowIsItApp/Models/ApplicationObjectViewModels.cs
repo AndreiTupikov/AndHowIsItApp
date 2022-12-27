@@ -17,6 +17,7 @@ namespace AndHowIsItApp.Models
         [Required]
         public string Text { get; set; }
         [Required]
+        [Range(1, 10, ErrorMessage = "Оценка от 1 до 10")]
         public int ReviewerRating { get; set; }
         public SelectList AllCategories { get; set; }
     }
@@ -30,6 +31,7 @@ namespace AndHowIsItApp.Models
         [Required]
         public string Text { get; set; }
         [Required]
+        [Range(1, 10, ErrorMessage = "Оценка от 1 до 10")]
         public int ReviewerRating { get; set; }
     }
     public class PreviewModel

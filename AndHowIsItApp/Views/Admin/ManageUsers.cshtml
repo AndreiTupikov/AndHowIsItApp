@@ -9,6 +9,7 @@
         <td>User Name</td>
         <td>Email</td>
         <td>Personal Page</td>
+        <td>Role</td>
         <td>Block/Unblock</td>
         <td>Delete</td>
         @if (User.IsInRole("adminMaster"))
@@ -24,7 +25,19 @@
                 <td>@user.UserName</td>
                 <td>@user.Email</td>
                 <td>@Html.ActionLink("Персональная страница", "PersonalPage", "Home", new { userId = user.Id }, null)</td>
-                if (user.IsBlocked)
+                if (user.IsAdmin)
+                {
+                    <td>admin</td>
+                }
+                else
+                {
+                    <td>user</td>
+                }
+                if (user.IsAdmin)
+                {
+                    <td></td>
+                }
+                else if (user.IsBlocked)
                 {
                     <td><button name="option" value="block">Разблокировать</button></td>
                 }
@@ -32,7 +45,14 @@
                 {
                     <td><button name="option" value="block">Заблокировать</button></td>
                 }
-                <td><button name="option" value="delete">Удалить</button></td>
+                if (user.IsAdmin)
+                {
+                    <td></td>
+                }
+                else
+                {
+                    <td><button name="option" value="delete">Удалить</button></td>
+                }
                 if (User.IsInRole("adminMaster"))
                 {
                     if (user.IsAdmin)
