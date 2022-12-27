@@ -24,6 +24,11 @@
                 @Html.ActionLink("И как оно?", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div>
+                @using(Html.BeginForm("SearchResults", "Home"))
+                {
+                    <input type="text" name="searchString" />
+                    <input type="submit" value="Поиск"/>
+                }
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Главная страница", "Index", "Home")</li>
                     <li>@Html.ActionLink("Моя страница", "PersonalPage", "Home")</li>
