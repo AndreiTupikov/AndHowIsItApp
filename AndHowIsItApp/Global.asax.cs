@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AndHowIsItApp.Models;
+using System;
+using System.Data.Entity;
 using System.Globalization;
 using System.Threading;
 using System.Web;

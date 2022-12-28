@@ -110,7 +110,7 @@ namespace AndHowIsItApp.Controllers
                 AuthorName = r.ApplicationUser.UserName,
                 SubjectId = r.Subject.Id,
                 Subject = r.Subject.Name,
-                Category = GetLocalizedCategory(r.Subject.Category.Name),
+                Category = r.Subject.Category.Name,
                 Title = r.Name,
                 Rating = r.ReviewerRating,
                 Likes = db.UserLikes.Where(l => l.Review.Id == r.Id).Count(),

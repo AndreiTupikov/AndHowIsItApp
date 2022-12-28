@@ -70,29 +70,29 @@ namespace AndHowIsItApp.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Video Games.
-        /// </summary>
-        public static string Игры {
-            get {
-                return ResourceManager.GetString("Игры", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на Books.
         /// </summary>
-        public static string Книги {
+        public static string Books {
             get {
-                return ResourceManager.GetString("Книги", resourceCulture);
+                return ResourceManager.GetString("Books", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Ищет локализованную строку, похожую на Movies.
         /// </summary>
-        public static string Фильмы {
+        public static string Movies {
             get {
-                return ResourceManager.GetString("Фильмы", resourceCulture);
+                return ResourceManager.GetString("Movies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Video Games.
+        /// </summary>
+        public static string Video_Games {
+            get {
+                return ResourceManager.GetString("Video Games", resourceCulture);
             }
         }
     }

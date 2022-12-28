@@ -61,9 +61,9 @@ namespace AndHowIsItApp.Models
                 userManager.AddToRole(admin.Id, role2.Name);
                 userManager.AddToRole(admin.Id, role3.Name);
             }
-            context.Categories.Add(new Category { Name = "Книги" });
-            context.Categories.Add(new Category { Name = "Фильмы" });
-            context.Categories.Add(new Category { Name = "Игры" });
+            context.Categories.Add(new Category { Name = "Books" });
+            context.Categories.Add(new Category { Name = "Movies" });
+            context.Categories.Add(new Category { Name = "Video Games" });
             base.Seed(context);
         }
     }

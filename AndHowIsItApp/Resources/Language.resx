@@ -120,13 +120,13 @@
   <data name="ApplicationName" xml:space="preserve">
     <value>And How Is It?</value>
   </data>
-  <data name="Игры" xml:space="preserve">
-    <value>Video Games</value>
-  </data>
-  <data name="Книги" xml:space="preserve">
+  <data name="Books" xml:space="preserve">
     <value>Books</value>
   </data>
-  <data name="Фильмы" xml:space="preserve">
+  <data name="Movies" xml:space="preserve">
     <value>Movies</value>
+  </data>
+  <data name="Video Games" xml:space="preserve">
+    <value>Video Games</value>
   </data>
 </root>
