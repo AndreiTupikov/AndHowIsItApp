@@ -21,13 +21,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("И как оно?", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink(AndHowIsItApp.Resources.Language.ApplicationName, "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div>
-                @using(Html.BeginForm("SearchResults", "Home"))
+                @Html.Partial("_LanguagePartial")
+            </div>
+            <div>
+                @using (Html.BeginForm("SearchResults", "Home"))
                 {
                     <input type="text" name="searchString" />
-                    <input type="submit" value="Поиск"/>
+                    <input type="submit" value="Поиск" />
                 }
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Главная страница", "Index", "Home")</li>

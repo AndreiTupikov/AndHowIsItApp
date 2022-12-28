@@ -8,6 +8,8 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Resources;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -44,7 +46,7 @@ namespace AndHowIsItApp.Controllers
         {
             var tags = db.Tags.Include("Reviews").Where(t => t.Reviews.Count > 0).Where(t => t.Name != tag);
             ViewBag.Tags = tags.OrderByDescending(t => t.Reviews.Count).Take(10);
-            ViewBag.Categories = new SelectList(db.Categories, "Id", "Name", selectedValue: category);
+            ViewBag.Categories = new SelectList(db.Categories.ToList().Select(c => new { c.Id, Name = GetLocalizedCategory(c.Name) } ), "Id", "Name", selectedValue: category);
             return PartialView();
         }
 
@@ -80,7 +82,7 @@ namespace AndHowIsItApp.Controllers
             }
         }
 
-        public List<int> FullTextSearch(string searchString)
+        private List<int> FullTextSearch(string searchString)
         {
             SqlParameter searchText = new SqlParameter("@text", searchString);
             SqlParameter searchLang = new SqlParameter("@language", GetSearchLanguage(searchString));
@@ -108,7 +110,7 @@ namespace AndHowIsItApp.Controllers
                 AuthorName = r.ApplicationUser.UserName,
                 SubjectId = r.Subject.Id,
                 Subject = r.Subject.Name,
-                Category = r.Subject.Category.Name,
+                Category = GetLocalizedCategory(r.Subject.Category.Name),
                 Title = r.Name,
                 Rating = r.ReviewerRating,
                 Likes = db.UserLikes.Where(l => l.Review.Id == r.Id).Count(),
@@ -134,7 +136,7 @@ namespace AndHowIsItApp.Controllers
         {
             ReviewCreateViewModel model = new ReviewCreateViewModel
             {
-                AllCategories = new SelectList(db.Categories, "Id", "Name"),
+                AllCategories = new SelectList(db.Categories.ToList().Select(c => new { c.Id, Name = GetLocalizedCategory(c.Name) }), "Id", "Name"),
                 UserId = userId
             };
             return View(model);
@@ -182,7 +184,7 @@ namespace AndHowIsItApp.Controllers
                 if (!User.IsInRole("admin")) return RedirectToAction("PersonalPage");
                 return RedirectToAction("PersonalPage", new { model.UserId });
             }
-            model.AllCategories = new SelectList(db.Categories, "Id", "Name");
+            model.AllCategories = new SelectList(db.Categories.ToList().Select(c => new { c.Id, Name = GetLocalizedCategory(c.Name) }), "Id", "Name");
             return View(model);
         }
 
@@ -354,14 +356,6 @@ namespace AndHowIsItApp.Controllers
             return Json(tags, JsonRequestBehavior.AllowGet);
         }
 
-        //[Authorize(Roles = "admin")]
-        //public ActionResult ManageUsers()
-        //{
-        //    var users = db.Users;
-        //    ViewBag.Users = users;
-        //    return View();
-        //}
-
         private async Task UploadPicture(string folder, int file, HttpPostedFileBase picture)
         {
             byte[] pictureData = null;
@@ -418,6 +412,12 @@ namespace AndHowIsItApp.Controllers
                 return PartialView(comments);
             }
             return RedirectToAction("Index");
+        }
+
+        private string GetLocalizedCategory(string category)
+        {
+            ResourceManager rm = new ResourceManager("AndHowIsItApp.Resources.Language", Assembly.GetExecutingAssembly());
+            return rm.GetString(category);
         }
     }
 }
