@@ -25,11 +25,11 @@
             <td>@p.Author.Likes</td>
             <td>@p.Subject.Category</td>
             <td>@p.Subject.Name</td>
-            <td>@p.Subject.Rating</td>
+            <td id="subjectRating">@p.Subject.Rating</td>
             <td>@p.Title</td>
-            <td>@p.Likes</td>
-            <td>@p.Rating</td>
-            <td>@p.Date</td>
+            <td id="likes">@p.Likes</td>
+            <td id="reviewerRating">@p.Rating</td>
+            <td id="date">@p.Date</td>
             <td>@Html.ActionLink("Просмотр", "ReviewPage", new { reviewId = p.ReviewId }, null)</td>
         </tr>
         }

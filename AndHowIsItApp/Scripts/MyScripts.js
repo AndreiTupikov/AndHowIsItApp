@@ -138,8 +138,9 @@ function sortResults() {
     });
 }
 
-//переделать форматирование даты при переключении локализации
 function dateFormatter(date) {
+    var miliseconds = Date.parse(date);
+    if (Number.isInteger(miliseconds)) return miliseconds;
     var dateAndTime = date.split(' ');
     var date = dateAndTime[0].split('.');
     return new Date(date[2] + '-' + date[1] + '-' + date[0] + 'T' + dateAndTime[1]);

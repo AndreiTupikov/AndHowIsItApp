@@ -59,20 +59,6 @@ namespace AndHowIsItApp.Models
         public int Likes { get; set; }
         public DateTime Date { get; set; }
     }
-    public class ReviewShowViewModel
-    {
-        public int Id { get; set; }
-        public string AuthorId { get; set; }
-        public UserViewModel Author { get; set; }
-        public SubjectViewModel Subject { get; set; }
-        public string Title { get; set; }
-        public int Likes { get; set; }
-        public string Text { get; set; }
-        public int Rating { get; set; }
-        public DateTime CreateDate { get; set; }
-        public DateTime LastChangeDate { get; set; }
-        public List<string> Tags { get; set; }
-    }
     public class UserViewModel
     {
         public string UserName { get; set; }

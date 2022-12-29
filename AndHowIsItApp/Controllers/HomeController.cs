@@ -38,7 +38,7 @@ namespace AndHowIsItApp.Controllers
         public ActionResult GetTopPreviews()
         {
             var reviews = db.Reviews.Include("ApplicationUser").Include("Subject.Category").ToList();
-            var topPreviews = GetPreviewSet(reviews).OrderByDescending(p => p.Likes).Take(5);
+            var topPreviews = GetPreviewSet(reviews).OrderByDescending(p => p.Likes).ThenByDescending(p => p.Date).Take(5);
             ViewBag.ParagraphName = "Лучшие обзоры за все время";
             return PartialView("PreviewSet", topPreviews);
         }
@@ -78,9 +78,9 @@ namespace AndHowIsItApp.Controllers
                     var categoryReviews = reviews.Where(r => r.Subject.Category.Id == subjectCategory.Id).ToList();
                     ViewBag.ResultsBy = GetLocalizedCategory(subjectCategory.Name);
                     ViewBag.SelectedCategory = category;
-                    return View(GetPreviewSet(categoryReviews));
+                    return View(GetPreviewSet(categoryReviews).OrderByDescending(p => p.Date));
                 }
-                return View(GetPreviewSet(reviews.ToList()));
+                return View(GetPreviewSet(reviews.ToList()).OrderByDescending(p => p.Date));
             }
         }
 
@@ -213,11 +213,6 @@ namespace AndHowIsItApp.Controllers
             }
             return RedirectToAction("Index");
         }
-        //---------------------------------
-        //---------------------------------
-        // Сделать выборку тегов через метод!
-        //---------------------------------
-        //---------------------------------
 
         [Authorize]
         [HttpPost]
