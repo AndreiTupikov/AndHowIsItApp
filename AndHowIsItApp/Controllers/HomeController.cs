@@ -30,14 +30,15 @@ namespace AndHowIsItApp.Controllers
 
         public ActionResult GetLatestPreviews()
         {
-            var latestPreviews = GetAllPreviews().OrderByDescending(p => p.Date).Take(5);
+            var latestReviews = db.Reviews.OrderByDescending(r => r.CreateDate).Take(5).Include("ApplicationUser").Include("Subject.Category").ToList();
             ViewBag.ParagraphName = "Последние обзоры";
-            return PartialView("PreviewSet", latestPreviews);
+            return PartialView("PreviewSet", GetPreviewSet(latestReviews));
         }
 
         public ActionResult GetTopPreviews()
         {
-            var topPreviews = GetAllPreviews().OrderByDescending(p => p.Likes).ThenByDescending(p => p.Date).Take(5);
+            var reviews = db.Reviews.Include("ApplicationUser").Include("Subject.Category").ToList();
+            var topPreviews = GetPreviewSet(reviews).OrderByDescending(p => p.Likes).Take(5);
             ViewBag.ParagraphName = "Лучшие обзоры за все время";
             return PartialView("PreviewSet", topPreviews);
         }
@@ -55,30 +56,31 @@ namespace AndHowIsItApp.Controllers
             if (!string.IsNullOrWhiteSpace(searchString))
             {
                 var reviewIds = FullTextSearch(searchString);
-                var previews = GetAllPreviews().Where(p => reviewIds.Any(id => id == p.ReviewId)).OrderByDescending(p => p.Date);
+                var reviews = db.Reviews.Where(r => reviewIds.Any(id => id == r.Id)).OrderByDescending(r => r.CreateDate).Include("ApplicationUser").Include("Subject.Category").ToList();
                 ViewBag.ResultsBy = searchString;
-                return View(previews);
+                return View(GetPreviewSet(reviews));
             }
             if (tagName != null)
             {
-                var tag = db.Tags.Include("Reviews").First(t => t.Name == tagName);
-                var previews = GetAllPreviews().Where(p => tag.Reviews.Any(r => r.Id == p.ReviewId)).OrderByDescending(p => p.Date);
+                var tagReviewsIds = db.Tags.Include("Reviews").First(t => t.Name == tagName).Reviews.Select(r => r.Id).ToList();
+                var reviews = db.Reviews.Where(r => tagReviewsIds.Any(tr => tr == r.Id)).OrderByDescending(r => r.CreateDate).Include("ApplicationUser").Include("Subject.Category").ToList();
                 ViewBag.SelectedTag = tagName;
                 ViewBag.ResultsBy = tagName;
-                return View(previews);
+                return View(GetPreviewSet(reviews));
             }
             else
             {
                 var subjectCategory = db.Categories.FirstOrDefault(s => s.Id == category);
-                var previews = GetAllPreviews().OrderByDescending(p => p.Date);
-                ViewBag.ResultsBy = "Все категории";
+                var reviews = db.Reviews.Include("ApplicationUser").Include("Subject.Category");
+                ViewBag.ResultsBy = Resources.Language.AllCategories;
                 if (category != null)
                 {
-                    previews = previews.Where(p => p.Category == subjectCategory.Name).OrderByDescending(p => p.Date);
-                    ViewBag.ResultsBy = subjectCategory.Name;
+                    var categoryReviews = reviews.Where(r => r.Subject.Category.Id == subjectCategory.Id).ToList();
+                    ViewBag.ResultsBy = GetLocalizedCategory(subjectCategory.Name);
+                    ViewBag.SelectedCategory = category;
+                    return View(GetPreviewSet(categoryReviews));
                 }
-                ViewBag.SelectedCategory = category;
-                return View(previews);
+                return View(GetPreviewSet(reviews.ToList()));
             }
         }
 
@@ -90,45 +92,48 @@ namespace AndHowIsItApp.Controllers
             return reviewIds;
         }
 
-        public string GetSearchLanguage(string text)
+        public ActionResult GetPreviewsBySubject(int? subject, int? currentReview)
         {
-            int en = 0; int ru = 0;
-            foreach (var t in text.ToLower())
-            {
-                if (t > 1071 && t < 1104) ru++;
-                else if (t > 96 && t < 123) en++;
-            }
-            return ru > en ? "russian" : "english";
+            var subjectReviews = db.Reviews.Where(r => r.Subject.Id == subject).Where(r => r.Id != currentReview).Include("ApplicationUser").Include("Subject.Category").ToList();
+            ViewBag.ParagraphName = "Другие обзоры на это произведение";
+            return PartialView("PreviewSet", GetPreviewSet(subjectReviews));
         }
 
-        public IEnumerable<PreviewModel> GetAllPreviews()
+        public IEnumerable<PreviewModel> GetPreviewSet(List<Review> reviews)
         {
-            return db.Reviews.Select(r => new PreviewModel
+            var previews = reviews.Select(r => new PreviewModel
             {
                 ReviewId = r.Id,
-                UserId = r.ApplicationUser.Id,
-                AuthorName = r.ApplicationUser.UserName,
-                SubjectId = r.Subject.Id,
-                Subject = r.Subject.Name,
-                Category = r.Subject.Category.Name,
+                Author = new UserViewModel { UserName = r.ApplicationUser.UserName, Likes = GetTotalUserLikes(r.ApplicationUser.Id) },
+                Subject = new SubjectViewModel { Id = r.Subject.Id, Category = GetLocalizedCategory(r.Subject.Category.Name), Name = r.Subject.Name, Rating = GetSubjectRating(r.Subject.Id) },
                 Title = r.Name,
                 Rating = r.ReviewerRating,
-                Likes = db.UserLikes.Where(l => l.Review.Id == r.Id).Count(),
+                Likes = GetReviewLikes(r.Id),
                 Date = r.CreateDate
             });
+            return previews;
         }
 
-        public async Task<ActionResult> ReviewPage(int reviewId)
+        public async Task<ActionResult> ReviewPage(int? reviewId)
         {
-            var review = db.Reviews.Where(r => r.Id == reviewId).Include("ApplicationUser").Include("Subject").FirstOrDefault();
+            var review = db.Reviews.Where(r => r.Id == reviewId).Include("ApplicationUser").Include("Subject.Category").FirstOrDefault();
             if (review == null) return RedirectToAction("Index");
-            var tags = db.Tags.Where(t => t.Reviews.Any(r => r.Id == review.Id));
-            var rating = GetSubjectRating(review.Subject.Id);
-            ViewBag.SubjectRating = rating == 0 ? "Оценок нет" : rating.ToString();
-            ViewBag.ReviewLikes = GetReviewLikes(reviewId);
+            var showReview = new ReviewShowViewModel
+            {
+                Id = review.Id,
+                AuthorId = review.ApplicationUser.Id,
+                Author = new UserViewModel { UserName = review.ApplicationUser.UserName, Likes = GetTotalUserLikes(review.ApplicationUser.Id) },
+                Subject = new SubjectViewModel { Id = review.Subject.Id, Category = GetLocalizedCategory(review.Subject.Category.Name), Name = review.Subject.Name, Rating = GetSubjectRating(review.Subject.Id) },
+                Title = review.Name,
+                Likes = GetReviewLikes(review.Id),
+                Text = review.Text,
+                Rating = review.ReviewerRating,
+                CreateDate = review.CreateDate,
+                LastChangeDate = review.LastChangeDate,
+                Tags = GetReviewTags(review.Id)
+            };
             ViewBag.Picture = await DownloadPicture(review.PictureLink);
-            ViewBag.Tags = tags;
-            return View(review);
+            return View(showReview);
         }
 
         [Authorize]
@@ -208,6 +213,11 @@ namespace AndHowIsItApp.Controllers
             }
             return RedirectToAction("Index");
         }
+        //---------------------------------
+        //---------------------------------
+        // Сделать выборку тегов через метод!
+        //---------------------------------
+        //---------------------------------
 
         [Authorize]
         [HttpPost]
@@ -250,11 +260,11 @@ namespace AndHowIsItApp.Controllers
         {
             if (userId == null || !User.IsInRole("admin")) userId = User.Identity.GetUserId();
             var userName = db.Users.FirstOrDefault(u => u.Id == userId).UserName;
-            var previews = GetAllPreviews().Where(p => p.AuthorName == userName).OrderByDescending(p => p.Date);
+            var reviews = db.Reviews.Include("ApplicationUser").Where(r => r.ApplicationUser.Id == userId).Include("Subject.Category").OrderByDescending(r => r.CreateDate).ToList();
             if (User.IsInRole("admin")) ViewBag.UserId = userId;
             ViewBag.UserName = db.Users.Single(u => u.Id == userId).UserName;
             ViewBag.UserLikes = GetTotalUserLikes(userId);
-            return View(previews);
+            return View(GetPreviewSet(reviews));
         }
 
         [Authorize]
@@ -355,6 +365,11 @@ namespace AndHowIsItApp.Controllers
             var tags = db.Tags.Where(s => s.Name.Contains(prefix)).Take(5).ToList();
             return Json(tags, JsonRequestBehavior.AllowGet);
         }
+        private List<string> GetReviewTags(int reviewId)
+        {
+            var tags = db.Tags.Where(t => t.Reviews.Any(r => r.Id == reviewId)).Select(t => t.Name).ToList();
+            return tags;
+        }
 
         private async Task UploadPicture(string folder, int file, HttpPostedFileBase picture)
         {
@@ -408,8 +423,9 @@ namespace AndHowIsItApp.Controllers
             if (reviewId != 0)
             {
                 if (Request.IsAjaxRequest() && db.Reviews.First(r => r.Id == reviewId).LastCommentDate.AddSeconds(6) < DateTime.Now) return null;
-                var comments = db.Comments.Where(c => c.Review.Id == reviewId).OrderBy(c => c.Date).Include("ApplicationUser");
-                return PartialView(comments);
+                var comments = db.Comments.Where(c => c.Review.Id == reviewId).OrderBy(c => c.Date).Include("ApplicationUser").ToList();
+                var commentsView = comments.Select(c => new CommentViewModel { Author = new UserViewModel { UserName = c.ApplicationUser.UserName, Likes = GetTotalUserLikes(c.ApplicationUser.Id) }, Text = c.Text, Date = c.Date });
+                return PartialView(commentsView);
             }
             return RedirectToAction("Index");
         }
@@ -418,6 +434,17 @@ namespace AndHowIsItApp.Controllers
         {
             ResourceManager rm = new ResourceManager("AndHowIsItApp.Resources.Language", Assembly.GetExecutingAssembly());
             return rm.GetString(category);
+        }
+
+        private string GetSearchLanguage(string text)
+        {
+            int en = 0; int ru = 0;
+            foreach (var t in text.ToLower())
+            {
+                if (t > 1071 && t < 1104) ru++;
+                else if (t > 96 && t < 123) en++;
+            }
+            return ru > en ? "russian" : "english";
         }
     }
 }

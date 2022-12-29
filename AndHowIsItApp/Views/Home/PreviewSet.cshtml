@@ -21,15 +21,15 @@
         {
         <tr name="previewSet">
             <td>@(i++)</td>
-            <td>@p.AuthorName</td>
-            <td>@Html.Action("GetTotalUserLikes", new { userId = p.UserId })</td>
-            <td>@p.Category</td>
-            <td>@p.Subject</td>
-            <td id="subjectRating">@Html.Action("GetSubjectRating", new { subjectId = p.SubjectId })</td>
+            <td>@p.Author.UserName</td>
+            <td>@p.Author.Likes</td>
+            <td>@p.Subject.Category</td>
+            <td>@p.Subject.Name</td>
+            <td>@p.Subject.Rating</td>
             <td>@p.Title</td>
-            <td id="likes">@Html.Action("GetReviewLikes", new { reviewId = p.ReviewId })</td>
-            <td id="reviewerRating">@p.Rating</td>
-            <td id="date">@p.Date</td>
+            <td>@p.Likes</td>
+            <td>@p.Rating</td>
+            <td>@p.Date</td>
             <td>@Html.ActionLink("Просмотр", "ReviewPage", new { reviewId = p.ReviewId }, null)</td>
         </tr>
         }

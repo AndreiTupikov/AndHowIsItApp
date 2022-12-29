@@ -1,9 +1,10 @@
-﻿@model IEnumerable<AndHowIsItApp.Models.Comment>
+﻿@model IEnumerable<AndHowIsItApp.Models.CommentViewModel>
 
-@foreach (var r in Model)
+@foreach (var c in Model)
 {
-    <div>@r.ApplicationUser.UserName</div>
-    <div>@r.Text</div>
-    <div>@r.Date</div>
+    <div>@c.Author.UserName</div>
+    <div>@c.Author.Likes</div>
+    <div>@c.Text</div>
+    <div>@c.Date</div>
     <br />
 }

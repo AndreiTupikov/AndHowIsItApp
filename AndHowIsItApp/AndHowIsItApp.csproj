@@ -327,13 +327,13 @@
     <Content Include="Views\Home\CreateReview.cshtml" />
     <Content Include="Views\Home\PersonalPage.cshtml" />
     <Content Include="Views\Home\PreviewSet.cshtml" />
-    <Content Include="Views\Home\ReviewPage.cshtml" />
     <Content Include="Views\Home\GetComments.cshtml" />
     <Content Include="Views\Home\SearchResults.cshtml" />
     <Content Include="Views\Home\EditReview.cshtml" />
     <Content Include="Views\Home\TagCloud.cshtml" />
     <Content Include="Views\Home\PreviewSortBar.cshtml" />
     <Content Include="Views\Shared\_LanguagePartial.cshtml" />
+    <Content Include="Views\Home\ReviewPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

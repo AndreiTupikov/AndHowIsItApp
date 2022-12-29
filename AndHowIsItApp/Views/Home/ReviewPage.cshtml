@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
-@model AndHowIsItApp.Models.Review
+@model AndHowIsItApp.Models.ReviewShowViewModel
 
 @{
     ViewBag.Title = "ReviewPage";
@@ -8,15 +8,16 @@
 @Html.Raw("<img style='width:200px; height:200px;' src=\"data:image/jpeg;base64,"
                                 + Convert.ToBase64String(ViewBag.Picture) + "\" />")
 
-@if (User.IsInRole("admin") || User.Identity.GetUserId() == Model.ApplicationUser.Id)
+@if (User.IsInRole("admin") || User.Identity.GetUserId() == Model.AuthorId)
 {
-    <div>@Html.ActionLink("Изменить", "EditReview", new { userId = Model.ApplicationUser.Id, reviewId = Model.Id }, null)</div>
-    <div>@Html.ActionLink("Удалить", "DeleteReview", new { userId = Model.ApplicationUser.Id, reviewId = Model.Id }, null)</div>
+    <div>@Html.ActionLink("Изменить", "EditReview", new { userId = Model.AuthorId, reviewId = Model.Id }, null)</div>
+    <div>@Html.ActionLink("Удалить", "DeleteReview", new { userId = Model.AuthorId, reviewId = Model.Id }, null)</div>
 }
 
 <div hidden id="subject-id">@Model.Subject.Id</div>
+<h2>Категория: @Model.Subject.Category</h2>
 <h1>@Model.Subject.Name</h1>
-<div id="usersRating">@ViewBag.SubjectRating</div>
+<div id="usersRating">@Model.Subject.Rating</div>
 
 @if (Request.IsAuthenticated)
 {
@@ -30,33 +31,37 @@
 <br />
 
 <div hidden id="review-id">@Model.Id</div>
-<h2>@Model.Name</h2>
-<div id="allReviewLikes">@ViewBag.ReviewLikes</div>
+<h2>@Model.Title</h2>
+<div id="allReviewLikes">@Model.Likes</div>
 
 @if (Request.IsAuthenticated)
 {
     <input type="checkbox" name="reviewLike" id="reviewLike" onchange="likeReview()" />
 }
 
-<h2>Автор @Model.ApplicationUser.UserName</h2>
+<h2>Автор @Model.Author.UserName</h2>
+<h3>@Model.Author.Likes</h3>
 
 <div>Создано @Model.CreateDate</div>
 
 
 <div>@Model.Text</div>
 
-<h2>@Model.ReviewerRating/10</h2>
+<h2>@Model.Rating/10</h2>
 
 @using (Html.BeginForm("SearchResults", "Home"))
 {
-    foreach (var tag in ViewBag.Tags)
+    foreach (var tag in Model.Tags)
     {
-        <input type="submit" name="tagName" value="@tag.Name">
+        <input type="submit" name="tagName" value="@tag">
     }
 }
 
 <div>Изменено @Model.LastChangeDate</div>
 
+<div>
+    @Html.Action("GetPreviewsBySubject", new { subject = Model.Subject.Id, currentReview = Model.Id })
+</div>
 @{
     if (Request.IsAuthenticated)
     {

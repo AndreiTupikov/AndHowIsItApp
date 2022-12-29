@@ -46,20 +46,20 @@ namespace AndHowIsItApp.Controllers
             return RedirectToAction("ManageUsers", "Admin");
         }
 
-        public void BlockUser(ApplicationUser user)
+        private void BlockUser(ApplicationUser user)
         {
             user.LockoutEndDateUtc = DateTime.Now.AddYears(100);
             userManager.UpdateSecurityStamp(user.Id);
             db.SaveChanges();
         }
 
-        public void UnblockUser(ApplicationUser user)
+        private void UnblockUser(ApplicationUser user)
         {
             user.LockoutEndDateUtc = null;
             db.SaveChanges();
         }
 
-        public void DeleteUser(ApplicationUser user)
+        private void DeleteUser(ApplicationUser user)
         {
             var reviews = db.Reviews.Where(r => r.ApplicationUser.Id == user.Id);
             db.Reviews.RemoveRange(reviews);
@@ -67,15 +67,13 @@ namespace AndHowIsItApp.Controllers
             db.SaveChanges();
         }
 
-        [Authorize(Roles = "adminMaster")]
-        public void MakeAdmin(ApplicationUser user)
+        private void MakeAdmin(ApplicationUser user)
         {
             userManager.AddToRole(user.Id, "admin");
             db.SaveChanges();
         }
 
-        [Authorize(Roles = "adminMaster")]
-        public void UnmakeAdmin(ApplicationUser user)
+        private void UnmakeAdmin(ApplicationUser user)
         {
             userManager.RemoveFromRole(user.Id, "admin");
             db.SaveChanges();
