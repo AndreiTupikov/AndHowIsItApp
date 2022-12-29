@@ -5,7 +5,7 @@
         <input type="submit" name="tagName" value="@t.Name">
     }
     <div class="col-md-10">
-        @Html.DropDownList("category", ViewBag.Categories as SelectList, "Все", new { @class = "form-control" })
+        @Html.DropDownList("category", ViewBag.Categories as SelectList, AndHowIsItApp.Resources.Language.AllCategories, new { @class = "form-control" })
         <input type="submit" value="Показать">
     </div>
 }

@@ -34,6 +34,7 @@ namespace AndHowIsItApp.Models
         [Required]
         [Range(1, 10, ErrorMessage = "Оценка от 1 до 10")]
         public int ReviewerRating { get; set; }
+        public List<string> Tags { get; set; }
     }
     public class ReviewShowViewModel
     {

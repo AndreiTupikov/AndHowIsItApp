@@ -206,9 +206,9 @@ namespace AndHowIsItApp.Controllers
                     UserId = userId,
                     Title = review.Name,
                     Text = review.Text,
-                    ReviewerRating = review.ReviewerRating
+                    ReviewerRating = review.ReviewerRating,
+                    Tags = GetReviewTags(review.Id)
                 };
-                ViewBag.Tags = db.Tags.Where(t => t.Reviews.Any(r => r.Id == review.Id)).Select(t => t.Name);
                 return View(model);
             }
             return RedirectToAction("Index");
@@ -216,7 +216,7 @@ namespace AndHowIsItApp.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult EditReview(ReviewEditViewModel model, string[] tags)
+        public ActionResult EditReview(ReviewEditViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -227,9 +227,9 @@ namespace AndHowIsItApp.Controllers
                 var oldTags = db.Tags.Where(t => t.Reviews.Any(r => r.Id == review.Id));
                 foreach (var tag in oldTags)
                 {
-                    if (!tags.Any(t => t.Trim() == tag.Name)) review.Tags.Remove(tag);
+                    if (!model.Tags.Any(t => t.Trim() == tag.Name)) review.Tags.Remove(tag);
                 }
-                foreach (var tag in tags)
+                foreach (var tag in model.Tags)
                 {
                     var tg = tag.Trim();
                     if (tg.Length > 0 && !oldTags.Any(o => o.Name == tg))
