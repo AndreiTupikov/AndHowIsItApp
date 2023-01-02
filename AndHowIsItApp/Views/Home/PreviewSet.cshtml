@@ -4,6 +4,7 @@
 <table id="resultTable" class="table table-bordered">
     <tr>
         <td>Id</td>
+        <td>Picture</td>
         <td>Author</td>
         <td>AR</td>
         <td>Category</td>
@@ -19,19 +20,20 @@
         int i = 1;
         foreach (var p in Model)
         {
-        <tr name="previewSet">
-            <td>@(i++)</td>
-            <td>@p.Author.UserName</td>
-            <td>@p.Author.Likes</td>
-            <td>@p.Subject.Category</td>
-            <td>@p.Subject.Name</td>
-            <td id="subjectRating">@p.Subject.Rating</td>
-            <td>@p.Title</td>
-            <td id="likes">@p.Likes</td>
-            <td id="reviewerRating">@p.Rating</td>
-            <td id="date">@p.Date</td>
-            <td>@Html.ActionLink("Просмотр", "ReviewPage", new { reviewId = p.ReviewId }, null)</td>
-        </tr>
+            <tr name="previewSet">
+                <td>@(i++)</td>
+                <td name="picture" id="picture-@p.ReviewId" data-filepath="@p.PictureLink" data-postfix="_preview"></td>
+                <td>@p.Author.UserName</td>
+                <td>@p.Author.Likes</td>
+                <td>@p.Subject.Category</td>
+                <td>@p.Subject.Name</td>
+                <td id="subjectRating">@p.Subject.Rating</td>
+                <td>@p.Title</td>
+                <td id="likes">@p.Likes</td>
+                <td id="reviewerRating">@p.Rating</td>
+                <td id="date">@p.Date</td>
+                <td>@Html.ActionLink("Просмотр", "ReviewPage", new { reviewId = p.ReviewId }, null)</td>
+            </tr>
         }
     }
 </table>

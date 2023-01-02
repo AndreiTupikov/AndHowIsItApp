@@ -1,13 +1,16 @@
 ﻿using AndHowIsItApp.Models;
 using Dropbox.Api;
 using Dropbox.Api.Files;
+using ImageResizer;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Resources;
 using System.Threading.Tasks;
@@ -21,7 +24,7 @@ namespace AndHowIsItApp.Controllers
     {
         private ApplicationDbContext db = ApplicationDbContext.Create();
         //подкючить токен для сохранения картинок
-        private DropboxClient dbx = new DropboxClient("");
+        private DropboxClient dbx = new DropboxClient("sl.BWLEsdQ6MjSab7VJM2Axc0NkZFEyvNmxpt5Ct_IvshwVs6Xc1dyCQ2zlZB38EB6qCuBbYwht6VrbXiBnGWKS2MyrlxGydgAfvhDDkVRJlEF-0wuN9OkktUGXvQCch_sZQNWut-A");
         
         public ActionResult Index()
         {
@@ -99,13 +102,14 @@ namespace AndHowIsItApp.Controllers
             return PartialView("PreviewSet", GetPreviewSet(subjectReviews));
         }
 
-        public IEnumerable<PreviewModel> GetPreviewSet(List<Review> reviews)
+        private IEnumerable<PreviewModel> GetPreviewSet(List<Review> reviews)
         {
             var previews = reviews.Select(r => new PreviewModel
             {
                 ReviewId = r.Id,
                 Author = new UserViewModel { UserName = r.ApplicationUser.UserName, Likes = GetTotalUserLikes(r.ApplicationUser.Id) },
                 Subject = new SubjectViewModel { Id = r.Subject.Id, Category = GetLocalizedCategory(r.Subject.Category.Name), Name = r.Subject.Name, Rating = GetSubjectRating(r.Subject.Id) },
+                PictureLink = r.PictureLink,
                 Title = r.Name,
                 Rating = r.ReviewerRating,
                 Likes = GetReviewLikes(r.Id),
@@ -114,7 +118,7 @@ namespace AndHowIsItApp.Controllers
             return previews;
         }
 
-        public async Task<ActionResult> ReviewPage(int? reviewId)
+        public ActionResult ReviewPage(int? reviewId)
         {
             var review = db.Reviews.Where(r => r.Id == reviewId).Include("ApplicationUser").Include("Subject.Category").FirstOrDefault();
             if (review == null) return RedirectToAction("Index");
@@ -124,6 +128,7 @@ namespace AndHowIsItApp.Controllers
                 AuthorId = review.ApplicationUser.Id,
                 Author = new UserViewModel { UserName = review.ApplicationUser.UserName, Likes = GetTotalUserLikes(review.ApplicationUser.Id) },
                 Subject = new SubjectViewModel { Id = review.Subject.Id, Category = GetLocalizedCategory(review.Subject.Category.Name), Name = review.Subject.Name, Rating = GetSubjectRating(review.Subject.Id) },
+                PictureLink = review.PictureLink,
                 Title = review.Name,
                 Likes = GetReviewLikes(review.Id),
                 Text = review.Text,
@@ -132,7 +137,6 @@ namespace AndHowIsItApp.Controllers
                 LastChangeDate = review.LastChangeDate,
                 Tags = GetReviewTags(review.Id)
             };
-            ViewBag.Picture = await DownloadPicture(review.PictureLink);
             return View(showReview);
         }
 
@@ -183,7 +187,7 @@ namespace AndHowIsItApp.Controllers
                 if (uploadPicture != null)
                 {
                     await UploadPicture(model.UserId, review.Id, uploadPicture);
-                    review.PictureLink = "/" + model.UserId + "/" + review.Id + ".jpg";
+                    review.PictureLink = $"/{model.UserId}/{review.Id}";
                     db.SaveChanges();
                 }
                 if (!User.IsInRole("admin")) return RedirectToAction("PersonalPage");
@@ -368,30 +372,45 @@ namespace AndHowIsItApp.Controllers
 
         private async Task UploadPicture(string folder, int file, HttpPostedFileBase picture)
         {
-            byte[] pictureData = null;
-            using (var binaryReader = new BinaryReader(picture.InputStream))
+            var converter = new ImageConverter();
+            for (int i = 150; i < 301; i += 150)
             {
-                pictureData = binaryReader.ReadBytes(picture.ContentLength);
-            }
-            using (var mem = new MemoryStream(pictureData))
-            {
-                var updated = await dbx.Files.UploadAsync(
-                    "/ReviewPictures/" + folder + "/" + file + ".jpg",
-                    WriteMode.Overwrite.Instance,
-                    body: mem);
+                var pictureData = (byte[])converter.ConvertTo(ResizePicture(picture, i), typeof(byte[]));
+                using (var mem = new MemoryStream(pictureData))
+                {
+                    string postfix = i == 150 ? "_preview" : "";
+                    var updated = await dbx.Files.UploadAsync(
+                        $"/ReviewPictures/{folder}/{file + postfix}.jpg",
+                        WriteMode.Overwrite.Instance,
+                        body: mem);
+                }
             }
         }
 
-        private async Task<byte[]> DownloadPicture(string path)
+        private Bitmap ResizePicture(HttpPostedFileBase picture, int size)
         {
+            var r = ImageBuilder.Current.Build(new ImageJob
+            {
+                Source = picture,
+                Dest = typeof(Bitmap),
+                Instructions = new Instructions($"maxwidth={size}&maxheight={size}&format=jpg"),
+                AddFileExtension = true
+            });
+            return (Bitmap)r.Result;
+        }
+
+        public async Task<ActionResult> DownloadPicture(string path, string postfix)
+        {
+            int size = string.IsNullOrWhiteSpace(postfix) ? 300 : 150;
             if (path == null)
             {
-                var filler = System.IO.File.ReadAllBytes(Server.MapPath("~/Content/pictureFiller.jpg"));
-                return filler;
+                var filler = System.IO.File.ReadAllBytes(Server.MapPath($"~/Files/pictureFiller{postfix}.jpg"));
+                return PartialView(new PictureModel { Picture = filler, Size = size });
             }
-            using (var response = await dbx.Files.DownloadAsync("/ReviewPictures" + path))
+            using (var response = await dbx.Files.DownloadAsync($"/ReviewPictures{path + postfix}.jpg"))
             {
-                return await response.GetContentAsByteArrayAsync();
+                var picture = await response.GetContentAsByteArrayAsync();
+                return PartialView(new PictureModel { Picture = picture, Size = size });
             }
         }
 

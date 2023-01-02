@@ -42,6 +42,7 @@ namespace AndHowIsItApp.Models
         public string AuthorId { get; set; }
         public UserViewModel Author { get; set; }
         public SubjectViewModel Subject { get; set; }
+        public string PictureLink { get; set; }
         public string Title { get; set; }
         public int Likes { get; set; }
         public string Text { get; set; }
@@ -55,6 +56,7 @@ namespace AndHowIsItApp.Models
         public int ReviewId { get; set; }
         public UserViewModel Author { get; set; }
         public SubjectViewModel Subject { get; set; }
+        public string PictureLink { get; set; }
         public string Title { get; set; }
         public int Rating { get; set; }
         public int Likes { get; set; }
@@ -77,6 +79,11 @@ namespace AndHowIsItApp.Models
         public UserViewModel Author { get; set; }
         public string Text { get; set; }
         public DateTime Date { get; set; }
+    }
+    public class PictureModel
+    {
+        public byte[] Picture { get; set; }
+        public int Size { get; set; }
     }
     public class UserAdministrationModel
     {

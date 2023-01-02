@@ -5,8 +5,7 @@
     ViewBag.Title = "ReviewPage";
 }
 
-@Html.Raw("<img style='width:200px; height:200px;' src=\"data:image/jpeg;base64,"
-                                + Convert.ToBase64String(ViewBag.Picture) + "\" />")
+<div name="picture" id="picture-@Model.Id" data-filepath="@Model.PictureLink" data-postfix=""></div>
 
 @if (User.IsInRole("admin") || User.Identity.GetUserId() == Model.AuthorId)
 {

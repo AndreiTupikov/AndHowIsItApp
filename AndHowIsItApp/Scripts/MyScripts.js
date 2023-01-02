@@ -145,3 +145,33 @@ function dateFormatter(date) {
     var date = dateAndTime[0].split('.');
     return new Date(date[2] + '-' + date[1] + '-' + date[0] + 'T' + dateAndTime[1]);
 }
+
+$(window).ready(function () {
+    let pictures = document.getElementsByName('picture') ?
+        [...document.getElementsByName('picture')]
+        : [];
+    let uniqueIds = [];
+    pictures.forEach((p) => {
+        if (uniqueIds.includes(p.id)) return;
+        uniqueIds.push(p.id);
+        downloadPicture(p);
+    })
+});
+
+function downloadPicture(picture) {
+    $.ajax({
+        type: 'GET',
+        url: '/Home/DownloadPicture?path=' + picture.getAttribute('data-filepath') + '&postfix=' + picture.getAttribute('data-postfix'),
+        success: function (data, textstatus) {
+            console.log(1)
+            if (data != '') {
+                let elements = document.getElementsByName('picture');
+                for (i = 0; i < elements.length; i++) {
+                    if (elements[i].id === picture.id) {
+                        elements[i].innerHTML = data;
+                    }
+                }
+            }
+        }
+    });
+}
