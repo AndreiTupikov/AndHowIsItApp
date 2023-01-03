@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 namespace AndHowIsItApp.Models
@@ -15,6 +17,8 @@ namespace AndHowIsItApp.Models
         public int Category { get; set; }
         [Required]
         public string Subject { get; set; }
+        [ValidateFile]
+        public HttpPostedFileBase Picture { get; set; }
         [Required]
         public string Text { get; set; }
         [Required]
@@ -92,5 +96,26 @@ namespace AndHowIsItApp.Models
         public string Email { get; set; }
         public bool IsBlocked { get; set; }
         public bool IsAdmin { get; set; }
+    }
+    public class ValidateFileAttribute : ValidationAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            int maxSize = 1024 * 1024 * 2;
+            string[] AllowedExtensions = new string[] { ".jpg", ".jpeg" };
+            var file = value as HttpPostedFileBase;
+            if (file == null) return true;
+            if (!AllowedExtensions.Contains(file.FileName.Substring(file.FileName.LastIndexOf('.'))))
+            {
+                ErrorMessage = "Расширение файла должно быть .jpg или .jpeg";
+                return false;
+            }
+            if (file.ContentLength > maxSize)
+            {
+                ErrorMessage = "Размер файла не должен превышать 2 МБ.";
+                return false;
+            }
+            return true;
+        }
     }
 }

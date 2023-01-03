@@ -24,7 +24,7 @@ namespace AndHowIsItApp.Controllers
     {
         private ApplicationDbContext db = ApplicationDbContext.Create();
         //подкючить токен для сохранения картинок
-        private DropboxClient dbx = new DropboxClient("sl.BWJSKT5lWk-hW79ZXaJE06Cjz7IVkFu_rtyn3oRqA-rDbg9sGF8yotuM1tSf7ffPwgZ6dOez2gvkkkK3tLWD-T69mbn1xUtUZFGA0qtu715yLYDwYcmdWy-znyfgbp1mpmegy08");
+        private DropboxClient dbx = new DropboxClient("sl.BWP35sb3Lk8wsF-jMpKfneZQqp9o62OCb-7bIAlYKDg-OZw0ZfBrrZ5SyW7UioZWfQrLOTzl5M0oxwgOerxXX8mNn5S0EBQTE1fg9ZWxlrhQVzRaS_Q4rCJXXD1orOZtzmOskwY");
         
         public ActionResult Index()
         {
@@ -153,7 +153,7 @@ namespace AndHowIsItApp.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult> CreateReview(ReviewCreateViewModel model, string[] tags, HttpPostedFileBase uploadPicture)
+        public async Task<ActionResult> CreateReview(ReviewCreateViewModel model, string[] tags)
         {
             if (ModelState.IsValid)
             {
@@ -182,14 +182,17 @@ namespace AndHowIsItApp.Controllers
                         }
                     }
                 }
+                if (model.Picture != null)
+                {
+                    try
+                    {
+                        await UploadPicture(model.UserId, review.Id, model.Picture);
+                        review.PictureLink = $"/{model.UserId}/{review.Id}";
+                    }
+                    catch { }
+                }
                 db.Reviews.Add(review);
                 db.SaveChanges();
-                if (uploadPicture != null)
-                {
-                    await UploadPicture(model.UserId, review.Id, uploadPicture);
-                    review.PictureLink = $"/{model.UserId}/{review.Id}";
-                    db.SaveChanges();
-                }
                 if (!User.IsInRole("admin")) return RedirectToAction("PersonalPage");
                 return RedirectToAction("PersonalPage", new { model.UserId });
             }
@@ -402,16 +405,20 @@ namespace AndHowIsItApp.Controllers
         public async Task<ActionResult> DownloadPicture(string path, string postfix)
         {
             int size = string.IsNullOrWhiteSpace(postfix) ? 300 : 150;
-            if (string.IsNullOrWhiteSpace(path))
+            if (!string.IsNullOrWhiteSpace(path))
             {
-                var filler = System.IO.File.ReadAllBytes(Server.MapPath($"~/Files/Images/pictureFiller{postfix}.jpg"));
-                return PartialView(new PictureModel { Picture = filler, Size = size });
+                try
+                {
+                    using (var response = await dbx.Files.DownloadAsync($"/ReviewPictures{path + postfix}.jpg"))
+                    {
+                        var picture = await response.GetContentAsByteArrayAsync();
+                        return PartialView(new PictureModel { Picture = picture, Size = size });
+                    }
+                }
+                catch { }
             }
-            using (var response = await dbx.Files.DownloadAsync($"/ReviewPictures{path + postfix}.jpg"))
-            {
-                var picture = await response.GetContentAsByteArrayAsync();
-                return PartialView(new PictureModel { Picture = picture, Size = size });
-            }
+            var filler = System.IO.File.ReadAllBytes(Server.MapPath($"~/Files/Images/pictureFiller{postfix}.jpg"));
+            return PartialView(new PictureModel { Picture = filler, Size = size });
         }
 
         [Authorize]

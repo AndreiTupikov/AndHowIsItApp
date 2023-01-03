@@ -23,9 +23,9 @@
         </div>
     </div>
     <div class="form-group">
-        <div class="editor-label">Файл изображения</div>
-        <div class="editor-field">
-            <input type="file" name="uploadPicture" />
+        @Html.LabelFor(m => m.Picture, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Picture, new { type = "file", @class = "form-control"})
         </div>
     </div>
     <div class="form-group">
