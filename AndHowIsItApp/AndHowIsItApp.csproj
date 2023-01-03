@@ -218,8 +218,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
-    <Content Include="Files\pictureFiller.jpg" />
-    <Content Include="Files\pictureFiller_preview.jpg" />
+    <Content Include="Files\Images\pictureFiller.jpg" />
+    <Content Include="Files\Images\pictureFiller_preview.jpg" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />

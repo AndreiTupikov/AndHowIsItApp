@@ -126,14 +126,15 @@ $(document).ready(function () {
 
 function sortResults() {
     let sortParam = document.getElementById('sortSelector').value.split('-');
-    var previewSet = document.getElementsByName('previewSet');
-    var previewArray = [].slice.call(previewSet).sort(function (a, b) {
+    var previewSet = document.getElementsByName('preview-card');
+    var sortedPreviews = [].slice.call(previewSet).sort(function (a, b) {
         if (sortParam[0] === 'date') return dateFormatter(b.querySelector('#' + sortParam[0]).innerHTML) - dateFormatter(a.querySelector('#' + sortParam[0]).innerHTML);
+        if (sortParam[0] === 'subjectRating') return b.querySelector('#' + sortParam[0]).innerHTML.replaceAll(',', '.') - a.querySelector('#' + sortParam[0]).innerHTML.replaceAll(',', '.');
         return b.querySelector('#' + sortParam[0]).innerHTML - a.querySelector('#' + sortParam[0]).innerHTML;
     });
-    if (sortParam[1] === 'asc') previewArray.reverse();
-    var results = document.getElementById('resultTable');
-    previewArray.forEach(function (p) {
+    if (sortParam[1] === 'asc') sortedPreviews.reverse();
+    var results = document.getElementById('results-set');
+    sortedPreviews.forEach(function (p) {
         results.appendChild(p);
     });
 }
@@ -163,7 +164,6 @@ function downloadPicture(picture) {
         type: 'GET',
         url: '/Home/DownloadPicture?path=' + picture.getAttribute('data-filepath') + '&postfix=' + picture.getAttribute('data-postfix'),
         success: function (data, textstatus) {
-            console.log(1)
             if (data != '') {
                 let elements = document.getElementsByName('picture');
                 for (i = 0; i < elements.length; i++) {

@@ -24,7 +24,7 @@ namespace AndHowIsItApp.Controllers
     {
         private ApplicationDbContext db = ApplicationDbContext.Create();
         //подкючить токен для сохранения картинок
-        private DropboxClient dbx = new DropboxClient("sl.BWLEsdQ6MjSab7VJM2Axc0NkZFEyvNmxpt5Ct_IvshwVs6Xc1dyCQ2zlZB38EB6qCuBbYwht6VrbXiBnGWKS2MyrlxGydgAfvhDDkVRJlEF-0wuN9OkktUGXvQCch_sZQNWut-A");
+        private DropboxClient dbx = new DropboxClient("sl.BWJSKT5lWk-hW79ZXaJE06Cjz7IVkFu_rtyn3oRqA-rDbg9sGF8yotuM1tSf7ffPwgZ6dOez2gvkkkK3tLWD-T69mbn1xUtUZFGA0qtu715yLYDwYcmdWy-znyfgbp1mpmegy08");
         
         public ActionResult Index()
         {
@@ -402,9 +402,9 @@ namespace AndHowIsItApp.Controllers
         public async Task<ActionResult> DownloadPicture(string path, string postfix)
         {
             int size = string.IsNullOrWhiteSpace(postfix) ? 300 : 150;
-            if (path == null)
+            if (string.IsNullOrWhiteSpace(path))
             {
-                var filler = System.IO.File.ReadAllBytes(Server.MapPath($"~/Files/pictureFiller{postfix}.jpg"));
+                var filler = System.IO.File.ReadAllBytes(Server.MapPath($"~/Files/Images/pictureFiller{postfix}.jpg"));
                 return PartialView(new PictureModel { Picture = filler, Size = size });
             }
             using (var response = await dbx.Files.DownloadAsync($"/ReviewPictures{path + postfix}.jpg"))

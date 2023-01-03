@@ -1,39 +1,44 @@
 ﻿@model IEnumerable<AndHowIsItApp.Models.PreviewModel>
 
 <h3>@ViewBag.ParagraphName</h3>
-<table id="resultTable" class="table table-bordered">
-    <tr>
-        <td>Id</td>
-        <td>Picture</td>
-        <td>Author</td>
-        <td>AR</td>
-        <td>Category</td>
-        <td>Subject</td>
-        <td>SR</td>
-        <td>Title</td>
-        <td>L</td>
-        <td>Rating</td>
-        <td>Date</td>
-        <td>Page</td>
-    </tr>
-    @{
-        int i = 1;
-        foreach (var p in Model)
-        {
-            <tr name="previewSet">
-                <td>@(i++)</td>
-                <td name="picture" id="picture-@p.ReviewId" data-filepath="@p.PictureLink" data-postfix="_preview"></td>
-                <td>@p.Author.UserName</td>
-                <td>@p.Author.Likes</td>
-                <td>@p.Subject.Category</td>
-                <td>@p.Subject.Name</td>
-                <td id="subjectRating">@p.Subject.Rating</td>
-                <td>@p.Title</td>
-                <td id="likes">@p.Likes</td>
-                <td id="reviewerRating">@p.Rating</td>
-                <td id="date">@p.Date</td>
-                <td>@Html.ActionLink("Просмотр", "ReviewPage", new { reviewId = p.ReviewId }, null)</td>
-            </tr>
-        }
-    }
-</table>
+
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="results-set">
+            @foreach (var p in Model)
+            {
+                <div class="col" name="preview-card">
+                    <div class="card shadow-sm">
+                        <div class="card-header">
+                            <div class="card-title d-flex justify-content-between">
+                                <h4>@p.Title</h4>
+                                <h4 id="likes">@p.Likes</h4>
+                            </div>
+                            <div class="card-text">Автор @p.Author.UserName | @p.Author.Likes</div>
+                        </div>
+                        <div class="w-100 ratio ratio-1x1" name="picture" id="picture-@p.ReviewId" data-filepath="@p.PictureLink" data-postfix="_preview"></div>
+                        <div class="card-body">
+                            <div class="card-title">
+                                <div class="d-flex justify-content-between">
+                                    <h4>@p.Subject.Name</h4>
+                                    <h4 id="subjectRating">@p.Subject.Rating</h4>
+                                </div>
+                                <p class="card-text">Категория @p.Subject.Category</p>
+                            </div>
+                            <div class="d-flex">
+                                <p class="card-text" id="reviewerRating">@p.Rating</p>
+                                <p class="card-text">/10</p>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    @Html.ActionLink("Просмотр", "ReviewPage", new { reviewId = p.ReviewId }, new { @class = "btn btn-sm btn-outline-secondary" })
+                                </div>
+                                <small class="text-muted" id="date">@p.Date</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
