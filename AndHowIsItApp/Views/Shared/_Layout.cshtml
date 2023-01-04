@@ -8,49 +8,37 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/scripts/MyScripts.js")
-    @Scripts.Render("~/scripts/bootstrap.js")
+    @Scripts.Render("~/Scripts/bootstrap.bundle.min.js")
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" title="Дополнительные параметры">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <div class="container-fluid">
                 @Html.ActionLink(AndHowIsItApp.Resources.Language.ApplicationName, "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div>
-                @Html.Partial("_LanguagePartial")
-            </div>
-            <div>
-                @using (Html.BeginForm("SearchResults", "Home"))
-                {
-                    <input type="text" name="searchString" />
-                    <input type="submit" value="Поиск" />
-                }
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Главная страница", "Index", "Home")</li>
-                    @if (User.IsInRole("admin"))
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    @Html.Partial("_LanguagePartial")
+                    @Html.Partial("_LoginPartial")
+                    @using (Html.BeginForm("SearchResults", "Home", FormMethod.Get, new { @class = "d-flex", role = "search" }))
                     {
-                        <li>@Html.ActionLink("Список пользователей", "ManageUsers", "Admin")</li>
+                        <input class="form-control me-2" type="search" name="searchString" placeholder="Поиск" aria-label="Search">
+                        <button class="btn btn-outline-light" type="submit">Search</button>
                     }
-                </ul>
-                @Html.Partial("_LoginPartial")
+                </div>
             </div>
-        </div>
-    </div>
+        </nav>
+    </header>
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - мое приложение ASP.NET</p>
+            <p>&copy; @DateTime.Now.Year - And How Is It App</p>
         </footer>
     </div>
-
     @RenderSection("scripts", required: false)
 </body>
 </html>

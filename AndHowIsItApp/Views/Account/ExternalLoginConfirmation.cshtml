@@ -1,39 +1,34 @@
 ﻿@model AndHowIsItApp.Models.ExternalLoginConfirmationViewModel
-@{
-    ViewBag.Title = "Регистрация";
-}
-<h2>@ViewBag.Title.</h2>
-<h3>Связывание вашей учетной записи @ViewBag.LoginProvider.</h3>
+
+<h2>Регистрация с вашей учетной записью @ViewBag.LoginProvider.</h2>
 
 @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-
-    <h4>Форма связывания</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-<p class="text-info">
-    Вы успешно прошли проверку подлинности через <strong>@ViewBag.LoginProvider</strong>
-    Введите имя пользователя, адрес электронной почты и нажмите кнопку "Регистрация", чтобы завершить
-    вход.
-</p>
+    <p class="text-dark">
+        Вы успешно прошли проверку подлинности через <strong>@ViewBag.LoginProvider</strong>
+        Введите имя пользователя, адрес электронной почты и нажмите кнопку "Регистрация", чтобы завершить
+        вход.
+    </p>
     <div class="form-group">
         @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control btn btn-outline-dark" })
             @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control btn btn-outline-dark" })
             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="form-group">
+    <div class="form-group mt-2">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Регистрация" />
+            <input type="submit" class="btn btn-outline-dark" value="Регистрация" />
         </div>
     </div>
 }

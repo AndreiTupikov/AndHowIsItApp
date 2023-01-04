@@ -1,4 +1,13 @@
-﻿<ul class="nav navbar-nav navbar-right">
-    <li>@Html.ActionLink("English", "SetLanguage", "Interface", new { language = "en" }, null )</li>
-    <li>@Html.ActionLink("Русский", "SetLanguage", "Interface", new { language = "ru" }, null)</li>
-</ul>
+﻿<div class="navbar-nav dropdown ms-auto">
+    <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Language
+    </button>
+    <ul class="dropdown-menu">
+        <li>
+            @Html.ActionLink("English", "SetLanguage", "Interface", new { language = "en" }, new { @class = "dropdown-item" })
+        </li>
+        <li>
+            @Html.ActionLink("Русский", "SetLanguage", "Interface", new { language = "ru" }, new { @class = "dropdown-item" })
+        </li>
+    </ul>
+</div>
