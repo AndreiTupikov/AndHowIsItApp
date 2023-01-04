@@ -126,8 +126,56 @@
   <data name="Books" xml:space="preserve">
     <value>Книги</value>
   </data>
+  <data name="Category" xml:space="preserve">
+    <value>Категория</value>
+  </data>
+  <data name="CategoryRequiredError" xml:space="preserve">
+    <value>Выберите категорию</value>
+  </data>
   <data name="Movies" xml:space="preserve">
     <value>Фильмы</value>
+  </data>
+  <data name="Picture" xml:space="preserve">
+    <value>Изображние(*не обязательно)</value>
+  </data>
+  <data name="PictureExtensionError" xml:space="preserve">
+    <value>Расширение файла должно быть .jpg или .jpeg</value>
+  </data>
+  <data name="PictureSizeError" xml:space="preserve">
+    <value>Размер файла не должен превышать 2 МБ</value>
+  </data>
+  <data name="Rating" xml:space="preserve">
+    <value>Оценка произведения</value>
+  </data>
+  <data name="RatingRangeError" xml:space="preserve">
+    <value>Оценка произведения должна быть от 1 до 10</value>
+  </data>
+  <data name="RatingRequiredError" xml:space="preserve">
+    <value>Поставьте свою оценку произведению</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>Название произведения</value>
+  </data>
+  <data name="SubjectLengthError" xml:space="preserve">
+    <value>Название произведения должно быть в пределах 50 символов</value>
+  </data>
+  <data name="SubjectRequiredError" xml:space="preserve">
+    <value>Введите название произведения</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Текст обзора</value>
+  </data>
+  <data name="TextRequiredError" xml:space="preserve">
+    <value>Введите текст обзора</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Название обзора</value>
+  </data>
+  <data name="TitleLengthError" xml:space="preserve">
+    <value>Название обзора должно быть в пределах 50 символов</value>
+  </data>
+  <data name="TitleRequiredError" xml:space="preserve">
+    <value>Введите название обзора</value>
   </data>
   <data name="Video Games" xml:space="preserve">
     <value>Игры</value>

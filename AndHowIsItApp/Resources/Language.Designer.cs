@@ -88,11 +88,155 @@ namespace AndHowIsItApp.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Category.
+        /// </summary>
+        public static string Category {
+            get {
+                return ResourceManager.GetString("Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Select a category.
+        /// </summary>
+        public static string CategoryRequiredError {
+            get {
+                return ResourceManager.GetString("CategoryRequiredError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Movies.
         /// </summary>
         public static string Movies {
             get {
                 return ResourceManager.GetString("Movies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Image(*optional).
+        /// </summary>
+        public static string Picture {
+            get {
+                return ResourceManager.GetString("Picture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на The file extension must be .jpg or .jpeg.
+        /// </summary>
+        public static string PictureExtensionError {
+            get {
+                return ResourceManager.GetString("PictureExtensionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на The file size must not exceed 2 MB.
+        /// </summary>
+        public static string PictureSizeError {
+            get {
+                return ResourceManager.GetString("PictureSizeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Your rating of the piece of art.
+        /// </summary>
+        public static string Rating {
+            get {
+                return ResourceManager.GetString("Rating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на The rating must be between 1 and 10.
+        /// </summary>
+        public static string RatingRangeError {
+            get {
+                return ResourceManager.GetString("RatingRangeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Rate the piece of art.
+        /// </summary>
+        public static string RatingRequiredError {
+            get {
+                return ResourceManager.GetString("RatingRequiredError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Piece of art.
+        /// </summary>
+        public static string Subject {
+            get {
+                return ResourceManager.GetString("Subject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на The title of the piece of art must be within 50 characters.
+        /// </summary>
+        public static string SubjectLengthError {
+            get {
+                return ResourceManager.GetString("SubjectLengthError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Enter the title of the piece of art.
+        /// </summary>
+        public static string SubjectRequiredError {
+            get {
+                return ResourceManager.GetString("SubjectRequiredError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Review text.
+        /// </summary>
+        public static string Text {
+            get {
+                return ResourceManager.GetString("Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Enter review text.
+        /// </summary>
+        public static string TextRequiredError {
+            get {
+                return ResourceManager.GetString("TextRequiredError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Review title.
+        /// </summary>
+        public static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Review title must be within 50 characters.
+        /// </summary>
+        public static string TitleLengthError {
+            get {
+                return ResourceManager.GetString("TitleLengthError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Enter review title.
+        /// </summary>
+        public static string TitleRequiredError {
+            get {
+                return ResourceManager.GetString("TitleRequiredError", resourceCulture);
             }
         }
         

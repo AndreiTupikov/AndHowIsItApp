@@ -126,8 +126,56 @@
   <data name="Books" xml:space="preserve">
     <value>Books</value>
   </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="CategoryRequiredError" xml:space="preserve">
+    <value>Select a category</value>
+  </data>
   <data name="Movies" xml:space="preserve">
     <value>Movies</value>
+  </data>
+  <data name="Picture" xml:space="preserve">
+    <value>Image(*optional)</value>
+  </data>
+  <data name="PictureExtensionError" xml:space="preserve">
+    <value>The file extension must be .jpg or .jpeg</value>
+  </data>
+  <data name="PictureSizeError" xml:space="preserve">
+    <value>The file size must not exceed 2 MB</value>
+  </data>
+  <data name="Rating" xml:space="preserve">
+    <value>Your rating of the piece of art</value>
+  </data>
+  <data name="RatingRangeError" xml:space="preserve">
+    <value>The rating must be between 1 and 10</value>
+  </data>
+  <data name="RatingRequiredError" xml:space="preserve">
+    <value>Rate the piece of art</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>Piece of art</value>
+  </data>
+  <data name="SubjectLengthError" xml:space="preserve">
+    <value>The title of the piece of art must be within 50 characters</value>
+  </data>
+  <data name="SubjectRequiredError" xml:space="preserve">
+    <value>Enter the title of the piece of art</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Review text</value>
+  </data>
+  <data name="TextRequiredError" xml:space="preserve">
+    <value>Enter review text</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Review title</value>
+  </data>
+  <data name="TitleLengthError" xml:space="preserve">
+    <value>Review title must be within 50 characters</value>
+  </data>
+  <data name="TitleRequiredError" xml:space="preserve">
+    <value>Enter review title</value>
   </data>
   <data name="Video Games" xml:space="preserve">
     <value>Video Games</value>

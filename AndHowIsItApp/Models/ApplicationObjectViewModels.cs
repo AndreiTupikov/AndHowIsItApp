@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AndHowIsItApp.Resources;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -10,34 +11,57 @@ namespace AndHowIsItApp.Models
     public class ReviewCreateViewModel
     {
         public string UserId { get; set; }
-        [Required]
-        [StringLength(50, ErrorMessage = "Название обзора должно быть в пределах 50 символов")]
+
+        [Display(Name = "Title", ResourceType = typeof(Language))]
+        [Required(ErrorMessageResourceType = typeof(Language), ErrorMessageResourceName = "TitleRequiredError")]
+        [StringLength(50, ErrorMessageResourceType = typeof(Language), ErrorMessageResourceName = "TitleLengthError")]
         public string Title { get; set; }
-        [Required]
+
+        [Display(Name = "Category", ResourceType = typeof(Language))]
+        [Required(ErrorMessageResourceType = typeof(Language), ErrorMessageResourceName = "CategoryRequiredError")]
         public int Category { get; set; }
-        [Required]
+
+        [Display(Name = "Subject", ResourceType = typeof(Language))]
+        [Required(ErrorMessageResourceType = typeof(Language), ErrorMessageResourceName = "SubjectRequiredError")]
+        [StringLength(50, ErrorMessageResourceType = typeof(Language), ErrorMessageResourceName = "SubjectLengthError")]
         public string Subject { get; set; }
+
         [ValidateFile]
+        [Display(Name = "Picture", ResourceType = typeof(Language))]
         public HttpPostedFileBase Picture { get; set; }
-        [Required]
+
+        [Display(Name = "Text", ResourceType = typeof(Language))]
+        [Required(ErrorMessageResourceType = typeof(Language), ErrorMessageResourceName = "TextRequiredError")]
         public string Text { get; set; }
-        [Required]
-        [Range(1, 10, ErrorMessage = "Оценка от 1 до 10")]
+
+        [Display(Name = "Rating", ResourceType = typeof(Language))]
+        [Required(ErrorMessageResourceType = typeof(Language), ErrorMessageResourceName = "RatingRequiredError")]
+        [Range(1, 10, ErrorMessageResourceType = typeof(Language), ErrorMessageResourceName = "RatingRangeError")]
         public int ReviewerRating { get; set; }
+
         public SelectList AllCategories { get; set; }
     }
     public class ReviewEditViewModel
     {
+        [Required]
         public int ReviewId { get; set; }
+
         public string UserId { get; set; }
-        [Required]
-        [StringLength(50, ErrorMessage = "Название обзора должно быть в пределах 50 символов")]
+
+        [Display(Name = "Title", ResourceType = typeof(Language))]
+        [Required(ErrorMessageResourceType = typeof(Language), ErrorMessageResourceName = "TitleRequiredError")]
+        [StringLength(50, ErrorMessageResourceType = typeof(Language), ErrorMessageResourceName = "TitleLengthError")]
         public string Title { get; set; }
-        [Required]
+
+        [Display(Name = "Text", ResourceType = typeof(Language))]
+        [Required(ErrorMessageResourceType = typeof(Language), ErrorMessageResourceName = "TextRequiredError")]
         public string Text { get; set; }
-        [Required]
-        [Range(1, 10, ErrorMessage = "Оценка от 1 до 10")]
+
+        [Display(Name = "Rating", ResourceType = typeof(Language))]
+        [Required(ErrorMessageResourceType = typeof(Language), ErrorMessageResourceName = "RatingRequiredError")]
+        [Range(1, 10, ErrorMessageResourceType = typeof(Language), ErrorMessageResourceName = "RatingRangeError")]
         public int ReviewerRating { get; set; }
+
         public List<string> Tags { get; set; }
     }
     public class ReviewShowViewModel
@@ -107,12 +131,14 @@ namespace AndHowIsItApp.Models
             if (file == null) return true;
             if (!AllowedExtensions.Contains(file.FileName.Substring(file.FileName.LastIndexOf('.'))))
             {
-                ErrorMessage = "Расширение файла должно быть .jpg или .jpeg";
+                ErrorMessageResourceType = typeof(Language);
+                ErrorMessageResourceName = "PictureExtensionError";
                 return false;
             }
             if (file.ContentLength > maxSize)
             {
-                ErrorMessage = "Размер файла не должен превышать 2 МБ.";
+                ErrorMessageResourceType = typeof(Language);
+                ErrorMessageResourceName = "PictureSizeError";
                 return false;
             }
             return true;

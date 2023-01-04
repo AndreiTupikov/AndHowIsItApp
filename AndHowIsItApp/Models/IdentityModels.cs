@@ -44,23 +44,11 @@ namespace AndHowIsItApp.Models
     {
         protected override void Seed(ApplicationDbContext context)
         {
-            var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(context));
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var role1 = new IdentityRole { Name = "admin" };
             var role2 = new IdentityRole { Name = "adminMaster" };
-            var role3 = new IdentityRole { Name = "user" };
             roleManager.Create(role1);
             roleManager.Create(role2);
-            roleManager.Create(role3);
-            var admin = new ApplicationUser { Email = "admin.2ahii@gmail.com", UserName = "admin" };
-            string password = "Qwerty1!";
-            var result = userManager.Create(admin, password);
-            if (result.Succeeded)
-            {
-                userManager.AddToRole(admin.Id, role1.Name);
-                userManager.AddToRole(admin.Id, role2.Name);
-                userManager.AddToRole(admin.Id, role3.Name);
-            }
             context.Categories.Add(new Category { Name = "Books" });
             context.Categories.Add(new Category { Name = "Movies" });
             context.Categories.Add(new Category { Name = "Video Games" });
