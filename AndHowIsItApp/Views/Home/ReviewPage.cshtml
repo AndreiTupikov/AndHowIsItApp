@@ -10,7 +10,25 @@
 @if (User.IsInRole("admin") || User.Identity.GetUserId() == Model.AuthorId)
 {
     <div>@Html.ActionLink(AndHowIsItApp.Resources.Language.EditReview, "EditReview", new { userId = Model.AuthorId, reviewId = Model.Id }, new { @class = "btn btn-outline-dark" })</div>
-    <div>@Html.ActionLink(AndHowIsItApp.Resources.Language.DeleteReview, "DeleteReview", new { userId = Model.AuthorId, reviewId = Model.Id }, new { @class = "btn btn-outline-dark" })</div>
+
+    <div class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#deleteReviewModal">@AndHowIsItApp.Resources.Language.DeleteReview</div>
+    <div class="modal fade" id="deleteReviewModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="deleteModalLable">@AndHowIsItApp.Resources.Language.DeleteConfirm</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label=@AndHowIsItApp.Resources.Language.Cancel></button>
+                </div>
+                <div class="modal-body">
+                    @AndHowIsItApp.Resources.Language.DeleteReviewConfirmText @Model.Title?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">@AndHowIsItApp.Resources.Language.Cancel</button>
+                    <div>@Html.ActionLink(AndHowIsItApp.Resources.Language.DeleteReview, "DeleteReview", new { userId = Model.AuthorId, reviewId = Model.Id }, new { @class = "btn btn-outline-danger" })</div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 
 <div hidden id="subject-id">@Model.Subject.Id</div>

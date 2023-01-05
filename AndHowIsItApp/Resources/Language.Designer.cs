@@ -187,6 +187,15 @@ namespace AndHowIsItApp.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Categories.
         /// </summary>
         public static string Categories {
@@ -268,11 +277,38 @@ namespace AndHowIsItApp.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Delete confirmation.
+        /// </summary>
+        public static string DeleteConfirm {
+            get {
+                return ResourceManager.GetString("DeleteConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Delete review.
         /// </summary>
         public static string DeleteReview {
             get {
                 return ResourceManager.GetString("DeleteReview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Are you sure you want to delete the review.
+        /// </summary>
+        public static string DeleteReviewConfirmText {
+            get {
+                return ResourceManager.GetString("DeleteReviewConfirmText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Are you sure you want to delete user.
+        /// </summary>
+        public static string DeleteUserConfirmText {
+            get {
+                return ResourceManager.GetString("DeleteUserConfirmText", resourceCulture);
             }
         }
         
@@ -291,6 +327,24 @@ namespace AndHowIsItApp.Resources {
         public static string EditReview {
             get {
                 return ResourceManager.GetString("EditReview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Edit confirmation.
+        /// </summary>
+        public static string EditReviewConfirm {
+            get {
+                return ResourceManager.GetString("EditReviewConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Do you want to edit review.
+        /// </summary>
+        public static string EditReviewConfirmText {
+            get {
+                return ResourceManager.GetString("EditReviewConfirmText", resourceCulture);
             }
         }
         

@@ -24,7 +24,7 @@
             {
                 <td>@user.UserName</td>
                 <td>@user.Email</td>
-                <td>@Html.ActionLink(AndHowIsItApp.Resources.Language.PersonalPage, "PersonalPage", "Home", new { userId = user.Id }, new { @class = "btn btn-outline-dark"})</td>
+                <td>@Html.ActionLink(AndHowIsItApp.Resources.Language.PersonalPage, "PersonalPage", "Home", new { userId = user.Id }, new { @class = "btn btn-outline-dark" })</td>
                 if (user.IsAdmin)
                 {
                     <td>admin</td>
@@ -51,7 +51,26 @@
                 }
                 else
                 {
-                    <td><button class="btn btn-outline-dark" name="option" value="delete">@AndHowIsItApp.Resources.Language.Delete</button></td>
+                    <td>
+                        <div class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#deleteUserModal-@user.Id">@AndHowIsItApp.Resources.Language.Delete</div>
+                        <div class="modal fade" id="deleteUserModal-@user.Id" tabindex="-1" aria-labelledby="deleteModalLabel-@user.Id" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="deleteModalLabel-@user.Id">@AndHowIsItApp.Resources.Language.DeleteConfirm</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label=@AndHowIsItApp.Resources.Language.Cancel></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        @AndHowIsItApp.Resources.Language.DeleteUserConfirmText @user.UserName?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">@AndHowIsItApp.Resources.Language.Cancel</button>
+                                        <button class="btn btn-outline-danger" name="option" value="delete">@AndHowIsItApp.Resources.Language.Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                 }
                 if (User.IsInRole("adminMaster"))
                 {

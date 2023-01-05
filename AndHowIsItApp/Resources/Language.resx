@@ -159,6 +159,9 @@
   <data name="Books" xml:space="preserve">
     <value>Books</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="Categories" xml:space="preserve">
     <value>Categories</value>
   </data>
@@ -186,14 +189,29 @@
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="DeleteConfirm" xml:space="preserve">
+    <value>Delete confirmation</value>
+  </data>
   <data name="DeleteReview" xml:space="preserve">
     <value>Delete review</value>
+  </data>
+  <data name="DeleteReviewConfirmText" xml:space="preserve">
+    <value>Are you sure you want to delete the review</value>
+  </data>
+  <data name="DeleteUserConfirmText" xml:space="preserve">
+    <value>Are you sure you want to delete user</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
   <data name="EditReview" xml:space="preserve">
     <value>Edit review</value>
+  </data>
+  <data name="EditReviewConfirm" xml:space="preserve">
+    <value>Edit confirmation</value>
+  </data>
+  <data name="EditReviewConfirmText" xml:space="preserve">
+    <value>Do you want to edit review</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>

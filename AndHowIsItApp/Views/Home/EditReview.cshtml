@@ -43,7 +43,24 @@
     </div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value=@AndHowIsItApp.Resources.Language.Edit />
+            <div class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#editReviewModal">@AndHowIsItApp.Resources.Language.Edit</div>
+            <div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="editModalLabel">@AndHowIsItApp.Resources.Language.EditReviewConfirm</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label=@AndHowIsItApp.Resources.Language.Cancel></button>
+                        </div>
+                        <div class="modal-body">
+                            @AndHowIsItApp.Resources.Language.EditReviewConfirmText @Model.Title?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">@AndHowIsItApp.Resources.Language.Cancel</button>
+                            <button type="submit" class="btn btn-outline-success" name="option">@AndHowIsItApp.Resources.Language.Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 }

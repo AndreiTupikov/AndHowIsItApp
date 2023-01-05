@@ -22,8 +22,7 @@ namespace AndHowIsItApp.Controllers
     public class HomeController : Controller
     {
         private ApplicationDbContext db = ApplicationDbContext.Create();
-        //подкючить токен для сохранения картинок
-        private DropboxClient dbx = new DropboxClient("sl.BWSplnulFWLKVJzJiNhctD5sLtt7mbeKCzZbukUmBQ_gBCS955cQwasj3O3YgFIv6aMW_kRpJ34RZiylON4WeMzcz5_4_zc3vYHHOGmwtJvNnHIScfN-CnYLNXhC6UFKXcaX1Ew");
+        private DropboxClient dbx = new DropboxClient("e13h6WTrOpQAAAAAAAAAAV5KYL4eYcIw-vsgvSJ7GmIy9_dm1nC6rPZ7ap3zvMn2", "2we7ldsyfbtdcc9", "t08xmdee48ew82q");
         
         public ActionResult Index()
         {
