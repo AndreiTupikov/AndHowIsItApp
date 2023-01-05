@@ -1,20 +1,20 @@
 ﻿@model IEnumerable<AndHowIsItApp.Models.UserAdministrationModel>
 @{
-    ViewBag.Title = "ManageUsers";
+    ViewBag.Title = "Manage Users";
 }
 
-<h3>Все пользователи</h3>
+<h3>@AndHowIsItApp.Resources.Language.UsersList</h3>
 <table class="table table-bordered mt-3">
     <tr>
-        <td>User Name</td>
-        <td>Email</td>
-        <td>Personal Page</td>
-        <td>Role</td>
-        <td>Block/Unblock</td>
-        <td>Delete</td>
+        <td>@AndHowIsItApp.Resources.Language.UserName</td>
+        <td>@AndHowIsItApp.Resources.Language.Email</td>
+        <td>@AndHowIsItApp.Resources.Language.PersonalPage</td>
+        <td>@AndHowIsItApp.Resources.Language.Role</td>
+        <td>@AndHowIsItApp.Resources.Language.BlockUnblock</td>
+        <td>@AndHowIsItApp.Resources.Language.Delete</td>
         @if (User.IsInRole("adminMaster"))
         {
-            <td>Admin Roots</td>
+            <td>@AndHowIsItApp.Resources.Language.AdminRights</td>
         }
     </tr>
     @foreach (var user in Model)
@@ -24,7 +24,7 @@
             {
                 <td>@user.UserName</td>
                 <td>@user.Email</td>
-                <td>@Html.ActionLink("Личная страница", "PersonalPage", "Home", new { userId = user.Id }, new { @class = "btn btn-outline-dark"})</td>
+                <td>@Html.ActionLink(AndHowIsItApp.Resources.Language.PersonalPage, "PersonalPage", "Home", new { userId = user.Id }, new { @class = "btn btn-outline-dark"})</td>
                 if (user.IsAdmin)
                 {
                     <td>admin</td>
@@ -39,11 +39,11 @@
                 }
                 else if (user.IsBlocked)
                 {
-                    <td><button class="btn btn-outline-dark" name="option" value="block">Разблокировать</button></td>
+                    <td><button class="btn btn-outline-dark" name="option" value="block">@AndHowIsItApp.Resources.Language.Unblock</button></td>
                 }
                 else
                 {
-                    <td><button class="btn btn-outline-dark" name="option" value="block">Заблокировать</button></td>
+                    <td><button class="btn btn-outline-dark" name="option" value="block">@AndHowIsItApp.Resources.Language.Block</button></td>
                 }
                 if (user.IsAdmin)
                 {
@@ -51,17 +51,17 @@
                 }
                 else
                 {
-                    <td><button class="btn btn-outline-dark" name="option" value="delete">Удалить</button></td>
+                    <td><button class="btn btn-outline-dark" name="option" value="delete">@AndHowIsItApp.Resources.Language.Delete</button></td>
                 }
                 if (User.IsInRole("adminMaster"))
                 {
                     if (user.IsAdmin)
                     {
-                        <td><button class="btn btn-outline-dark" name="option" value="toadmin">Отнять права</button></td>
+                        <td><button class="btn btn-outline-dark" name="option" value="toadmin">@AndHowIsItApp.Resources.Language.RevokeRights</button></td>
                     }
                     else
                     {
-                        <td><button class="btn btn-outline-dark" name="option" value="toadmin">Дать права</button></td>
+                        <td><button class="btn btn-outline-dark" name="option" value="toadmin">@AndHowIsItApp.Resources.Language.GiveRights</button></td>
                     }
                 }
             }

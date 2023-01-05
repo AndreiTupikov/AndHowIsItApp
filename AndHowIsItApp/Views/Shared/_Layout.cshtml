@@ -25,8 +25,8 @@
                     @Html.Partial("_LoginPartial")
                     @using (Html.BeginForm("SearchResults", "Home", FormMethod.Get, new { @class = "d-flex", role = "search" }))
                     {
-                        <input class="form-control me-2" type="search" name="searchString" placeholder="Поиск" aria-label="Search">
-                        <button class="btn btn-outline-light" type="submit">Search</button>
+                        <input class="form-control me-2" type="search" name="searchString" placeholder=@AndHowIsItApp.Resources.Language.Search aria-label="Search">
+                        <button class="btn btn-outline-light" type="submit">@AndHowIsItApp.Resources.Language.Search</button>
                     }
                 </div>
             </div>

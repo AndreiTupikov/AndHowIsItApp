@@ -1,6 +1,6 @@
 ﻿@model AndHowIsItApp.Models.ExternalLoginConfirmationViewModel
 
-<h2>Регистрация с вашей учетной записью @ViewBag.LoginProvider.</h2>
+<h2>@AndHowIsItApp.Resources.Language.RegisterWith @ViewBag.LoginProvider.</h2>
 
 @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
@@ -8,9 +8,8 @@
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <p class="text-dark">
-        Вы успешно прошли проверку подлинности через <strong>@ViewBag.LoginProvider</strong>
-        Введите имя пользователя, адрес электронной почты и нажмите кнопку "Регистрация", чтобы завершить
-        вход.
+        @AndHowIsItApp.Resources.Language.SuccessAuth <strong>@ViewBag.LoginProvider</strong>
+        @AndHowIsItApp.Resources.Language.SignInConfirm
     </p>
     <div class="form-group">
         @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
@@ -28,7 +27,7 @@
     </div>
     <div class="form-group mt-2">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-outline-dark" value="Регистрация" />
+            <input type="submit" class="btn btn-outline-dark" value=@AndHowIsItApp.Resources.Language.Register />
         </div>
     </div>
 }

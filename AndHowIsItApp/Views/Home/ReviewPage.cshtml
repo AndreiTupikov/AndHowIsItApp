@@ -2,25 +2,26 @@
 @model AndHowIsItApp.Models.ReviewShowViewModel
 
 @{
-    ViewBag.Title = "ReviewPage";
+    ViewBag.Title = "Review Page";
 }
 
 <div name="picture" id="picture-@Model.Id" data-filepath="@Model.PictureLink" data-postfix=""></div>
 
 @if (User.IsInRole("admin") || User.Identity.GetUserId() == Model.AuthorId)
 {
-    <div>@Html.ActionLink("Изменить", "EditReview", new { userId = Model.AuthorId, reviewId = Model.Id }, null)</div>
-    <div>@Html.ActionLink("Удалить", "DeleteReview", new { userId = Model.AuthorId, reviewId = Model.Id }, null)</div>
+    <div>@Html.ActionLink(AndHowIsItApp.Resources.Language.EditReview, "EditReview", new { userId = Model.AuthorId, reviewId = Model.Id }, new { @class = "btn btn-outline-dark" })</div>
+    <div>@Html.ActionLink(AndHowIsItApp.Resources.Language.DeleteReview, "DeleteReview", new { userId = Model.AuthorId, reviewId = Model.Id }, new { @class = "btn btn-outline-dark" })</div>
 }
 
 <div hidden id="subject-id">@Model.Subject.Id</div>
-<h2>Категория: @Model.Subject.Category</h2>
+<h2>@AndHowIsItApp.Resources.Language.Category: @Model.Subject.Category</h2>
 <h1>@Model.Subject.Name</h1>
+<div>@AndHowIsItApp.Resources.Language.PieceOfArtRating</div>
 <div id="usersRating">@Model.Subject.Rating</div>
 
 @if (Request.IsAuthenticated)
 {
-    <div>Ваша оценка</div>
+    <div>@AndHowIsItApp.Resources.Language.YourPieceOfArtRating</div>
     <input type="radio" name="subjectRating" id="subjectRating-1" onchange="rateSubject(1)" />
     <input type="radio" name="subjectRating" id="subjectRating-2" onchange="rateSubject(2)" />
     <input type="radio" name="subjectRating" id="subjectRating-3" onchange="rateSubject(3)" />
@@ -38,10 +39,10 @@
     <input type="checkbox" name="reviewLike" id="reviewLike" onchange="likeReview()" />
 }
 
-<h2>Автор @Model.Author.UserName</h2>
+<h2>@AndHowIsItApp.Resources.Language.Author @Model.Author.UserName</h2>
 <h3>@Model.Author.Likes</h3>
 
-<div>Создано @Model.CreateDate</div>
+<div>@AndHowIsItApp.Resources.Language.Created @Model.CreateDate</div>
 
 
 <div>@Model.Text</div>
@@ -56,7 +57,7 @@
     }
 }
 
-<div>Изменено @Model.LastChangeDate</div>
+<div>@AndHowIsItApp.Resources.Language.Changed @Model.LastChangeDate</div>
 
 <div>
     @Html.Action("GetPreviewsBySubject", new { subject = Model.Subject.Id, currentReview = Model.Id })
@@ -64,16 +65,16 @@
 @{
     if (Request.IsAuthenticated)
     {
-        <h3>Добавить комментарий:</h3>
+        <h3>@AndHowIsItApp.Resources.Language.AddComment:</h3>
         using (Html.BeginForm("AddComment", "Home", FormMethod.Post))
         {
             <input type="hidden" name="reviewId" value="@Model.Id" />
             <input type="text" name="commentText" />
-            <input type="submit" value="Добавить" />
+            <input type="submit" value="@AndHowIsItApp.Resources.Language.Add" />
         }
     }
 }
-<h3>Комментарии:</h3>
+<h3>@AndHowIsItApp.Resources.Language.Comments:</h3>
 <div id="allComments">
     @Html.Action("GetComments", new { reviewId = Model.Id })
 </div>

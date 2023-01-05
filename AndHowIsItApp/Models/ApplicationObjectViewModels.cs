@@ -34,7 +34,7 @@ namespace AndHowIsItApp.Models
         [Required(ErrorMessageResourceType = typeof(Language), ErrorMessageResourceName = "TextRequiredError")]
         public string Text { get; set; }
 
-        [Display(Name = "Rating", ResourceType = typeof(Language))]
+        [Display(Name = "AuthorsRating", ResourceType = typeof(Language))]
         [Required(ErrorMessageResourceType = typeof(Language), ErrorMessageResourceName = "RatingRequiredError")]
         [Range(1, 10, ErrorMessageResourceType = typeof(Language), ErrorMessageResourceName = "RatingRangeError")]
         public int ReviewerRating { get; set; }
@@ -57,7 +57,7 @@ namespace AndHowIsItApp.Models
         [Required(ErrorMessageResourceType = typeof(Language), ErrorMessageResourceName = "TextRequiredError")]
         public string Text { get; set; }
 
-        [Display(Name = "Rating", ResourceType = typeof(Language))]
+        [Display(Name = "AuthorsRating", ResourceType = typeof(Language))]
         [Required(ErrorMessageResourceType = typeof(Language), ErrorMessageResourceName = "RatingRequiredError")]
         [Range(1, 10, ErrorMessageResourceType = typeof(Language), ErrorMessageResourceName = "RatingRangeError")]
         public int ReviewerRating { get; set; }

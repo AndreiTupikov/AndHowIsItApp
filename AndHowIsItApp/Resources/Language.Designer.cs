@@ -61,6 +61,42 @@ namespace AndHowIsItApp.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Add.
+        /// </summary>
+        public static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Add Comment.
+        /// </summary>
+        public static string AddComment {
+            get {
+                return ResourceManager.GetString("AddComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Add review.
+        /// </summary>
+        public static string AddReview {
+            get {
+                return ResourceManager.GetString("AddReview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Admin rights.
+        /// </summary>
+        public static string AdminRights {
+            get {
+                return ResourceManager.GetString("AdminRights", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на All Categories.
         /// </summary>
         public static string AllCategories {
@@ -79,11 +115,83 @@ namespace AndHowIsItApp.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Author.
+        /// </summary>
+        public static string Author {
+            get {
+                return ResourceManager.GetString("Author", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на By author rating, from lowest to highest.
+        /// </summary>
+        public static string AuthorRatingAsc {
+            get {
+                return ResourceManager.GetString("AuthorRatingAsc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на By author rating, from highest to lowest.
+        /// </summary>
+        public static string AuthorRatingDesc {
+            get {
+                return ResourceManager.GetString("AuthorRatingDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Your rating of the piece of art.
+        /// </summary>
+        public static string AuthorsRating {
+            get {
+                return ResourceManager.GetString("AuthorsRating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Best reviews of all time.
+        /// </summary>
+        public static string BestReviews {
+            get {
+                return ResourceManager.GetString("BestReviews", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Block.
+        /// </summary>
+        public static string Block {
+            get {
+                return ResourceManager.GetString("Block", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Block/Unblock.
+        /// </summary>
+        public static string BlockUnblock {
+            get {
+                return ResourceManager.GetString("BlockUnblock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Books.
         /// </summary>
         public static string Books {
             get {
                 return ResourceManager.GetString("Books", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Categories.
+        /// </summary>
+        public static string Categories {
+            get {
+                return ResourceManager.GetString("Categories", resourceCulture);
             }
         }
         
@@ -106,11 +214,209 @@ namespace AndHowIsItApp.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Changed.
+        /// </summary>
+        public static string Changed {
+            get {
+                return ResourceManager.GetString("Changed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Comments.
+        /// </summary>
+        public static string Comments {
+            get {
+                return ResourceManager.GetString("Comments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Created.
+        /// </summary>
+        public static string Created {
+            get {
+                return ResourceManager.GetString("Created", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на By add date, from earliest to latest.
+        /// </summary>
+        public static string DateAsc {
+            get {
+                return ResourceManager.GetString("DateAsc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на By add date, from latest to earliest.
+        /// </summary>
+        public static string DateDesc {
+            get {
+                return ResourceManager.GetString("DateDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Delete review.
+        /// </summary>
+        public static string DeleteReview {
+            get {
+                return ResourceManager.GetString("DeleteReview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Edit.
+        /// </summary>
+        public static string Edit {
+            get {
+                return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Edit review.
+        /// </summary>
+        public static string EditReview {
+            get {
+                return ResourceManager.GetString("EditReview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Email.
+        /// </summary>
+        public static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Email Address.
+        /// </summary>
+        public static string EmailAddress {
+            get {
+                return ResourceManager.GetString("EmailAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Email Address field is required.
+        /// </summary>
+        public static string EmailRequiredError {
+            get {
+                return ResourceManager.GetString("EmailRequiredError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Give admin rights.
+        /// </summary>
+        public static string GiveRights {
+            get {
+                return ResourceManager.GetString("GiveRights", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Latest reviews.
+        /// </summary>
+        public static string LatestReviews {
+            get {
+                return ResourceManager.GetString("LatestReviews", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на By likes count, from lowest to highest.
+        /// </summary>
+        public static string LikesAsc {
+            get {
+                return ResourceManager.GetString("LikesAsc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на By likes count, from highest to lowest.
+        /// </summary>
+        public static string LikesDesc {
+            get {
+                return ResourceManager.GetString("LikesDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на This account has been blocked. Please try again later.
+        /// </summary>
+        public static string LockedOut {
+            get {
+                return ResourceManager.GetString("LockedOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Log Out.
+        /// </summary>
+        public static string LogOut {
+            get {
+                return ResourceManager.GetString("LogOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Movies.
         /// </summary>
         public static string Movies {
             get {
                 return ResourceManager.GetString("Movies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на My Page.
+        /// </summary>
+        public static string MyPage {
+            get {
+                return ResourceManager.GetString("MyPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на My reviews.
+        /// </summary>
+        public static string MyReviews {
+            get {
+                return ResourceManager.GetString("MyReviews", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Other reviews for this piece of art.
+        /// </summary>
+        public static string OtherReviews {
+            get {
+                return ResourceManager.GetString("OtherReviews", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Personal page.
+        /// </summary>
+        public static string PersonalPage {
+            get {
+                return ResourceManager.GetString("PersonalPage", resourceCulture);
             }
         }
         
@@ -142,11 +448,11 @@ namespace AndHowIsItApp.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Your rating of the piece of art.
+        ///   Ищет локализованную строку, похожую на Average piece of art rating.
         /// </summary>
-        public static string Rating {
+        public static string PieceOfArtRating {
             get {
-                return ResourceManager.GetString("Rating", resourceCulture);
+                return ResourceManager.GetString("PieceOfArtRating", resourceCulture);
             }
         }
         
@@ -169,6 +475,132 @@ namespace AndHowIsItApp.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Register.
+        /// </summary>
+        public static string Register {
+            get {
+                return ResourceManager.GetString("Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Register with your account.
+        /// </summary>
+        public static string RegisterWith {
+            get {
+                return ResourceManager.GetString("RegisterWith", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на An error occurred while processing the request.
+        /// </summary>
+        public static string RequestError {
+            get {
+                return ResourceManager.GetString("RequestError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Revoke admin rights.
+        /// </summary>
+        public static string RevokeRights {
+            get {
+                return ResourceManager.GetString("RevokeRights", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Role.
+        /// </summary>
+        public static string Role {
+            get {
+                return ResourceManager.GetString("Role", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Search.
+        /// </summary>
+        public static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Results on request.
+        /// </summary>
+        public static string SearchResults {
+            get {
+                return ResourceManager.GetString("SearchResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Show.
+        /// </summary>
+        public static string Show {
+            get {
+                return ResourceManager.GetString("Show", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sign In.
+        /// </summary>
+        public static string SignIn {
+            get {
+                return ResourceManager.GetString("SignIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Enter your username, email address and click the &quot;Register&quot; button to complete sign in.
+        /// </summary>
+        public static string SignInConfirm {
+            get {
+                return ResourceManager.GetString("SignInConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Failed to login using the service.
+        /// </summary>
+        public static string SignInFail {
+            get {
+                return ResourceManager.GetString("SignInFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Use one of the services to sign in.
+        /// </summary>
+        public static string SignInServicesList {
+            get {
+                return ResourceManager.GetString("SignInServicesList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sign in with.
+        /// </summary>
+        public static string SignInWith {
+            get {
+                return ResourceManager.GetString("SignInWith", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Sort.
+        /// </summary>
+        public static string SortBy {
+            get {
+                return ResourceManager.GetString("SortBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Piece of art.
         /// </summary>
         public static string Subject {
@@ -187,11 +619,47 @@ namespace AndHowIsItApp.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на By piece of art rating, from lowest to highest.
+        /// </summary>
+        public static string SubjectRateAsc {
+            get {
+                return ResourceManager.GetString("SubjectRateAsc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на By piece of art rating, from highest to lowest.
+        /// </summary>
+        public static string SubjectRateDesc {
+            get {
+                return ResourceManager.GetString("SubjectRateDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Enter the title of the piece of art.
         /// </summary>
         public static string SubjectRequiredError {
             get {
                 return ResourceManager.GetString("SubjectRequiredError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на You have successfully authenticated through.
+        /// </summary>
+        public static string SuccessAuth {
+            get {
+                return ResourceManager.GetString("SuccessAuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Tags.
+        /// </summary>
+        public static string Tags {
+            get {
+                return ResourceManager.GetString("Tags", resourceCulture);
             }
         }
         
@@ -241,11 +709,65 @@ namespace AndHowIsItApp.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Unblock.
+        /// </summary>
+        public static string Unblock {
+            get {
+                return ResourceManager.GetString("Unblock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на User Name.
+        /// </summary>
+        public static string UserName {
+            get {
+                return ResourceManager.GetString("UserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на User Name field is required.
+        /// </summary>
+        public static string UserNameRequiredError {
+            get {
+                return ResourceManager.GetString("UserNameRequiredError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Users List.
+        /// </summary>
+        public static string UsersList {
+            get {
+                return ResourceManager.GetString("UsersList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Video Games.
         /// </summary>
         public static string Video_Games {
             get {
                 return ResourceManager.GetString("Video Games", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на View.
+        /// </summary>
+        public static string View {
+            get {
+                return ResourceManager.GetString("View", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Your rating of the piece of art.
+        /// </summary>
+        public static string YourPieceOfArtRating {
+            get {
+                return ResourceManager.GetString("YourPieceOfArtRating", resourceCulture);
             }
         }
     }

@@ -1,10 +1,7 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
 
 @{
-    ViewBag.Title = "Заблокировано";
+    ViewBag.Title = "Locked Out";
 }
 
-<hgroup>
-    <h1 class="text-danger">Заблокировано.</h1>
-    <h2 class="text-danger">Эта учетная запись заблокирована. Попробуйте еще раз позже.</h2>
-</hgroup>
+<h2 class="text-danger">@AndHowIsItApp.Resources.Language.LockedOut</h2>

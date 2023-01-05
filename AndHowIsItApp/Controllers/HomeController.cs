@@ -19,12 +19,11 @@ using System.Web.Mvc;
 
 namespace AndHowIsItApp.Controllers
 {
-    [RequireHttps]
     public class HomeController : Controller
     {
         private ApplicationDbContext db = ApplicationDbContext.Create();
         //подкючить токен для сохранения картинок
-        private DropboxClient dbx = new DropboxClient("sl.BWP35sb3Lk8wsF-jMpKfneZQqp9o62OCb-7bIAlYKDg-OZw0ZfBrrZ5SyW7UioZWfQrLOTzl5M0oxwgOerxXX8mNn5S0EBQTE1fg9ZWxlrhQVzRaS_Q4rCJXXD1orOZtzmOskwY");
+        private DropboxClient dbx = new DropboxClient("sl.BWSplnulFWLKVJzJiNhctD5sLtt7mbeKCzZbukUmBQ_gBCS955cQwasj3O3YgFIv6aMW_kRpJ34RZiylON4WeMzcz5_4_zc3vYHHOGmwtJvNnHIScfN-CnYLNXhC6UFKXcaX1Ew");
         
         public ActionResult Index()
         {
@@ -34,7 +33,7 @@ namespace AndHowIsItApp.Controllers
         public ActionResult GetLatestPreviews()
         {
             var latestReviews = db.Reviews.OrderByDescending(r => r.CreateDate).Take(5).Include("ApplicationUser").Include("Subject.Category").ToList();
-            ViewBag.ParagraphName = "Последние обзоры";
+            ViewBag.ParagraphName = Resources.Language.LatestReviews;
             return PartialView("PreviewSet", GetPreviewSet(latestReviews));
         }
 
@@ -42,7 +41,7 @@ namespace AndHowIsItApp.Controllers
         {
             var reviews = db.Reviews.Include("ApplicationUser").Include("Subject.Category").ToList();
             var topPreviews = GetPreviewSet(reviews).OrderByDescending(p => p.Likes).ThenByDescending(p => p.Date).Take(5);
-            ViewBag.ParagraphName = "Лучшие обзоры за все время";
+            ViewBag.ParagraphName = Resources.Language.BestReviews;
             return PartialView("PreviewSet", topPreviews);
         }
 
@@ -98,7 +97,8 @@ namespace AndHowIsItApp.Controllers
         public ActionResult GetPreviewsBySubject(int? subject, int? currentReview)
         {
             var subjectReviews = db.Reviews.Where(r => r.Subject.Id == subject).Where(r => r.Id != currentReview).Include("ApplicationUser").Include("Subject.Category").ToList();
-            ViewBag.ParagraphName = "Другие обзоры на это произведение";
+            if (subjectReviews.Count < 1) return null;
+            ViewBag.ParagraphName = Resources.Language.OtherReviews;
             return PartialView("PreviewSet", GetPreviewSet(subjectReviews));
         }
 

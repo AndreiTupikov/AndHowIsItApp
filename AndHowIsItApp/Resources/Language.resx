@@ -117,14 +117,50 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddComment" xml:space="preserve">
+    <value>Add Comment</value>
+  </data>
+  <data name="AddReview" xml:space="preserve">
+    <value>Add review</value>
+  </data>
+  <data name="AdminRights" xml:space="preserve">
+    <value>Admin rights</value>
+  </data>
   <data name="AllCategories" xml:space="preserve">
     <value>All Categories</value>
   </data>
   <data name="ApplicationName" xml:space="preserve">
     <value>And How Is It?</value>
   </data>
+  <data name="Author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="AuthorRatingAsc" xml:space="preserve">
+    <value>By author rating, from lowest to highest</value>
+  </data>
+  <data name="AuthorRatingDesc" xml:space="preserve">
+    <value>By author rating, from highest to lowest</value>
+  </data>
+  <data name="AuthorsRating" xml:space="preserve">
+    <value>Your rating of the piece of art</value>
+  </data>
+  <data name="BestReviews" xml:space="preserve">
+    <value>Best reviews of all time</value>
+  </data>
+  <data name="Block" xml:space="preserve">
+    <value>Block</value>
+  </data>
+  <data name="BlockUnblock" xml:space="preserve">
+    <value>Block/Unblock</value>
+  </data>
   <data name="Books" xml:space="preserve">
     <value>Books</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categories</value>
   </data>
   <data name="Category" xml:space="preserve">
     <value>Category</value>
@@ -132,8 +168,74 @@
   <data name="CategoryRequiredError" xml:space="preserve">
     <value>Select a category</value>
   </data>
+  <data name="Changed" xml:space="preserve">
+    <value>Changed</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="DateAsc" xml:space="preserve">
+    <value>By add date, from earliest to latest</value>
+  </data>
+  <data name="DateDesc" xml:space="preserve">
+    <value>By add date, from latest to earliest</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteReview" xml:space="preserve">
+    <value>Delete review</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditReview" xml:space="preserve">
+    <value>Edit review</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="EmailRequiredError" xml:space="preserve">
+    <value>Email Address field is required</value>
+  </data>
+  <data name="GiveRights" xml:space="preserve">
+    <value>Give admin rights</value>
+  </data>
+  <data name="LatestReviews" xml:space="preserve">
+    <value>Latest reviews</value>
+  </data>
+  <data name="LikesAsc" xml:space="preserve">
+    <value>By likes count, from lowest to highest</value>
+  </data>
+  <data name="LikesDesc" xml:space="preserve">
+    <value>By likes count, from highest to lowest</value>
+  </data>
+  <data name="LockedOut" xml:space="preserve">
+    <value>This account has been blocked. Please try again later</value>
+  </data>
+  <data name="LogOut" xml:space="preserve">
+    <value>Log Out</value>
+  </data>
   <data name="Movies" xml:space="preserve">
     <value>Movies</value>
+  </data>
+  <data name="MyPage" xml:space="preserve">
+    <value>My Page</value>
+  </data>
+  <data name="MyReviews" xml:space="preserve">
+    <value>My reviews</value>
+  </data>
+  <data name="OtherReviews" xml:space="preserve">
+    <value>Other reviews for this piece of art</value>
+  </data>
+  <data name="PersonalPage" xml:space="preserve">
+    <value>Personal page</value>
   </data>
   <data name="Picture" xml:space="preserve">
     <value>Image(*optional)</value>
@@ -144,8 +246,8 @@
   <data name="PictureSizeError" xml:space="preserve">
     <value>The file size must not exceed 2 MB</value>
   </data>
-  <data name="Rating" xml:space="preserve">
-    <value>Your rating of the piece of art</value>
+  <data name="PieceOfArtRating" xml:space="preserve">
+    <value>Average piece of art rating</value>
   </data>
   <data name="RatingRangeError" xml:space="preserve">
     <value>The rating must be between 1 and 10</value>
@@ -153,14 +255,68 @@
   <data name="RatingRequiredError" xml:space="preserve">
     <value>Rate the piece of art</value>
   </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="RegisterWith" xml:space="preserve">
+    <value>Register with your account</value>
+  </data>
+  <data name="RequestError" xml:space="preserve">
+    <value>An error occurred while processing the request</value>
+  </data>
+  <data name="RevokeRights" xml:space="preserve">
+    <value>Revoke admin rights</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchResults" xml:space="preserve">
+    <value>Results on request</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>Sign In</value>
+  </data>
+  <data name="SignInConfirm" xml:space="preserve">
+    <value>Enter your username, email address and click the "Register" button to complete sign in</value>
+  </data>
+  <data name="SignInFail" xml:space="preserve">
+    <value>Failed to login using the service</value>
+  </data>
+  <data name="SignInServicesList" xml:space="preserve">
+    <value>Use one of the services to sign in</value>
+  </data>
+  <data name="SignInWith" xml:space="preserve">
+    <value>Sign in with</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Sort</value>
+  </data>
   <data name="Subject" xml:space="preserve">
     <value>Piece of art</value>
   </data>
   <data name="SubjectLengthError" xml:space="preserve">
     <value>The title of the piece of art must be within 50 characters</value>
   </data>
+  <data name="SubjectRateAsc" xml:space="preserve">
+    <value>By piece of art rating, from lowest to highest</value>
+  </data>
+  <data name="SubjectRateDesc" xml:space="preserve">
+    <value>By piece of art rating, from highest to lowest</value>
+  </data>
   <data name="SubjectRequiredError" xml:space="preserve">
     <value>Enter the title of the piece of art</value>
+  </data>
+  <data name="SuccessAuth" xml:space="preserve">
+    <value>You have successfully authenticated through</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Tags</value>
   </data>
   <data name="Text" xml:space="preserve">
     <value>Review text</value>
@@ -177,7 +333,25 @@
   <data name="TitleRequiredError" xml:space="preserve">
     <value>Enter review title</value>
   </data>
+  <data name="Unblock" xml:space="preserve">
+    <value>Unblock</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>User Name</value>
+  </data>
+  <data name="UserNameRequiredError" xml:space="preserve">
+    <value>User Name field is required</value>
+  </data>
+  <data name="UsersList" xml:space="preserve">
+    <value>Users List</value>
+  </data>
   <data name="Video Games" xml:space="preserve">
     <value>Video Games</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="YourPieceOfArtRating" xml:space="preserve">
+    <value>Your rating of the piece of art</value>
   </data>
 </root>

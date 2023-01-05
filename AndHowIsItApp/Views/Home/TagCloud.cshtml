@@ -1,11 +1,11 @@
 ﻿@using (Html.BeginForm("SearchResults", "Home", FormMethod.Get, new { @class = "form-control" }))
 {
-    <h4>Categories</h4>
+    <h4>@AndHowIsItApp.Resources.Language.Categories</h4>
     <div class="btn btn-group">
         @Html.DropDownList("category", ViewBag.Categories as SelectList, AndHowIsItApp.Resources.Language.AllCategories, new { @class = "btn btn-outline-dark" })
-        <button class="btn btn-outline-dark" type="submit">Показать</button>
+        <button class="btn btn-outline-dark" type="submit">@AndHowIsItApp.Resources.Language.Show</button>
     </div>
-    <h4>Tags</h4>
+    <h4>@AndHowIsItApp.Resources.Language.Tags</h4>
     foreach (var t in ViewBag.Tags)
     {
         <input class="btn btn-outline-dark" type="submit" name="tagName" value="@t.Name">

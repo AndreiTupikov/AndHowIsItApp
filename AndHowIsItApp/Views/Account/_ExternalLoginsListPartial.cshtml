@@ -1,7 +1,7 @@
 ﻿@model AndHowIsItApp.Models.ExternalLoginListViewModel
 @using Microsoft.Owin.Security
 
-<h4>Используйте для входа одну из служб.</h4>
+<h4>@AndHowIsItApp.Resources.Language.SignInServicesList</h4>
 <hr />
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
@@ -12,7 +12,7 @@
             <p>
                 @foreach (AuthenticationDescription p in loginProviders)
                 {
-                    <button type="submit" class="btn btn-outline-dark" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Войти с помощью учетной записи @p.Caption">@p.AuthenticationType</button>
+                    <button type="submit" class="btn btn-outline-dark" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="@AndHowIsItApp.Resources.Language.SignInWith @p.Caption">@p.AuthenticationType</button>
                 }
             </p>
         </div>

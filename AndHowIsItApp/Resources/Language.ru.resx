@@ -117,14 +117,50 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="AddComment" xml:space="preserve">
+    <value>Добавить комментарий</value>
+  </data>
+  <data name="AddReview" xml:space="preserve">
+    <value>Добавить обзор</value>
+  </data>
+  <data name="AdminRights" xml:space="preserve">
+    <value>Права администратора</value>
+  </data>
   <data name="AllCategories" xml:space="preserve">
     <value>Все категории</value>
   </data>
   <data name="ApplicationName" xml:space="preserve">
     <value>Ну и Как Оно?</value>
   </data>
+  <data name="Author" xml:space="preserve">
+    <value>Автор</value>
+  </data>
+  <data name="AuthorRatingAsc" xml:space="preserve">
+    <value>По оценке автора, от меньшей к большей</value>
+  </data>
+  <data name="AuthorRatingDesc" xml:space="preserve">
+    <value>По оценке автора, от большей к меньшей</value>
+  </data>
+  <data name="AuthorsRating" xml:space="preserve">
+    <value>Оценка произведения</value>
+  </data>
+  <data name="BestReviews" xml:space="preserve">
+    <value>Лучшие обзоры за все время</value>
+  </data>
+  <data name="Block" xml:space="preserve">
+    <value>Блокировать</value>
+  </data>
+  <data name="BlockUnblock" xml:space="preserve">
+    <value>Блокир./Разблок.</value>
+  </data>
   <data name="Books" xml:space="preserve">
     <value>Книги</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Категории</value>
   </data>
   <data name="Category" xml:space="preserve">
     <value>Категория</value>
@@ -132,8 +168,74 @@
   <data name="CategoryRequiredError" xml:space="preserve">
     <value>Выберите категорию</value>
   </data>
+  <data name="Changed" xml:space="preserve">
+    <value>Изменено</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Комментарии</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Создано</value>
+  </data>
+  <data name="DateAsc" xml:space="preserve">
+    <value>По дате добавления, от ранних к поздним</value>
+  </data>
+  <data name="DateDesc" xml:space="preserve">
+    <value>По дате добавления, от поздних к ранним</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="DeleteReview" xml:space="preserve">
+    <value>Удалить обзор</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
+  <data name="EditReview" xml:space="preserve">
+    <value>Изменить обзор</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Почта</value>
+  </data>
+  <data name="EmailAddress" xml:space="preserve">
+    <value>Адрес электронной почты</value>
+  </data>
+  <data name="EmailRequiredError" xml:space="preserve">
+    <value>Поле Адрес электронной почты обязательно</value>
+  </data>
+  <data name="GiveRights" xml:space="preserve">
+    <value>Дать права</value>
+  </data>
+  <data name="LatestReviews" xml:space="preserve">
+    <value>Последние обзоры</value>
+  </data>
+  <data name="LikesAsc" xml:space="preserve">
+    <value>По количеству лайков, от меньшего к большему</value>
+  </data>
+  <data name="LikesDesc" xml:space="preserve">
+    <value>По количеству лайков, от большего к меньшему</value>
+  </data>
+  <data name="LockedOut" xml:space="preserve">
+    <value>Эта учетная запись заблокирована. Попробуйте еще раз позже</value>
+  </data>
+  <data name="LogOut" xml:space="preserve">
+    <value>Выйти</value>
+  </data>
   <data name="Movies" xml:space="preserve">
     <value>Фильмы</value>
+  </data>
+  <data name="MyPage" xml:space="preserve">
+    <value>Моя страница</value>
+  </data>
+  <data name="MyReviews" xml:space="preserve">
+    <value>Мои обзоры</value>
+  </data>
+  <data name="OtherReviews" xml:space="preserve">
+    <value>Другие обзоры на это произведение</value>
+  </data>
+  <data name="PersonalPage" xml:space="preserve">
+    <value>Личная страница</value>
   </data>
   <data name="Picture" xml:space="preserve">
     <value>Изображние(*не обязательно)</value>
@@ -144,8 +246,8 @@
   <data name="PictureSizeError" xml:space="preserve">
     <value>Размер файла не должен превышать 2 МБ</value>
   </data>
-  <data name="Rating" xml:space="preserve">
-    <value>Оценка произведения</value>
+  <data name="PieceOfArtRating" xml:space="preserve">
+    <value>Средняя оценка произведения</value>
   </data>
   <data name="RatingRangeError" xml:space="preserve">
     <value>Оценка произведения должна быть от 1 до 10</value>
@@ -153,14 +255,68 @@
   <data name="RatingRequiredError" xml:space="preserve">
     <value>Поставьте свою оценку произведению</value>
   </data>
+  <data name="Register" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
+  <data name="RegisterWith" xml:space="preserve">
+    <value>Регистрация с вашей учетной записью</value>
+  </data>
+  <data name="RequestError" xml:space="preserve">
+    <value>При обработке запроса произошла ошибка</value>
+  </data>
+  <data name="RevokeRights" xml:space="preserve">
+    <value>Отнять права</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Роль</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Поиск</value>
+  </data>
+  <data name="SearchResults" xml:space="preserve">
+    <value>Результаты по запросу</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Показать</value>
+  </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>Выполнить вход</value>
+  </data>
+  <data name="SignInConfirm" xml:space="preserve">
+    <value>Введите имя пользователя, адрес электронной почты и нажмите кнопку "Регистрация", чтобы завершить вход</value>
+  </data>
+  <data name="SignInFail" xml:space="preserve">
+    <value>Не удалось войти через службу</value>
+  </data>
+  <data name="SignInServicesList" xml:space="preserve">
+    <value>Используйте для входа одну из служб</value>
+  </data>
+  <data name="SignInWith" xml:space="preserve">
+    <value>Войти с помощью учетной записи</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Сортировать</value>
+  </data>
   <data name="Subject" xml:space="preserve">
     <value>Название произведения</value>
   </data>
   <data name="SubjectLengthError" xml:space="preserve">
     <value>Название произведения должно быть в пределах 50 символов</value>
   </data>
+  <data name="SubjectRateAsc" xml:space="preserve">
+    <value>По рейтингу произведения, от меньшего к большему</value>
+  </data>
+  <data name="SubjectRateDesc" xml:space="preserve">
+    <value>По рейтингу произведения, от большего к меньшему</value>
+  </data>
   <data name="SubjectRequiredError" xml:space="preserve">
     <value>Введите название произведения</value>
+  </data>
+  <data name="SuccessAuth" xml:space="preserve">
+    <value>Вы успешно прошли проверку подлинности через</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Теги</value>
   </data>
   <data name="Text" xml:space="preserve">
     <value>Текст обзора</value>
@@ -177,7 +333,25 @@
   <data name="TitleRequiredError" xml:space="preserve">
     <value>Введите название обзора</value>
   </data>
+  <data name="Unblock" xml:space="preserve">
+    <value>Разблокировать</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>Имя пользователя</value>
+  </data>
+  <data name="UserNameRequiredError" xml:space="preserve">
+    <value>Поле Имя пользователя обязательно</value>
+  </data>
+  <data name="UsersList" xml:space="preserve">
+    <value>Список пользователей</value>
+  </data>
   <data name="Video Games" xml:space="preserve">
     <value>Игры</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Просмотр</value>
+  </data>
+  <data name="YourPieceOfArtRating" xml:space="preserve">
+    <value>Ваша оценка произведению</value>
   </data>
 </root>

@@ -3,7 +3,7 @@
 @if (!Request.IsAuthenticated)
 {
     <div class="navbar-nav me-auto ms-auto">
-        @Html.ActionLink("Выполнить вход", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "nav-link active" })
+        @Html.ActionLink(AndHowIsItApp.Resources.Language.SignIn, "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "nav-link active" })
     </div>
 }
 else
@@ -14,19 +14,19 @@ else
         </button>
         <ul class="dropdown-menu">
             <li>
-                @Html.ActionLink("Моя страница", "PersonalPage", "Home", null, new { @class = "dropdown-item" })
+                @Html.ActionLink(AndHowIsItApp.Resources.Language.MyPage, "PersonalPage", "Home", null, new { @class = "dropdown-item" })
             </li>
             @if (User.IsInRole("admin"))
             {
                 <li>
-                    @Html.ActionLink("Список пользователей", "ManageUsers", "Admin", null, new { @class = "dropdown-item" })
+                    @Html.ActionLink(AndHowIsItApp.Resources.Language.UsersList, "ManageUsers", "Admin", null, new { @class = "dropdown-item" })
                 </li>
             }
             <li>
                 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
                 {
                     @Html.AntiForgeryToken()
-                    <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">Выйти</a>
+                    <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">@AndHowIsItApp.Resources.Language.LogOut</a>
                 }
             </li>
         </ul>

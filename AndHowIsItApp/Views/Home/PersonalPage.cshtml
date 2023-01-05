@@ -2,10 +2,10 @@
     ViewBag.Title = "PersonalPage";
 }
 
-<h2>Персональная страница @ViewBag.UserName | @ViewBag.UserLikes</h2>
-@Html.ActionLink("Добавить обзор", "CreateReview", new { userId = ViewBag.UserId }, new { @class = "btn btn-outline-dark" } )
+<h2>@AndHowIsItApp.Resources.Language.PersonalPage @ViewBag.UserName | @ViewBag.UserLikes</h2>
+@Html.ActionLink(AndHowIsItApp.Resources.Language.AddReview, "CreateReview", new { userId = ViewBag.UserId }, new { @class = "btn btn-outline-dark" } )
 
-<h3 class="mt-3">Мои обзоры</h3>
+<h3 class="mt-3">@AndHowIsItApp.Resources.Language.MyReviews</h3>
 <div>
     @Html.Partial("PreviewSortBar")
 </div>
