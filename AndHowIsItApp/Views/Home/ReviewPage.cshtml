@@ -5,96 +5,128 @@
     ViewBag.Title = "Review Page";
 }
 
-<div name="picture" id="picture-@Model.Id" data-filepath="@Model.PictureLink" data-postfix=""></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div name="picture" id="picture-@Model.Id" data-filepath="@Model.PictureLink" data-postfix=""></div>
+            <div hidden id="subject-id">@Model.Subject.Id</div>
+            <div>@AndHowIsItApp.Resources.Language.Category: @Model.Subject.Category</div>
+            <h2>@Model.Subject.Name</h2>
+            <div>@AndHowIsItApp.Resources.Language.PieceOfArtRating</div>
+            <div class="d-flex">
+                <i class="bi bi-star-fill" style="font-size: 1.5rem; color: #FFC107;"></i>
+                <h2 id="usersRating">@Model.Subject.Rating</h2>
+                <h2>/5</h2>
+            </div>
+            @if (Request.IsAuthenticated)
+            {
+                <div>@AndHowIsItApp.Resources.Language.YourPieceOfArtRating</div>
 
-@if (User.IsInRole("admin") || User.Identity.GetUserId() == Model.AuthorId)
-{
-    <div>@Html.ActionLink(AndHowIsItApp.Resources.Language.EditReview, "EditReview", new { userId = Model.AuthorId, reviewId = Model.Id }, new { @class = "btn btn-outline-dark" })</div>
+                <div class="btn-group">
+                    <input type="radio" class="btn-check" name="subjectRating" id="subjectRating-1" onchange="rateSubject(1)" />
+                    <label class="btn btn-outline-warning" for="subjectRating-1"><i class="bi bi-star"></i> 1</label>
+                    <input type="radio" class="btn-check" name="subjectRating" id="subjectRating-2" onchange="rateSubject(2)" />
+                    <label class="btn btn-outline-warning" for="subjectRating-2"><i class="bi bi-star"></i> 2</label>
+                    <input type="radio" class="btn-check" name="subjectRating" id="subjectRating-3" onchange="rateSubject(3)" />
+                    <label class="btn btn-outline-warning" for="subjectRating-3"><i class="bi bi-star"></i> 3</label>
+                    <input type="radio" class="btn-check" name="subjectRating" id="subjectRating-4" onchange="rateSubject(4)" />
+                    <label class="btn btn-outline-warning" for="subjectRating-4"><i class="bi bi-star"></i> 4</label>
+                    <input type="radio" class="btn-check" name="subjectRating" id="subjectRating-5" onchange="rateSubject(5)" />
+                    <label class="btn btn-outline-warning" for="subjectRating-5"><i class="bi bi-star"></i> 5</label>
+                </div>
+            }
+            <br />
+            @if (User.IsInRole("admin") || User.Identity.GetUserId() == Model.AuthorId)
+            {
+                <br />
+                <div class="d-flex justify-content-around">
+                    <div>@Html.ActionLink(AndHowIsItApp.Resources.Language.EditReview, "EditReview", new { userId = Model.AuthorId, reviewId = Model.Id }, new { @class = "btn btn-outline-dark" })</div>
 
-    <div class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#deleteReviewModal">@AndHowIsItApp.Resources.Language.DeleteReview</div>
-    <div class="modal fade" id="deleteReviewModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="deleteModalLable">@AndHowIsItApp.Resources.Language.DeleteConfirm</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label=@AndHowIsItApp.Resources.Language.Cancel></button>
+                    <div class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#deleteReviewModal">@AndHowIsItApp.Resources.Language.DeleteReview</div>
+                    <div class="modal fade" id="deleteReviewModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="deleteModalLable">@AndHowIsItApp.Resources.Language.DeleteConfirm</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label=@AndHowIsItApp.Resources.Language.Cancel></button>
+                                </div>
+                                <div class="modal-body">
+                                    @AndHowIsItApp.Resources.Language.DeleteReviewConfirmText @Model.Title?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">@AndHowIsItApp.Resources.Language.Cancel</button>
+                                    <div>@Html.ActionLink(AndHowIsItApp.Resources.Language.DeleteReview, "DeleteReview", new { userId = Model.AuthorId, reviewId = Model.Id }, new { @class = "btn btn-outline-danger" })</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    @AndHowIsItApp.Resources.Language.DeleteReviewConfirmText @Model.Title?
+            }
+        </div>
+        <div class="col-md-8">
+            <div hidden id="review-id">@Model.Id</div>
+            <div class="d-flex">
+                <h1>@Model.Title</h1>
+                <div class="d-flex ms-4">
+                    <i class="bi bi-heart-fill" style="font-size: 1.5rem; color: red;"></i>
+                    <h1 id="allReviewLikes">@Model.Likes</h1>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">@AndHowIsItApp.Resources.Language.Cancel</button>
-                    <div>@Html.ActionLink(AndHowIsItApp.Resources.Language.DeleteReview, "DeleteReview", new { userId = Model.AuthorId, reviewId = Model.Id }, new { @class = "btn btn-outline-danger" })</div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <div class="d-flex">
+                    <h4>@AndHowIsItApp.Resources.Language.Author @Model.Author.UserName</h4>
+                    <i class="bi bi-heart-fill ms-2" style="font-size: 1rem; color: red;"></i>
+                    <h4>@Model.Author.Likes</h4>
                 </div>
+                <div>@AndHowIsItApp.Resources.Language.Created @Model.CreateDate</div>
+            </div>
+
+            <div>@Model.Text</div>
+
+            <h3>@AndHowIsItApp.Resources.Language.AuthorsRating @Model.Rating/10</h3>
+
+            @using (Html.BeginForm("SearchResults", "Home"))
+            {
+                <h6>@AndHowIsItApp.Resources.Language.Tags</h6>
+                foreach (var tag in Model.Tags)
+                {
+                    <input class="btn btn-outline-dark" type="submit" name="tagName" value="@tag">
+                }
+            }
+
+            <div class="d-flex justify-content-end">@AndHowIsItApp.Resources.Language.Changed @Model.LastChangeDate</div>
+
+            @if (Request.IsAuthenticated)
+            {
+                <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                    <input type="checkbox" class="btn-check" name="reviewLike" id="reviewLike" onchange="likeReview()">
+                    <label class="btn btn-outline-danger" for="reviewLike"><i class="bi bi-heart"></i> @AndHowIsItApp.Resources.Language.Like</label>
+                </div>
+            }
+            <br />
+            @{
+                if (Request.IsAuthenticated)
+                {
+                    <h3>@AndHowIsItApp.Resources.Language.AddComment:</h3>
+                    using (Html.BeginForm("AddComment", "Home", FormMethod.Post))
+                    {
+                        <input type="hidden" name="reviewId" value="@Model.Id" />
+                        <input class="form-control" type="text" name="commentText">
+                        <input class="btn btn-outline-dark" type="submit" value="@AndHowIsItApp.Resources.Language.Add" />
+                    }
+                }
+            }
+            <h3>@AndHowIsItApp.Resources.Language.Comments:</h3>
+            <div id="allComments">
+                @Html.Action("GetComments", new { reviewId = Model.Id })
             </div>
         </div>
     </div>
-}
-
-<div hidden id="subject-id">@Model.Subject.Id</div>
-<h2>@AndHowIsItApp.Resources.Language.Category: @Model.Subject.Category</h2>
-<h1>@Model.Subject.Name</h1>
-<div>@AndHowIsItApp.Resources.Language.PieceOfArtRating</div>
-<div id="usersRating">@Model.Subject.Rating</div>
-
-@if (Request.IsAuthenticated)
-{
-    <div>@AndHowIsItApp.Resources.Language.YourPieceOfArtRating</div>
-    <input type="radio" name="subjectRating" id="subjectRating-1" onchange="rateSubject(1)" />
-    <input type="radio" name="subjectRating" id="subjectRating-2" onchange="rateSubject(2)" />
-    <input type="radio" name="subjectRating" id="subjectRating-3" onchange="rateSubject(3)" />
-    <input type="radio" name="subjectRating" id="subjectRating-4" onchange="rateSubject(4)" />
-    <input type="radio" name="subjectRating" id="subjectRating-5" onchange="rateSubject(5)" />
-}
+</div>
 <br />
-
-<div hidden id="review-id">@Model.Id</div>
-<h2>@Model.Title</h2>
-<div id="allReviewLikes">@Model.Likes</div>
-
-@if (Request.IsAuthenticated)
-{
-    <input type="checkbox" name="reviewLike" id="reviewLike" onchange="likeReview()" />
-}
-
-<h2>@AndHowIsItApp.Resources.Language.Author @Model.Author.UserName</h2>
-<h3>@Model.Author.Likes</h3>
-
-<div>@AndHowIsItApp.Resources.Language.Created @Model.CreateDate</div>
-
-
-<div>@Model.Text</div>
-
-<h2>@Model.Rating/10</h2>
-
-@using (Html.BeginForm("SearchResults", "Home"))
-{
-    foreach (var tag in Model.Tags)
-    {
-        <input type="submit" name="tagName" value="@tag">
-    }
-}
-
-<div>@AndHowIsItApp.Resources.Language.Changed @Model.LastChangeDate</div>
-
 <div>
     @Html.Action("GetPreviewsBySubject", new { subject = Model.Subject.Id, currentReview = Model.Id })
-</div>
-@{
-    if (Request.IsAuthenticated)
-    {
-        <h3>@AndHowIsItApp.Resources.Language.AddComment:</h3>
-        using (Html.BeginForm("AddComment", "Home", FormMethod.Post))
-        {
-            <input type="hidden" name="reviewId" value="@Model.Id" />
-            <input type="text" name="commentText" />
-            <input type="submit" value="@AndHowIsItApp.Resources.Language.Add" />
-        }
-    }
-}
-<h3>@AndHowIsItApp.Resources.Language.Comments:</h3>
-<div id="allComments">
-    @Html.Action("GetComments", new { reviewId = Model.Id })
 </div>
 
 @section Scripts {

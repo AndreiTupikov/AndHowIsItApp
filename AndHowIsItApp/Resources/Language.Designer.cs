@@ -142,7 +142,7 @@ namespace AndHowIsItApp.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Your rating of the piece of art.
+        ///   Ищет локализованную строку, похожую на Piece of art rating.
         /// </summary>
         public static string AuthorsRating {
             get {
@@ -408,6 +408,15 @@ namespace AndHowIsItApp.Resources {
         public static string LightTheme {
             get {
                 return ResourceManager.GetString("LightTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Like it.
+        /// </summary>
+        public static string Like {
+            get {
+                return ResourceManager.GetString("Like", resourceCulture);
             }
         }
         

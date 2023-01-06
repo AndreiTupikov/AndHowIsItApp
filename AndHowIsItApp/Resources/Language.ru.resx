@@ -234,6 +234,9 @@
   <data name="LightTheme" xml:space="preserve">
     <value>Светлая тема</value>
   </data>
+  <data name="Like" xml:space="preserve">
+    <value>Мне нравится</value>
+  </data>
   <data name="LikesAsc" xml:space="preserve">
     <value>По количеству лайков, от меньшего к большему</value>
   </data>
