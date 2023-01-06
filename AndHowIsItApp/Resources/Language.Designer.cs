@@ -250,6 +250,15 @@ namespace AndHowIsItApp.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Dark theme.
+        /// </summary>
+        public static string DarkTheme {
+            get {
+                return ResourceManager.GetString("DarkTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на By add date, from earliest to latest.
         /// </summary>
         public static string DateAsc {
@@ -390,6 +399,15 @@ namespace AndHowIsItApp.Resources {
         public static string LatestReviews {
             get {
                 return ResourceManager.GetString("LatestReviews", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Light theme.
+        /// </summary>
+        public static string LightTheme {
+            get {
+                return ResourceManager.GetString("LightTheme", resourceCulture);
             }
         }
         
@@ -732,6 +750,15 @@ namespace AndHowIsItApp.Resources {
         public static string TextRequiredError {
             get {
                 return ResourceManager.GetString("TextRequiredError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Theme.
+        /// </summary>
+        public static string Theme {
+            get {
+                return ResourceManager.GetString("Theme", resourceCulture);
             }
         }
         

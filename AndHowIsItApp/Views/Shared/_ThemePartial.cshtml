@@ -1,0 +1,13 @@
+﻿<div class="navbar-nav dropdown ms-auto">
+    <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        @AndHowIsItApp.Resources.Language.Theme
+    </button>
+    <ul class="dropdown-menu">
+        <li>
+            @Html.ActionLink(AndHowIsItApp.Resources.Language.LightTheme, "SetTheme", "Interface", new { theme = "light" }, new { @class = "dropdown-item" })
+        </li>
+        <li>
+            @Html.ActionLink(AndHowIsItApp.Resources.Language.DarkTheme, "SetTheme", "Interface", new { theme = "dark" }, new { @class = "dropdown-item" })
+        </li>
+    </ul>
+</div>

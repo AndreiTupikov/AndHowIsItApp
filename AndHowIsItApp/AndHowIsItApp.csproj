@@ -218,6 +218,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\themes\Dark.css" />
+    <Content Include="Content\themes\Light.css" />
     <Content Include="Files\dbx-token.txt" />
     <Content Include="Files\Images\pictureFiller.jpg" />
     <Content Include="Files\Images\pictureFiller_preview.jpg" />
@@ -340,6 +342,7 @@
     <Content Include="Views\Shared\_LanguagePartial.cshtml" />
     <Content Include="Views\Home\ReviewPage.cshtml" />
     <Content Include="Views\Home\DownloadPicture.cshtml" />
+    <Content Include="Views\Shared\_ThemePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - приложение ASP.NET</title>
     @Styles.Render("~/Content/css")
+    @if (Request.Cookies["Theme"] != null && Request.Cookies["Theme"].Value == "dark")
+    {
+        @Styles.Render("~/Content/themes/Dark.css");
+    }
+    else
+    {
+        @Styles.Render("~/Content/themes/Light.css");
+    }
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/scripts/AndHowIsItAppScripts.js")
     @Scripts.Render("~/Scripts/bootstrap.bundle.min.js")
@@ -22,6 +30,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     @Html.Partial("_LanguagePartial")
+                    @Html.Partial("_ThemePartial")
                     @Html.Partial("_LoginPartial")
                     @using (Html.BeginForm("SearchResults", "Home", FormMethod.Get, new { @class = "d-flex", role = "search" }))
                     {
