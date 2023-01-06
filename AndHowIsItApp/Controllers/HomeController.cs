@@ -117,7 +117,7 @@ namespace AndHowIsItApp.Controllers
             return previews;
         }
 
-        public ActionResult ReviewPage(int? reviewId)
+        public ActionResult ReviewPage(int reviewId = 0)
         {
             var review = db.Reviews.Where(r => r.Id == reviewId).Include("ApplicationUser").Include("Subject.Category").FirstOrDefault();
             if (review == null) return RedirectToAction("Index");
@@ -181,17 +181,18 @@ namespace AndHowIsItApp.Controllers
                         }
                     }
                 }
+                db.Reviews.Add(review);
+                db.SaveChanges();
                 if (model.Picture != null)
                 {
                     try
                     {
                         await UploadPicture(model.UserId, review.Id, model.Picture);
                         review.PictureLink = $"/{model.UserId}/{review.Id}";
+                        db.SaveChanges();
                     }
                     catch { }
                 }
-                db.Reviews.Add(review);
-                db.SaveChanges();
                 if (!User.IsInRole("admin")) return RedirectToAction("PersonalPage");
                 return RedirectToAction("PersonalPage", new { model.UserId });
             }
@@ -200,7 +201,7 @@ namespace AndHowIsItApp.Controllers
         }
 
         [Authorize]
-        public ActionResult EditReview(string userId, int reviewId)
+        public ActionResult EditReview(string userId, int reviewId = 0)
         {
             var review = db.Reviews.Include("ApplicationUser").FirstOrDefault(r => r.Id == reviewId);
             if (userId == null || !User.IsInRole("admin")) userId = User.Identity.GetUserId();
@@ -269,7 +270,7 @@ namespace AndHowIsItApp.Controllers
         }
 
         [Authorize]
-        public ActionResult DeleteReview(string userId, int reviewId)
+        public ActionResult DeleteReview(string userId, int reviewId = 0)
         {
             if (userId == null || !User.IsInRole("admin")) userId = User.Identity.GetUserId();
             var review = db.Reviews.Where(r => r.Id == reviewId).Include("ApplicationUser").FirstOrDefault();
@@ -283,7 +284,7 @@ namespace AndHowIsItApp.Controllers
         }
 
         [Authorize]
-        public double RateSubject(int subjectId, int rating)
+        public double RateSubject(int subjectId = 0, int rating = 0)
         {
             var userId = User.Identity.GetUserId();
             var subjectRating = db.UserRatings.Where(u => u.ApplicationUser.Id == userId).FirstOrDefault(s => s.Subject.Id == subjectId);
@@ -298,7 +299,7 @@ namespace AndHowIsItApp.Controllers
             return GetSubjectRating(subjectId);
         }
 
-        public double GetSubjectRating(int subjectId)
+        public double GetSubjectRating(int subjectId = 0)
         {
             var ratings = db.UserRatings.Where(r => r.Subject.Id == subjectId);
             if (ratings.Count() < 1) return 0;
@@ -309,7 +310,7 @@ namespace AndHowIsItApp.Controllers
         }
 
         [Authorize]
-        public int GetUserRating(int subjectId)
+        public int GetUserRating(int subjectId = 0)
         {
             var userId = User.Identity.GetUserId();
             var rating = db.UserRatings.Where(r => r.Subject.Id == subjectId).FirstOrDefault(r => r.ApplicationUser.Id == userId);
@@ -318,7 +319,7 @@ namespace AndHowIsItApp.Controllers
         }
 
         [Authorize]
-        public int LikeReview(int reviewId)
+        public int LikeReview(int reviewId = 0)
         {
             var userId = User.Identity.GetUserId();
             var like = db.UserLikes.Where(l => l.Review.Id == reviewId).FirstOrDefault(l => l.ApplicationUser.Id == userId);
@@ -332,7 +333,7 @@ namespace AndHowIsItApp.Controllers
             return GetReviewLikes(reviewId);
         }
 
-        public int GetReviewLikes(int reviewId)
+        public int GetReviewLikes(int reviewId = 0)
         {
             var likes = db.UserLikes.Where(l => l.Review.Id == reviewId).Count();
             return likes;
@@ -346,7 +347,7 @@ namespace AndHowIsItApp.Controllers
         }
 
         [Authorize]
-        public bool GetUserLike(int reviewId)
+        public bool GetUserLike(int reviewId = 0)
         {
             var userId = User.Identity.GetUserId();
             return db.UserLikes.Where(l => l.Review.Id == reviewId).Any(l => l.ApplicationUser.Id == userId);
@@ -424,7 +425,7 @@ namespace AndHowIsItApp.Controllers
         [HttpPost]
         public ActionResult AddComment(string commentText, int reviewId = 0)
         {
-            if (commentText != null && reviewId != 0)
+            if (!string.IsNullOrWhiteSpace(commentText) && reviewId != 0)
             {
                 var userId = User.Identity.GetUserId();
                 var user = db.Users.FirstOrDefault(u => u.Id == userId);
@@ -433,8 +434,8 @@ namespace AndHowIsItApp.Controllers
                 db.Comments.Add(comment);
                 review.LastCommentDate = comment.Date;
                 db.SaveChanges();
-                return RedirectToAction("ReviewPage", new { reviewId });
             }
+            if (reviewId != 0) return RedirectToAction("ReviewPage", new { reviewId });
             return RedirectToAction("Index");
         }
 
