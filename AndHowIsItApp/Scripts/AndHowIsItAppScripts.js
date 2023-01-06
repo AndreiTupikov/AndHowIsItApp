@@ -67,63 +67,6 @@ function removeTag(id) {
     document.getElementById(id).remove();
 }
 
-function rateSubject(rating) {
-    let subject = document.getElementById('subject-id').innerHTML;
-    $.ajax({
-        type: 'GET',
-        url: '/Home/RateSubject?subjectId=' + subject + '&rating=' + rating,
-        success: function (data, textstatus) {
-            $("#usersRating").html(data);
-        }
-    });
-}
-
-function likeReview() {
-    let review = document.getElementById('review-id').innerHTML;
-    $.ajax({
-        type: 'GET',
-        url: '/Home/LikeReview?reviewId=' + review,
-        success: function (data, textstatus) {
-            $("#allReviewLikes").html(data);
-        }
-    });
-}
-
-//оценки для произведения и лайки для обзора и комментарии!
-//Необходимо переделать чтобы применять только к некоторым страницам!!!
-$(document).ready(function () {
-    let subject = document.getElementById('subject-id').innerHTML;
-    let review = document.getElementById('review-id').innerHTML;
-    $.ajax({
-        type: 'GET',
-        url: '/Home/GetUserRating?subjectId=' + subject,
-        success: function (data, textstatus) {
-            $("#subjectRating-" + data).attr("checked", "checked");
-        }
-    });
-    $.ajax({
-        type: 'GET',
-        url: '/Home/GetUserLike?reviewId=' + review,
-        success: function (data, textstatus) {
-            if (data === 'True') {
-                $("#reviewLike").attr("checked", "checked");
-            }
-        }
-    });
-    getCommentsUpdate = function () {
-        $.ajax({
-            type: 'GET',
-            url: '/Home/GetComments?reviewId=' + review,
-            success: function (data, textstatus) {
-                if (data != '') {
-                    $("#allComments").html(data);
-                }
-            }
-        });
-    }
-    setInterval(getCommentsUpdate, 5000);
-});
-
 function sortResults() {
     let sortParam = document.getElementById('sortSelector').value.split('-');
     var previewSet = document.getElementsByName('preview-card');

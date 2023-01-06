@@ -96,3 +96,7 @@
 <div id="allComments">
     @Html.Action("GetComments", new { reviewId = Model.Id })
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/scripts/ReviewPageScripts.js")
+}
