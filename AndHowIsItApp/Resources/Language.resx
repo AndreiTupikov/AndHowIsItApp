@@ -126,6 +126,9 @@
   <data name="AddReview" xml:space="preserve">
     <value>Add review</value>
   </data>
+  <data name="AddTags" xml:space="preserve">
+    <value>Add tags</value>
+  </data>
   <data name="AdminRights" xml:space="preserve">
     <value>Admin rights</value>
   </data>
@@ -145,7 +148,7 @@
     <value>By author rating, from highest to lowest</value>
   </data>
   <data name="AuthorsRating" xml:space="preserve">
-    <value>Piece of art rating</value>
+    <value>Reviewer's rating</value>
   </data>
   <data name="BestReviews" xml:space="preserve">
     <value>Best reviews of all time</value>

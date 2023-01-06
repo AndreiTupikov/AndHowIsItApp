@@ -47,16 +47,19 @@
         </div>
     </div>
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="text" id="input-tag" onfocus="autoCompleteTags()">
-            <button type="button" class="btn btn-secondary" onclick="addTag()">@AndHowIsItApp.Resources.Language.Add</button>
+        <div>@AndHowIsItApp.Resources.Language.AddTags</div>
+        <div class="form-group d-flex col-md-offset-2 col-md-10">
+            <input class="form-control" type="text" id="input-tag" onfocus="autoCompleteTags()">
+            <button type="button" class="btn btn-outline-dark" onclick="addTag()">@AndHowIsItApp.Resources.Language.Add</button>
         </div>
         <div class="col-md-offset-2 col-md-10" id="selected-tags">
+            <div>@AndHowIsItApp.Resources.Language.Tags:</div>
         </div>
     </div>
+    <br />
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="@AndHowIsItApp.Resources.Language.AddReview" />
+            <input type="submit" class="btn btn-outline-success" value="@AndHowIsItApp.Resources.Language.AddReview" />
         </div>
     </div>
 }

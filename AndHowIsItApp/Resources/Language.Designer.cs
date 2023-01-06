@@ -88,6 +88,15 @@ namespace AndHowIsItApp.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Add tags.
+        /// </summary>
+        public static string AddTags {
+            get {
+                return ResourceManager.GetString("AddTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Admin rights.
         /// </summary>
         public static string AdminRights {
@@ -142,7 +151,7 @@ namespace AndHowIsItApp.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Piece of art rating.
+        ///   Ищет локализованную строку, похожую на Reviewer&apos;s rating.
         /// </summary>
         public static string AuthorsRating {
             get {

@@ -24,15 +24,15 @@
 
                 <div class="btn-group">
                     <input type="radio" class="btn-check" name="subjectRating" id="subjectRating-1" onchange="rateSubject(1)" />
-                    <label class="btn btn-outline-warning" for="subjectRating-1"><i class="bi bi-star"></i> 1</label>
+                    <label class="btn btn-outline-warning" for="subjectRating-1"><i class="bi bi-star-fill"></i> 1</label>
                     <input type="radio" class="btn-check" name="subjectRating" id="subjectRating-2" onchange="rateSubject(2)" />
-                    <label class="btn btn-outline-warning" for="subjectRating-2"><i class="bi bi-star"></i> 2</label>
+                    <label class="btn btn-outline-warning" for="subjectRating-2"><i class="bi bi-star-fill"></i> 2</label>
                     <input type="radio" class="btn-check" name="subjectRating" id="subjectRating-3" onchange="rateSubject(3)" />
-                    <label class="btn btn-outline-warning" for="subjectRating-3"><i class="bi bi-star"></i> 3</label>
+                    <label class="btn btn-outline-warning" for="subjectRating-3"><i class="bi bi-star-fill"></i> 3</label>
                     <input type="radio" class="btn-check" name="subjectRating" id="subjectRating-4" onchange="rateSubject(4)" />
-                    <label class="btn btn-outline-warning" for="subjectRating-4"><i class="bi bi-star"></i> 4</label>
+                    <label class="btn btn-outline-warning" for="subjectRating-4"><i class="bi bi-star-fill"></i> 4</label>
                     <input type="radio" class="btn-check" name="subjectRating" id="subjectRating-5" onchange="rateSubject(5)" />
-                    <label class="btn btn-outline-warning" for="subjectRating-5"><i class="bi bi-star"></i> 5</label>
+                    <label class="btn btn-outline-warning" for="subjectRating-5"><i class="bi bi-star-fill"></i> 5</label>
                 </div>
             }
             <br />
@@ -68,7 +68,7 @@
             <div class="d-flex">
                 <h1>@Model.Title</h1>
                 <div class="d-flex ms-4">
-                    <i class="bi bi-heart-fill" style="font-size: 1.5rem; color: red;"></i>
+                    <i class="bi bi-heart-fill" style="font-size: 1.8rem; color: red;"></i>
                     <h1 id="allReviewLikes">@Model.Likes</h1>
                 </div>
             </div>
@@ -76,10 +76,10 @@
             <div class="d-flex justify-content-between">
                 <div class="d-flex">
                     <h4>@AndHowIsItApp.Resources.Language.Author @Model.Author.UserName</h4>
-                    <i class="bi bi-heart-fill ms-2" style="font-size: 1rem; color: red;"></i>
+                    <i class="bi bi-heart-fill ms-2" style="font-size: 1.2rem; color: red;"></i>
                     <h4>@Model.Author.Likes</h4>
                 </div>
-                <div>@AndHowIsItApp.Resources.Language.Created @Model.CreateDate</div>
+                <div class="text-muted">@AndHowIsItApp.Resources.Language.Created @Model.CreateDate</div>
             </div>
 
             <div>@Model.Text</div>
@@ -95,13 +95,13 @@
                 }
             }
 
-            <div class="d-flex justify-content-end">@AndHowIsItApp.Resources.Language.Changed @Model.LastChangeDate</div>
+            <div class="d-flex text-muted justify-content-end">@AndHowIsItApp.Resources.Language.Changed @Model.LastChangeDate</div>
 
             @if (Request.IsAuthenticated)
             {
                 <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
                     <input type="checkbox" class="btn-check" name="reviewLike" id="reviewLike" onchange="likeReview()">
-                    <label class="btn btn-outline-danger" for="reviewLike"><i class="bi bi-heart"></i> @AndHowIsItApp.Resources.Language.Like</label>
+                    <label class="btn btn-outline-danger" for="reviewLike"><i class="bi bi-heart-fill"></i> @AndHowIsItApp.Resources.Language.Like</label>
                 </div>
             }
             <br />

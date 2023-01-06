@@ -2,8 +2,15 @@
     ViewBag.Title = "PersonalPage";
 }
 
-<h2>@AndHowIsItApp.Resources.Language.PersonalPage @ViewBag.UserName | @ViewBag.UserLikes</h2>
-@Html.ActionLink(AndHowIsItApp.Resources.Language.AddReview, "CreateReview", new { userId = ViewBag.UserId }, new { @class = "btn btn-outline-dark" } )
+<div class="d-flex">
+    <h2>@AndHowIsItApp.Resources.Language.PersonalPage @ViewBag.UserName</h2>
+    <div class="d-flex ms-4">
+        <i class="bi bi-heart-fill" style="font-size: 1.6rem; color: red;"></i>
+        <h2>@ViewBag.UserLikes</h2>
+    </div>
+</div>
+<br />
+@Html.ActionLink(AndHowIsItApp.Resources.Language.AddReview, "CreateReview", new { userId = ViewBag.UserId }, new { @class = "btn btn-outline-dark" })
 
 <h3 class="mt-3">@AndHowIsItApp.Resources.Language.MyReviews</h3>
 <div>
